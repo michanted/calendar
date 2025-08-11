@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>CVNet - Community Calendar</title>
 <style>
   :root{
@@ -21,14 +22,17 @@
     font-size: 16px;
   }
 
-  /* Fixed header wrapper (static header) */
-  .site-header{
+  /* ===== Fixed header container (covers top edge; content scrolls beneath) ===== */
+  .header-fixed {
     position: fixed;
-    top: 20px;          /* matches body margin for alignment */
-    left: 20px;
-    right: 20px;
+    top: 0; left: 0; right: 0;
     z-index: 1000;
-    background: #fff;   /* ensure readability as content scrolls underneath */
+    background: #fff; /* prevents content showing through above header */
+  }
+  /* Inner header respects page side margins and leaves space above yellow banner */
+  .site-header {
+    margin: 0 20px;         /* aligns with body’s side margin */
+    padding-top: 20px;      /* gap above yellow banner */
   }
 
   /* Title banner */
@@ -49,12 +53,18 @@
   /* Search and nav links */
   .topbar{
     display:flex;
-    justify-content: space-between;
-    align-items:center;
-    gap: 12px;
+    flex-direction: column;      /* stack main row + back link */
+    align-items:flex-start;
+    gap: 8px;
     margin: 14px 0 20px 0;
+  }
+  .topbar-row{
+    display:flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
     flex-wrap: wrap;
-    background: #fff;
   }
   .quick-links{
     display:flex;
@@ -67,6 +77,10 @@
     font-weight: bold;
   }
   .quick-links a:hover{ text-decoration: underline; }
+
+  .topbar .back-link{
+    margin: 0;
+  }
 
   .search-wrap{
     margin-left:auto;
@@ -118,18 +132,39 @@
     background-color: yellow;
     color: black;
   }
+
+  /* ===== Responsive enhancements ===== */
+  @media (max-width: 900px) {
+    #search-input { max-width: 60vw; }
+  }
+  @media (max-width: 700px) {
+    .site-header { margin: 0 12px; padding-top: 12px; }
+    .topbar-row { gap: 8px; }
+    .quick-links {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      gap: 10px;
+    }
+    .quick-links a { white-space: nowrap; }
+    .search-wrap { width: 100%; margin-left: 0; }
+    #search-input { width: 100%; max-width: 100%; }
+    table { display: block; overflow-x: auto; white-space: nowrap; }
+  }
 </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="title-banner">
-    <h2>CVNet Resource List and Community Calendar</h2>
-    <div class="subtitle">Last updated: 11 August, 2025</div>
-  </div>
+<!-- Fixed header container that spans the very top -->
+<div class="header-fixed">
+  <header class="site-header">
+    <div class="title-banner">
+      <h2>CVNet Resource List and Community Calendar</h2>
+      <div class="subtitle">Last updated: 6 August, 2025</div>
+    </div>
 
-  <div class="topbar" style="flex-direction: column; align-items: flex-start;">
-    <div style="display: flex; width: 100%; justify-content: space-between; align-items: center;">
+    <div class="topbar">
+      <div class="topbar-row">
         <nav class="quick-links" aria-label="Quick section links">
           <a href="#conferences">Conferences</a>
           <a href="#courses">Courses</a>
@@ -141,12 +176,14 @@
           <span class="icon" aria-hidden="true">🔍</span>
           <input id="search-input" type="text" placeholder="Search this page…"/>
         </div>
+      </div>
+      <!-- Back link under main nav buttons -->
+      <p class="back-link">
+        <a href="https://info.cvnet.org/">← Back to main CVNet info page</a>
+      </p>
     </div>
-    <p style="margin: 6px 0 0 0;">
-      <a href="https://info.cvnet.org/">← Back to main CVNet info page</a>
-    </p>
+  </header>
 </div>
-</header>
 
 <p>
   This page lists upcoming <strong>conferences, courses, talks, jobs</strong>, and <strong>funding opportunities</strong> for the color &amp; vision research community. Send additions or corrections to
@@ -657,14 +694,14 @@
 
   /* Offset content for fixed header and set anchor scroll margin */
   function setHeaderOffset(){
-    const header = document.querySelector('.site-header');
-    if(!header) return;
-    const h = header.offsetHeight || 0;
+    const fixed = document.querySelector('.header-fixed');
+    if(!fixed) return;
+    const h = fixed.offsetHeight || 0;
     /* push content below fixed header */
-    document.body.style.paddingTop = (h + 20) + 'px';
+    document.body.style.paddingTop = (h + 10) + 'px';
     /* ensure in-page anchors aren't hidden */
     document.querySelectorAll('h3[id], h4[id]').forEach(el=>{
-      el.style.scrollMarginTop = (h + 20) + 'px';
+      el.style.scrollMarginTop = (h + 10) + 'px';
     });
   }
 
