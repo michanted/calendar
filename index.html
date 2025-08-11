@@ -1,166 +1,162 @@
 <!DOCTYPE html>
-
 <html>
 <head>
 <meta charset="utf-8"/>
 <title>CVNet - Community Calendar</title>
 <style>
-        body {
-            font-family: Arial, sans-serif;
-            color: #000000;
-            background-color: #ffffff;
-            margin: 20px;
-        }
-        h2 {
-            text-align: center;
-            background-color: #FFD12D;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        h3 {
-            color: #000066;
-            border-bottom: 2px solid #FFD12D;
-            padding-bottom: 5px;
-            margin-top: 40px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 40px;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-            vertical-align: top;
-        }
-        th {
-            background-color: #FFE19D;
-            color: #000000;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        a {
-            color: #000066;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
-<style>
+  :root{
+    --brand-yellow:#FFD12D;
+    --brand-blue:#000066;
+    --text:#000;
+    --muted:#f9f9f9;
+    --border:#ccc;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: Arial, sans-serif;
+    color: var(--text);
+    background-color: #ffffff;
+    margin: 20px;
+    line-height: 1.6;
+    font-size: 16px;
+  }
+
+  /* Fixed header wrapper (static header) */
+  .site-header{
+    position: fixed;
+    top: 20px;          /* matches body margin for alignment */
+    left: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: #fff;   /* ensure readability as content scrolls underneath */
+  }
+
+  /* Title banner */
+  .title-banner{
+    background: var(--brand-yellow);
+    border-radius: 8px;
+    padding: 16px 20px;
+    text-align:center;
+  }
+  .title-banner h2{
+    margin: 0;
+  }
+  .title-banner .subtitle{
+    margin-top: 6px;
+    font-size: 14px;
+  }
+
+  /* Search and nav links */
+  .topbar{
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    gap: 12px;
+    margin: 14px 0 20px 0;
+    flex-wrap: wrap;
+    background: #fff;
+  }
+  .quick-links{
+    display:flex;
+    gap:14px;
+    flex-wrap: wrap;
+  }
+  .quick-links a{
+    color: var(--brand-blue);
+    text-decoration:none;
+    font-weight: bold;
+  }
+  .quick-links a:hover{ text-decoration: underline; }
+
+  .search-wrap{
+    margin-left:auto;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .search-wrap .icon{ font-size:18px; line-height:1; }
+  #search-input{
+    width: 280px;
+    max-width: 50vw;
+    padding: 6px 8px;
+    border:1px solid #ddd;
+    border-radius:4px;
+  }
+
+  h3 {
+    color: var(--brand-blue);
+    border-bottom: 2px solid var(--brand-yellow);
+    padding-bottom: 5px;
+    margin-top: 32px;
+  }
+  h4 { margin: 18px 0 8px; color: var(--brand-blue); }
+
   table {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 32px;
     font-size: 14px;
   }
   th, td {
     border: 1px solid #ddd;
     padding: 10px;
     vertical-align: top;
+    text-align: left;
   }
-  tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  tr:hover {
-    background-color: #f1f1f1;
-  }
+  tr:nth-child(even) { background-color: var(--muted); }
+  tr:hover { background-color: #f1f1f1; }
   th {
     background-color: #ffe082;
     color: #000;
     font-weight: bold;
     text-align: left;
   }
-  a {
-    color: #003366;
-    text-decoration: none;
-  }
-  a:hover {
-    text-decoration: underline;
-  }
-  body {
-    line-height: 1.6;
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    padding: 20px;
-  }
-  html {
-    scroll-behavior: smooth;
-  }
-</style></head>
-<body>
-<style>
+  a { color: #003366; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
   mark.cvnet-highlight {
     background-color: yellow;
     color: black;
   }
 </style>
-<script>
-  function walk(node, regex) {
-    if (node.nodeType === 3) { // Text node
-      const match = node.nodeValue.match(regex);
-      if (match) {
-        const span = document.createElement('span');
-        const html = node.nodeValue.replace(regex, '<mark class="cvnet-highlight">$1</mark>');
-        span.innerHTML = html;
-        node.parentNode.replaceChild(span, node);
-      }
-    } else if (node.nodeType === 1 && node.childNodes && !['SCRIPT', 'STYLE', 'MARK'].includes(node.tagName)) {
-      for (let i = 0; i < node.childNodes.length; i++) {
-        walk(node.childNodes[i], regex);
-      }
-    }
-  }
+</head>
+<body>
 
-  function removeHighlights() {
-    document.querySelectorAll('mark.cvnet-highlight').forEach(mark => {
-      const parent = mark.parentNode;
-      parent.replaceChild(document.createTextNode(mark.textContent), mark);
-      parent.normalize();
-    });
-  }
+<header class="site-header">
+  <div class="title-banner">
+    <h2>CVNet Resource List and Community Calendar</h2>
+    <div class="subtitle">Last updated: 11 August, 2025</div>
+  </div>
 
-  document.addEventListener('DOMContentLoaded', function() {
-    const input = document.getElementById('search-input');
-    input.addEventListener('input', function() {
-      removeHighlights();
-      const filter = input.value.trim();
-      if (filter.length === 0) return;
+  <div class="topbar" style="flex-direction: column; align-items: flex-start;">
+    <div style="display: flex; width: 100%; justify-content: space-between; align-items: center;">
+        <nav class="quick-links" aria-label="Quick section links">
+          <a href="#conferences">Conferences</a>
+          <a href="#courses">Courses</a>
+          <a href="#talks">Talks</a>
+          <a href="#jobs">Jobs</a>
+          <a href="#funding">Funding</a>
+        </nav>
+        <div class="search-wrap">
+          <span class="icon" aria-hidden="true">🔍</span>
+          <input id="search-input" type="text" placeholder="Search this page…"/>
+        </div>
+    </div>
+    <p style="margin: 6px 0 0 0;">
+      <a href="https://info.cvnet.org/">← Back to main CVNet info page</a>
+    </p>
+</div>
+</header>
 
-      const regex = new RegExp('(' + filter.replace(/[.*+?^${}()|[\]\\]/g, '\$&') + ')', 'gi');
-      document.querySelectorAll('body *:not(script):not(style)').forEach(el => {
-        walk(el, regex);
-      });
-    });
-  });
-</script>
-<h2>CVNet Resource List and Community Calendar</h2><p>Last updated: 6 August, 2025</p><div style="margin-bottom: 20px;">
-<label for="section-jump"><strong>Jump to section:</strong></label>
-<select id="section-jump" onchange="if (this.value) window.location.href=this.value">
-<option value="">-- Select a section --</option>
-<option value="#conferences">Conferences</option>
-<option value="#summer-schools">Summer Schools</option>
-<option value="#classes">Classes</option>
-<option value="#journal-clubs">Journal Clubs</option>
-<option value="#seminar-series-and-online-talks">Seminar Series and Online Talks</option>
-<option value="#jobs-and-student-positions">Jobs and Student Positions</option>
-<option value="#postdoctoral-career-opportunities">Postdoctoral Career Opportunities</option>
-<option value="#awards-and-grants">Awards and Grants</option>
-</select>
-</div><div style="margin-bottom: 20px;">
-<label for="search-input"><strong>Search this page:</strong></label>
-<input id="search-input" placeholder="Type to search..." style="width: 300px; padding: 5px;" type="text"/>
-</div><p><a href="https://info.cvnet.org/">← Back to main CVNet info page</a></p>
-<h3 id="schedule-of-conferences,-career-opportunities,-student-positions,-and-online-talks">Schedule of Conferences, Career Opportunities, Student Positions, and Online Talks</h3>
-<p>This is the initial version of a dynamic schedule that will be updated regularly with the latest available information. Conferences and other items are listed in chronological order, though deadlines (e.g., for abstracts) are not. This list also includes job openings, postdoctoral fellowships, student positions, online talks, and other opportunities relevant to the color and vision research community.</p>
-<p>If you have suggestions for additions or changes, please send them directly to David Peterzell and Michaela Tedesco at:<br/>
-<a href="mailto:davidpeterzell@mac.com">davidpeterzell@mac.com</a><br/>
-<a href="mailto:mtedesco12@gmail.com">mtedesco12@gmail.com</a></p>
-<p>(Please notify us even if you’ve already shared this information via CVNet listserv.)</p>
-<p>In organizing this schedule, we try to keep up with CVNet postings, but notes to us are helpful in maintaining up-to-date information. Additional opportunities may be found by visiting the CVNet and VisionList archives:<br/>
-<a href="https://cvnet.org/mailman/listinfo/cvnet">CVNet Archive</a><br/>
-<a href="http://visionscience.com/pipermail/visionlist_visionscience.com">VisionList Archive</a></p>
+<p>
+  This page lists upcoming <strong>conferences, courses, talks, jobs</strong>, and <strong>funding opportunities</strong> for the color &amp; vision research community. Send additions or corrections to
+  <a href="mailto:davidpeterzell@mac.com">davidpeterzell@mac.com</a> and
+  <a href="mailto:mtedesco12@gmail.com">mtedesco12@gmail.com</a>. Additional opportunities can be found in the
+  <a href="https://cvnet.org/mailman/listinfo/cvnet">CVNet Archive</a> and the
+  <a href="http://visionscience.com/pipermail/visionlist_visionscience.com">VisionList Archive</a>.
+</p>
+
+<!-- Conferences -->
 <h3 id="conferences">Conferences</h3>
 <table border="1" class="dataframe">
 <thead>
@@ -413,7 +409,11 @@
 </tr>
 </tbody>
 </table>
-<h3 id="summer-schools">Summer Schools</h3>
+
+<!-- Courses (Summer Schools + Classes) -->
+<h3 id="courses">Courses</h3>
+
+<h4>Summer Schools</h4>
 <table border="1" class="dataframe">
 <thead>
 <tr style="text-align: right;">
@@ -455,7 +455,8 @@
 </tr>
 </tbody>
 </table>
-<h3 id="classes">Classes</h3>
+
+<h4>Classes</h4>
 <table border="1" class="dataframe">
 <thead>
 <tr style="text-align: right;">
@@ -483,7 +484,11 @@
 </tr>
 </tbody>
 </table>
-<h3 id="journal-clubs">Journal Clubs</h3>
+
+<!-- Talks (Journal Clubs + Seminar Series and Online Talks) -->
+<h3 id="talks">Talks</h3>
+
+<h4>Journal Clubs</h4>
 <table border="1" class="dataframe">
 <thead>
 <tr style="text-align: right;">
@@ -504,7 +509,8 @@
 </tr>
 </tbody>
 </table>
-<h3 id="seminar-series-and-online-talks">Seminar Series and Online Talks</h3>
+
+<h4>Seminar Series and Online Talks</h4>
 <table border="1" class="dataframe">
 <thead>
 <tr style="text-align: right;">
@@ -525,7 +531,11 @@
 </tr>
 </tbody>
 </table>
-<h3 id="jobs-and-student-positions">Jobs and Student Positions</h3>
+
+<!-- Jobs (Jobs and Student Positions + Postdoctoral Career Opportunities) -->
+<h3 id="jobs">Jobs</h3>
+
+<h4>Jobs and Student Positions</h4>
 <table border="1" class="dataframe">
 <thead>
 <tr style="text-align: right;">
@@ -546,7 +556,8 @@
 </tr>
 </tbody>
 </table>
-<h3 id="postdoctoral-career-opportunities">Postdoctoral Career Opportunities</h3>
+
+<h4>Postdoctoral Career Opportunities</h4>
 <table border="1" class="dataframe">
 <thead>
 <tr style="text-align: right;">
@@ -588,7 +599,9 @@
 </tr>
 </tbody>
 </table>
-<h3 id="awards-and-grants">Awards and Grants</h3>
+
+<!-- Funding (Awards and Grants) -->
+<h3 id="funding">Funding</h3>
 <table border="1" class="dataframe">
 <thead>
 <tr style="text-align: right;">
@@ -609,10 +622,68 @@
 </tr>
 </tbody>
 </table>
+
 <p style="text-align: center;">
   CVNet is supported by the 
   <a href="https://www.ski.org/" target="_blank" rel="noopener noreferrer">
     Smith-Kettlewell Eye Research Institute
   </a>
-</p></body>
+</p>
+
+<script>
+  function walk(node, regex) {
+    if (node.nodeType === 3) {
+      const match = node.nodeValue.match(regex);
+      if (match) {
+        const span = document.createElement('span');
+        const html = node.nodeValue.replace(regex, '<mark class="cvnet-highlight">$1</mark>');
+        span.innerHTML = html;
+        node.parentNode.replaceChild(span, node);
+      }
+    } else if (node.nodeType === 1 && node.childNodes && !['SCRIPT', 'STYLE', 'MARK'].includes(node.tagName)) {
+      for (let i = 0; i < node.childNodes.length; i++) {
+        walk(node.childNodes[i], regex);
+      }
+    }
+  }
+
+  function removeHighlights() {
+    document.querySelectorAll('mark.cvnet-highlight').forEach(mark => {
+      const parent = mark.parentNode;
+      parent.replaceChild(document.createTextNode(mark.textContent), mark);
+      parent.normalize();
+    });
+  }
+
+  /* Offset content for fixed header and set anchor scroll margin */
+  function setHeaderOffset(){
+    const header = document.querySelector('.site-header');
+    if(!header) return;
+    const h = header.offsetHeight || 0;
+    /* push content below fixed header */
+    document.body.style.paddingTop = (h + 20) + 'px';
+    /* ensure in-page anchors aren't hidden */
+    document.querySelectorAll('h3[id], h4[id]').forEach(el=>{
+      el.style.scrollMarginTop = (h + 20) + 'px';
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const input = document.getElementById('search-input');
+    input.addEventListener('input', function() {
+      removeHighlights();
+      const filter = input.value.trim();
+      if (filter.length === 0) return;
+      const regex = new RegExp('(' + filter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+      document.querySelectorAll('body *:not(script):not(style)').forEach(el => {
+        walk(el, regex);
+      });
+    });
+    setHeaderOffset();
+  });
+
+  window.addEventListener('resize', setHeaderOffset);
+</script>
+
+</body>
 </html>
