@@ -125,52 +125,86 @@
   mark.cvnet-highlight { background-color: yellow; color: black; }
 
   /* ===== Responsive enhancements ===== */
-  @media (max-width: 900px) {
-    #search-input { max-width: 60vw; }
+@media (max-width: 700px) {
+  .site-header { margin: 0 12px; padding-top: 12px; }
+  .topbar-row { gap: 8px; }
+
+  /* quick links remain horizontally scrollable chips */
+  .quick-links { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 10px; }
+  .quick-links a { white-space: nowrap; }
+
+  .search-wrap { width: 100%; margin-left: 0; }
+  #search-input { width: 100%; max-width: 100%; }
+
+  /* === HYBRID TABLES ===
+     1) Keep horizontal scroll on small screens
+     2) Sticky first two columns (Name, Dates)
+     3) Narrow columns
+     4) Wrap only in the last column (Deadlines/Notes)
+  */
+  table { 
+    display: block; 
+    overflow-x: auto;            /* keep scroll */
+    -webkit-overflow-scrolling: touch;
   }
 
-  /* ===== Mobile layout: remove horizontal scroll, narrow columns, wrap text ===== */
-  @media (max-width: 700px) {
-    .site-header { margin: 0 12px; padding-top: 12px; }
-    .topbar-row { gap: 8px; }
-
-    /* Keep quick links readable without forcing table scroll */
-    .quick-links { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 10px; }
-    .quick-links a { white-space: nowrap; }
-
-    .search-wrap { width: 100%; margin-left: 0; }
-    #search-input { width: 100%; max-width: 100%; }
-
-    /* --- KEY CHANGES START HERE --- */
-    /* 1) Remove table horizontal scrolling & nowrap from mobile */
-    table { display: table; }            /* was: block */
-    .dataframe { table-layout: fixed; }  /* fixed layout for predictable column widths */
-
-    /* 2) Allow wrapping + hyphenation for long content */
-    th, td {
-      white-space: normal;      /* allow wrap */
-      word-break: break-word;   /* break long URLs/words */
-      overflow-wrap: anywhere;  /* modern wrap hint */
-      hyphens: auto;            /* hyphenate where possible */
-      font-size: 13px;          /* slightly tighter on mobile */
-      padding: 8px;             /* a tad more compact */
-    }
-
-    /* 3) Narrower, explicit column widths (applies to all 5-col tables) */
-    /* Col 1: Name (heavier) */
-    .dataframe th:nth-child(1), .dataframe td:nth-child(1) { width: 28%; }
-    /* Col 2: Dates (short) */
-    .dataframe th:nth-child(2), .dataframe td:nth-child(2) { width: 16%; }
-    /* Col 3: Location (medium) */
-    .dataframe th:nth-child(3), .dataframe td:nth-child(3) { width: 24%; }
-    /* Col 4: Website (can be long URLs) */
-    .dataframe th:nth-child(4), .dataframe td:nth-child(4) { width: 18%; }
-    /* Col 5: Deadlines/Notes (variable) */
-    .dataframe th:nth-child(5), .dataframe td:nth-child(5) { width: 14%; }
-
-    /* Optional: tame long anchor text on mobile without breaking links */
-    .dataframe td a { word-break: break-word; overflow-wrap: anywhere; }
+  .dataframe {
+    table-layout: fixed;         /* predictable widths */
+    min-width: 720px;            /* gives sticky math room; adjust as needed */
+    font-size: 13px;
   }
+
+  th, td {
+    padding: 8px;
+    white-space: nowrap;         /* default: no wrap */
+    vertical-align: top;
+  }
+
+  /* Column widths (5-col tables) */
+  /* 1: Name (a bit wider) */
+  .dataframe th:nth-child(1), .dataframe td:nth-child(1) { min-width: 220px; max-width: 260px; }
+  /* 2: Dates (short) */
+  .dataframe th:nth-child(2), .dataframe td:nth-child(2) { min-width: 120px; max-width: 140px; }
+  /* 3: Location (medium) */
+  .dataframe th:nth-child(3), .dataframe td:nth-child(3) { min-width: 180px; max-width: 220px; }
+  /* 4: Website (keep compact; URLs will ellipsize) */
+  .dataframe th:nth-child(4), .dataframe td:nth-child(4) { min-width: 200px; max-width: 240px; overflow: hidden; text-overflow: ellipsis; }
+  /* 5: Deadlines/Notes (wrap allowed) */
+  .dataframe th:nth-child(5), .dataframe td:nth-child(5) { 
+    min-width: 260px; 
+    max-width: 340px; 
+    white-space: normal; 
+    word-break: break-word; 
+    overflow-wrap: anywhere; 
+    hyphens: auto;
+  }
+
+  /* Sticky first two columns for context while scrolling */
+  .dataframe th:nth-child(1),
+  .dataframe td:nth-child(1) {
+    position: sticky;
+    left: 0;
+    z-index: 2;                  /* above other cells */
+    background: #fff;            /* cover row striping underlay */
+  }
+  .dataframe th:nth-child(2),
+  .dataframe td:nth-child(2) {
+    position: sticky;
+    left: 220px;                 /* match min-width of col 1 */
+    z-index: 2;
+    background: #fff;
+  }
+
+  /* Keep header row above sticky cells when scrolling */
+  .dataframe thead th {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+  }
+
+  /* Slightly soften zebra striping when overlaid by sticky backgrounds */
+  tr:nth-child(even) { background-color: #f6f6f6; }
+}
 </style>
 </head>
 <body>
