@@ -142,7 +142,7 @@
     #search-input { max-width: 60vw; }
   }
 
-  /* Mobile niceties & quick-links chips */
+  /* Mobile niceties & quick-links scroll (restores original button look) */
   @media (max-width: 700px) {
     .site-header { margin: 0 12px; padding-top: 12px; }
     .topbar-row { gap: 8px; }
@@ -156,12 +156,8 @@
     }
     .quick-links a {
       scroll-snap-align: start;
-      display: inline-block;
-      padding: 10px 12px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      background: #fff;
-      white-space: nowrap;
+      white-space: nowrap; /* keep single-line labels */
+      /* No extra padding/border/background here -> inherit original look */
     }
     .search-wrap { width: 100%; margin-left: 0; }
     #search-input { width: 100%; max-width: 100%; padding: 10px 12px; }
@@ -414,7 +410,7 @@
       <td>Symposiums November 15, 2025 • Poster and paper abstracts December 5, 2025</td>
     </tr>
     <tr>
-      <td><b>Models in Vision Science (MODVIS) Conference</b></td>
+      <td><b>Models in Vision Science (MODVIS) Conference)</b></td>
       <td>May 2026 - TBD</td>
       <td>St. Pete Beach, Florida</td>
       <td><a href="https://www.purdue.edu/conferences/events/modvis/">https://www.purdue.edu/conferences/events/modvis/</a></td>
@@ -795,7 +791,7 @@
     function highlightFilter(value) {
       removeHighlights();
       if (!value) return;
-      const regex = new RegExp('(' + value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+      const regex = new RegExp('(' + value.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&') + ')', 'gi');
       contentRoot.querySelectorAll(':not(header):not(.header-fixed):not(script):not(style)').forEach(el => {
         walk(el, regex);
       });
