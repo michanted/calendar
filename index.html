@@ -133,7 +133,7 @@
     color: black;
   }
 
-  /* ===== Scroll affordances: wrapper + gradients + hint ===== */
+  /* ===== Scroll affordances: wrapper + hint (no gradient edges) ===== */
   .table-scroll{
     position: relative;
     overflow-x: auto;
@@ -146,28 +146,6 @@
     overflow: visible;
     white-space: normal;
   }
-  /* Edge gradients that indicate there’s more to scroll */
-  .table-scroll::before,
-  .table-scroll::after{
-    content: "";
-    position: absolute;
-    top: 0; bottom: 0;
-    width: 24px;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity .2s ease;
-  }
-  .table-scroll::before{
-    left: 0;
-    background: linear-gradient(to right, rgba(0,0,0,0.08), rgba(0,0,0,0));
-  }
-  .table-scroll::after{
-    right: 0;
-    background: linear-gradient(to left, rgba(0,0,0,0.08), rgba(0,0,0,0));
-  }
-  /* JS toggles these */
-  .table-scroll[data-left="1"]::before{ opacity: 1; }
-  .table-scroll[data-right="1"]::after{ opacity: 1; }
   /* One-time hint label */
   .table-scroll .scroll-hint{
     position: absolute;
@@ -390,7 +368,7 @@
 <td><b>Human Vision and Electronic Imaging (HVEI)</b></td>
 <td>March 1-5, 2026</td>
 <td>Hyatt Regency San Francisco Airport, Burlingame, California</td>
-<td><a href="https://www.imaging.org/IST/IST/Conferences/EI/EI2026_STD/EI2026.aspx?hkey=98ddea62-ed6e-4cf2-bc9e-a313f42a41ab">https://www.imaging.org/IST/IST/Conferences/EI/EI2026_STD/EI/EI2026.aspx</a></td>
+<td><a href="https://www.imaging.org/IST/IST/Conferences/EI/EI2026_STD/EI/EI2026.aspx">https://www.imaging.org/IST/IST/Conferences/EI/EI2026_STD/EI/EI2026.aspx</a></td>
 <td>TBD</td>
 </tr>
 <tr>
@@ -436,7 +414,7 @@
 <td>Abstract December 5, 2025</td>
 </tr>
 <tr>
-<td><b>Vision Sciences Society (VSS) Annual Meeting</b></td>
+<td><b>Vision Sciences Society (VSS) Annual Meeting)</b></td>
 <td>May 15-19, 2026</td>
 <td>TradeWinds Islands Resort, St. Pete Beach, Florida</td>
 <td><a href="https://www.visionsciences.org/">https://www.visionsciences.org/</a></td>
@@ -759,7 +737,7 @@
     });
   }
 
-  /* === Scroll affordances === */
+  /* === Scroll affordances (no gradient) === */
   function setupScrollableTables(){
     const tables = document.querySelectorAll('table');
     tables.forEach(t => {
@@ -778,21 +756,9 @@
       hint.textContent = 'Swipe to see more →';
       wrap.appendChild(hint);
 
-      // Update gradient flags
-      const update = () => {
-        const left = wrap.scrollLeft > 0 ? 1 : 0;
-        const right = (wrap.scrollLeft + wrap.clientWidth) < wrap.scrollWidth ? 1 : 0;
-        wrap.dataset.left = left;
-        wrap.dataset.right = right;
-      };
-
+      // Hide hint after first interaction
       const markSeen = () => wrap.classList.add('seen');
-
-      wrap.addEventListener('scroll', () => { update(); markSeen(); }, { passive: true });
-      window.addEventListener('resize', update);
-
-      // Initial state
-      update();
+      wrap.addEventListener('scroll', markSeen, { passive: true });
 
       // Fallback auto-hide
       setTimeout(markSeen, 4000);
