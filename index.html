@@ -42,13 +42,8 @@
     padding: 16px 20px;
     text-align:center;
   }
-  .title-banner h2{
-    margin: 0;
-  }
-  .title-banner .subtitle{
-    margin-top: 6px;
-    font-size: 14px;
-  }
+  .title-banner h2{ margin: 0; }
+  .title-banner .subtitle{ margin-top: 6px; font-size: 14px; }
 
   /* Search and nav links */
   .topbar{
@@ -78,9 +73,7 @@
   }
   .quick-links a:hover{ text-decoration: underline; }
 
-  .topbar .back-link{
-    margin: 0;
-  }
+  .topbar .back-link{ margin: 0; }
 
   .search-wrap{
     margin-left:auto;
@@ -105,6 +98,7 @@
   }
   h4 { margin: 18px 0 8px; color: var(--brand-blue); }
 
+  /* ===== Tables (desktop defaults) ===== */
   table {
     width: 100%;
     border-collapse: collapse;
@@ -128,28 +122,54 @@
   a { color: #003366; text-decoration: none; }
   a:hover { text-decoration: underline; }
 
-  mark.cvnet-highlight {
-    background-color: yellow;
-    color: black;
-  }
+  mark.cvnet-highlight { background-color: yellow; color: black; }
 
   /* ===== Responsive enhancements ===== */
   @media (max-width: 900px) {
     #search-input { max-width: 60vw; }
   }
+
+  /* ===== Mobile layout: remove horizontal scroll, narrow columns, wrap text ===== */
   @media (max-width: 700px) {
     .site-header { margin: 0 12px; padding-top: 12px; }
     .topbar-row { gap: 8px; }
-    .quick-links {
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      gap: 10px;
-    }
+
+    /* Keep quick links readable without forcing table scroll */
+    .quick-links { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 10px; }
     .quick-links a { white-space: nowrap; }
+
     .search-wrap { width: 100%; margin-left: 0; }
     #search-input { width: 100%; max-width: 100%; }
-    table { display: block; overflow-x: auto; white-space: nowrap; }
+
+    /* --- KEY CHANGES START HERE --- */
+    /* 1) Remove table horizontal scrolling & nowrap from mobile */
+    table { display: table; }            /* was: block */
+    .dataframe { table-layout: fixed; }  /* fixed layout for predictable column widths */
+
+    /* 2) Allow wrapping + hyphenation for long content */
+    th, td {
+      white-space: normal;      /* allow wrap */
+      word-break: break-word;   /* break long URLs/words */
+      overflow-wrap: anywhere;  /* modern wrap hint */
+      hyphens: auto;            /* hyphenate where possible */
+      font-size: 13px;          /* slightly tighter on mobile */
+      padding: 8px;             /* a tad more compact */
+    }
+
+    /* 3) Narrower, explicit column widths (applies to all 5-col tables) */
+    /* Col 1: Name (heavier) */
+    .dataframe th:nth-child(1), .dataframe td:nth-child(1) { width: 28%; }
+    /* Col 2: Dates (short) */
+    .dataframe th:nth-child(2), .dataframe td:nth-child(2) { width: 16%; }
+    /* Col 3: Location (medium) */
+    .dataframe th:nth-child(3), .dataframe td:nth-child(3) { width: 24%; }
+    /* Col 4: Website (can be long URLs) */
+    .dataframe th:nth-child(4), .dataframe td:nth-child(4) { width: 18%; }
+    /* Col 5: Deadlines/Notes (variable) */
+    .dataframe th:nth-child(5), .dataframe td:nth-child(5) { width: 14%; }
+
+    /* Optional: tame long anchor text on mobile without breaking links */
+    .dataframe td a { word-break: break-word; overflow-wrap: anywhere; }
   }
 </style>
 </head>
