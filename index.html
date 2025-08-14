@@ -5,212 +5,76 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>CVNet - Community Calendar</title>
 <style>
-  :root{
-    --brand-yellow:#FFD12D;
-    --brand-blue:#000066;
-    --text:#000;
-    --muted:#f9f9f9;
-    --border:#ccc;
-  }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: Arial, sans-serif;
-    color: var(--text);
-    background-color: #ffffff;
-    margin: 20px;
-    line-height: 1.6;
-    font-size: 16px;
-  }
+/* Wrapper allows horizontal scroll on mobile */
+.table-wrapper {
+  position: relative;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable both-edges;
+}
 
-  /* ===== Fixed header container (covers top edge; content scrolls beneath) ===== */
-  .header-fixed {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 1000;
-    background: #fff; /* prevents content showing through above header */
-  }
-  /* Inner header respects page side margins and leaves space above yellow banner */
-  .site-header {
-    margin: 0 20px;         /* aligns with body’s side margin */
-    padding-top: 20px;      /* gap above yellow banner */
-  }
+/* Little one-time nudge */
+.table-wrapper .scroll-hint{
+  position: absolute;
+  right: 8px; bottom: 6px;
+  font-size: 12px; line-height: 1;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 6px 8px;
+  border-radius: 999px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+  opacity: .95;
+  transition: opacity .25s ease;
+  white-space: nowrap;
+}
+.table-wrapper.seen .scroll-hint{ opacity: 0; }
 
-  /* Title banner */
-  .title-banner{
-    background: var(--brand-yellow);
-    border-radius: 8px;
-    padding: 16px 20px;
-    text-align:center;
-  }
-  .title-banner h2{
-    margin: 0;
-  }
-  .title-banner .subtitle{
-    margin-top: 6px;
-    font-size: 14px;
-  }
+/* Make sure the table doesn't shrink weirdly */
+.dataframe {
+  table-layout: fixed;
+  min-width: 720px;
+}
 
-  /* Search and nav links */
-  .topbar{
-    display:flex;
-    flex-direction: column;      /* stack main row + back link */
-    align-items:flex-start;
-    gap: 8px;
-    margin: 14px 0 20px 0;
-  }
-  .topbar-row{
-    display:flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .quick-links{
-    display:flex;
-    gap:14px;
-    flex-wrap: wrap;
-  }
-  .quick-links a{
-    color: var(--brand-blue);
-    text-decoration:none;
-    font-weight: bold;
-  }
-  .quick-links a:hover{ text-decoration: underline; }
+.dataframe th,
+.dataframe td {
+  padding: 8px;
+  vertical-align: top;
+}
 
-  .topbar .back-link{
-    margin: 0;
-  }
+/* Narrow columns for Website & Submission Deadlines on mobile */
+@media (max-width: 700px) {
+  /* Fix column widths */
+  .dataframe th:nth-child(4),
+  .dataframe td:nth-child(4) { width: 26%; max-width: 26%; }
+  .dataframe th:nth-child(5),
+  .dataframe td:nth-child(5) { width: 34%; max-width: 34%; }
 
-  .search-wrap{
-    margin-left:auto;
-    display:flex;
-    align-items:center;
-    gap:8px;
-  }
-  .search-wrap .icon{ font-size:18px; line-height:1; }
-  #search-input{
-    width: 280px;
-    max-width: 50vw;
-    padding: 6px 8px;
-    border:1px solid #ddd;
-    border-radius:4px;
-  }
+  /* Ensure padding is included in width calc */
+  .dataframe th,
+  .dataframe td { box-sizing: border-box; }
 
-  h3 {
-    color: var(--brand-blue);
-    border-bottom: 2px solid var(--brand-yellow);
-    padding-bottom: 5px;
-    margin-top: 32px;
-  }
-  h4 { margin: 18px 0 8px; color: var(--brand-blue); }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 32px;
-    font-size: 14px;
-  }
-  th, td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    vertical-align: top;
-    text-align: left;
-  }
-  tr:nth-child(even) { background-color: var(--muted); }
-  tr:hover { background-color: #f1f1f1; }
-  th {
-    background-color: #ffe082;
-    color: #000;
-    font-weight: bold;
-    text-align: left;
-  }
-  a { color: #003366; text-decoration: none; }
-  a:hover { text-decoration: underline; }
-
-  mark.cvnet-highlight {
-    background-color: yellow;
-    color: black;
-  }
-
-  /* ===== Scroll affordances: wrapper + hint (no gradient edges) ===== */
-  .table-scroll{
-    position: relative;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-gutter: stable both-edges; /* steadier layout when scrollbar appears */
-  }
-  /* Ensure the table itself isn't trying to scroll when wrapped */
-  .table-scroll > table{
-    display: table;
-    overflow: visible;
+  /* Force normal wrapping in cells (prevents “letters crossing cells” on iOS) */
+  .dataframe th,
+  .dataframe td {
     white-space: normal;
-  }
-  /* One-time hint label */
-  .table-scroll .scroll-hint{
-    position: absolute;
-    right: 8px; bottom: 6px;
-    font-size: 12px;
-    line-height: 1;
-    background: #fff;
-    border: 1px solid #ddd;
-    padding: 6px 8px;
-    border-radius: 999px;
-    box-shadow: 0 1px 3px rgba(0,0,0,.08);
-    opacity: .95;
-    transition: opacity .25s ease;
-    white-space: nowrap;
-  }
-  .table-scroll.seen .scroll-hint{ opacity: 0; }
-
-  /* ===== Responsive enhancements ===== */
-  @media (max-width: 900px) {
-    #search-input { max-width: 60vw; }
-  }
-  @media (max-width: 700px) {
-    .site-header { margin: 0 12px; padding-top: 12px; }
-    .topbar-row { gap: 8px; }
-    .quick-links {
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      gap: 10px;
-    }
-    .quick-links a { white-space: nowrap; }
-    .search-wrap { width: 100%; margin-left: 0; }
-    #search-input { width: 100%; max-width: 100%; }
-    /* Keep original scroll behavior, but let the wrapper own the scrolling when present */
-    table { display: block; overflow-x: auto; white-space: nowrap; }
-    .table-scroll > table { display: table; overflow: visible; white-space: nowrap; }
-    /* Make table layout predictable on mobile */
-  .dataframe { table-layout: fixed; min-width: 720px; }
-
-  /* Narrow the Website (col 4) and Deadlines (col 5) columns */
-  .dataframe th:nth-child(4), .dataframe td:nth-child(4) { width: 26%; max-width: 26%; }
-  .dataframe th:nth-child(5), .dataframe td:nth-child(5) { width: 34%; max-width: 34%; }
-
-  /* Allow wrapping only in cols 4–5 */
-  .dataframe th:nth-child(4), .dataframe td:nth-child(4),
-  .dataframe th:nth-child(5), .dataframe td:nth-child(5) {
-    white-space: normal;
-    word-break: break-word;
+    word-break: normal;
     overflow-wrap: anywhere;
   }
 
-  /* Multi-line clamp helper (≈2 lines) */
-  .clamp-2 {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-
-    /* fallback */
-    line-height: 1.35;
-    max-height: calc(1.35em * 2);
+  /* Allow link wrapping */
+  .dataframe td:nth-child(4) a,
+  .dataframe td:nth-child(5) a {
+    display: inline-block;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
   }
 
-  /* Keep link text from stretching rows too tall */
-  .dataframe td:nth-child(4) a { display: inline-block; }
+  /* Keep row height reasonable (optional—remove if you don’t want truncation) */
+  .dataframe td {
+    max-height: 3.2em; /* about 2 lines */
+    overflow: hidden;
+  }
 }
 </style>
 </head>
@@ -764,14 +628,14 @@
     });
   }
 
-  /* === Scroll affordances (no gradient) === */
+  /* === Scroll affordances using .table-wrapper (matches CSS) === */
   function setupScrollableTables(){
     const tables = document.querySelectorAll('table');
     tables.forEach(t => {
-      if (t.parentElement && t.parentElement.classList.contains('table-scroll')) return;
+      if (t.parentElement && t.parentElement.classList.contains('table-wrapper')) return;
 
       const wrap = document.createElement('div');
-      wrap.className = 'table-scroll';
+      wrap.className = 'table-wrapper';
       t.parentNode.insertBefore(wrap, t);
       wrap.appendChild(t);
 
@@ -784,9 +648,9 @@
       wrap.addEventListener('scroll', markSeen, { passive: true });
       setTimeout(markSeen, 4000);
     });
-  }  // closes setupScrollableTables
+  }
 
-  /* Wrap Website (col 4) and Deadlines (col 5) with a clamp container on mobile */
+  /* Wrap Website (col 4) and Deadlines (col 5) content on mobile with a clamp */
   function clampLongCells() {
     document.querySelectorAll('.dataframe').forEach(tbl => {
       tbl.querySelectorAll('tbody tr').forEach(tr => {
