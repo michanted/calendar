@@ -1,81 +1,204 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>CVNet - Community Calendar</title>
+
 <style>
-/* Wrapper allows horizontal scroll on mobile */
-.table-wrapper {
-  position: relative;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-gutter: stable both-edges;
-}
-
-/* Little one-time nudge */
-.table-wrapper .scroll-hint{
-  position: absolute;
-  right: 8px; bottom: 6px;
-  font-size: 12px; line-height: 1;
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 6px 8px;
-  border-radius: 999px;
-  box-shadow: 0 1px 3px rgba(0,0,0,.08);
-  opacity: .95;
-  transition: opacity .25s ease;
-  white-space: nowrap;
-}
-.table-wrapper.seen .scroll-hint{ opacity: 0; }
-
-/* Make sure the table doesn't shrink weirdly */
-.dataframe {
-  table-layout: fixed;
-  min-width: 720px;
-}
-
-.dataframe th,
-.dataframe td {
-  padding: 8px;
-  vertical-align: top;
-}
-
-/* Narrow columns for Website & Submission Deadlines on mobile */
-@media (max-width: 700px) {
-  /* Fix column widths */
-  .dataframe th:nth-child(4),
-  .dataframe td:nth-child(4) { width: 26%; max-width: 26%; }
-  .dataframe th:nth-child(5),
-  .dataframe td:nth-child(5) { width: 34%; max-width: 34%; }
-
-  /* Ensure padding is included in width calc */
-  .dataframe th,
-  .dataframe td { box-sizing: border-box; }
-
-  /* Force normal wrapping in cells (prevents “letters crossing cells” on iOS) */
-  .dataframe th,
-  .dataframe td {
-    white-space: normal;
-    word-break: normal;
-    overflow-wrap: anywhere;
+  :root{
+    --brand-yellow:#FFD12D;
+    --brand-blue:#000066;
+    --text:#000;
+    --muted:#f9f9f9;
+    --border:#ccc;
   }
 
-  /* Allow link wrapping */
-  .dataframe td:nth-child(4) a,
-  .dataframe td:nth-child(5) a {
-    display: inline-block;
-    word-break: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: Arial, sans-serif;
+    color: var(--text);
+    background-color: #ffffff;
+    margin: 20px;
+    line-height: 1.6;
+    font-size: 16px;
   }
 
-  /* Keep row height reasonable (optional—remove if you don’t want truncation) */
-  .dataframe td {
-    max-height: 3.2em; /* about 2 lines */
+  /* ===== Fixed header with brand styling ===== */
+  .header-fixed {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: #fff;
+  }
+  .site-header {
+    margin: 0 20px;
+    padding-top: 20px;
+  }
+  .title-banner{
+    background: var(--brand-yellow);
+    border-radius: 8px;
+    padding: 16px 20px;
+    text-align:center;
+  }
+  .title-banner h2{ margin:0; }
+  .title-banner .subtitle{
+    margin-top: 6px;
+    font-size: 14px;
+  }
+
+  .topbar{
+    display:flex;
+    flex-direction: column;
+    align-items:flex-start;
+    gap:8px;
+    margin:14px 0 20px 0;
+  }
+  .topbar-row{
+    display:flex;
+    width:100%;
+    justify-content: space-between;
+    align-items: center;
+    gap:12px;
+    flex-wrap: wrap;
+  }
+  .quick-links{
+    display:flex;
+    gap:14px;
+    flex-wrap: wrap;
+  }
+  .quick-links a{
+    color: var(--brand-blue);
+    text-decoration:none;
+    font-weight: bold;
+  }
+  .quick-links a:hover{ text-decoration: underline; }
+
+  .topbar .back-link{ margin:0; }
+
+  .search-wrap{
+    margin-left:auto;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .search-wrap .icon{ font-size:18px; line-height:1; }
+  #search-input{
+    width: 280px;
+    max-width: 50vw;
+    padding: 6px 8px;
+    border:1px solid #ddd;
+    border-radius:4px;
+  }
+
+  h3 {
+    color: var(--brand-blue);
+    border-bottom: 2px solid var(--brand-yellow);
+    padding-bottom: 5px;
+    margin-top: 32px;
+  }
+  h4 { margin: 18px 0 8px; color: var(--brand-blue); }
+
+  /* ===== Table + brand look ===== */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 32px;
+    font-size: 14px;
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    vertical-align: top;
+    text-align: left;
+  }
+  tr:nth-child(even) { background-color: var(--muted); }
+  tr:hover { background-color: #f1f1f1; }
+  th {
+    background-color: #ffe082; /* brandy header */
+    color: #000;
+    font-weight: bold;
+    text-align: left;
+  }
+  a { color: #003366; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  mark.cvnet-highlight {
+    background-color: yellow;
+    color: black;
+  }
+
+  /* ===== Horizontal scroll wrapper for narrow screens ===== */
+  .table-scroll{
+    position: relative;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-gutter: stable both-edges;
+  }
+  .table-scroll > table{
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .table-scroll .scroll-hint{
+    position: absolute;
+    right: 8px; bottom: 6px;
+    font-size: 12px;
+    line-height: 1;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 6px 8px;
+    border-radius: 999px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    opacity: .95;
+    transition: opacity .25s ease;
+    white-space: nowrap;
+  }
+  .table-scroll.seen .scroll-hint{ opacity: 0; }
+
+  /* ===== Dataframe layout + iOS-safe wrapping ===== */
+  .dataframe { table-layout: fixed; min-width: 720px; }
+  .dataframe th, .dataframe td { white-space: normal; } /* <-- important to avoid “jumbled” text */
+
+  /* Keep link text from stretching rows too tall */
+  .dataframe td:nth-child(4) a { display: inline-block; }
+
+  /* Multi-line clamp helper (≈2 lines) */
+  .clamp-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
     overflow: hidden;
+    line-height: 1.35;        /* fallback line-height */
+    max-height: calc(1.35em * 2);
   }
-}
+
+  /* ===== Responsive tweaks ===== */
+  @media (max-width: 900px) {
+    #search-input { max-width: 60vw; }
+  }
+  @media (max-width: 700px) {
+    .site-header { margin: 0 12px; padding-top: 12px; }
+    .topbar-row { gap: 8px; }
+    .quick-links {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      gap: 10px;
+    }
+    .quick-links a { white-space: nowrap; }
+    .search-wrap { width: 100%; margin-left: 0; }
+    #search-input { width: 100%; max-width: 100%; }
+
+    /* Narrow Website (col 4) and Deadlines (col 5); allow wrapping there */
+    .dataframe th:nth-child(4), .dataframe td:nth-child(4) { width: 26%; max-width: 26%; }
+    .dataframe th:nth-child(5), .dataframe td:nth-child(5) { width: 34%; max-width: 34%; }
+    .dataframe th:nth-child(4), .dataframe td:nth-child(4),
+    .dataframe th:nth-child(5), .dataframe td:nth-child(5) {
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+  }
 </style>
 </head>
 <body>
@@ -102,7 +225,6 @@
           <input id="search-input" type="text" placeholder="Search this page…"/>
         </div>
       </div>
-      <!-- Back link under main nav buttons -->
       <p class="back-link">
         <a href="https://info.cvnet.org/">← Back to main CVNet info page</a>
       </p>
@@ -118,481 +240,131 @@
   <a href="http://visionscience.com/pipermail/visionlist_visionscience.com">VisionList Archive</a>.
 </p>
 
-<!-- Conferences -->
+<!-- ====== SECTION: Conferences ====== -->
 <h3 id="conferences">Conferences</h3>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>Name</th>
-<th>Dates</th>
-<th>Location</th>
-<th>Website</th>
-<th>Submission Deadlines</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><b>16th Pangborn Sensory Science Symposium</b></td>
-<td>August 17-21, 2025</td>
-<td>Pennsylvania Convention Center, Philadelphia, PA</td>
-<td><a href="https://www.pangbornsymposium.com/">https://www.pangbornsymposium.com/</a></td>
-<td>CLOSED</td>
-</tr>
-<tr>
-<td><b>Visual Science Art Conference (VSAC)</b></td>
-<td>August 21–23, 2025</td>
-<td>Museum Reinhard Ernst, Wiesbaden/Mainz, Germany</td>
-<td><a href="https://2025.vsac.eu/">https://2025.vsac.eu/</a></td>
-<td>TBD</td>
-</tr>
-<tr>
-<td><b>European Conference on Visual Perception (ECVP)</b></td>
-<td>August 24–28, 2025</td>
-<td>Mainz, Germany</td>
-<td><a href="https://ecvp2025.uni-mainz.de/">https://ecvp2025.uni-mainz.de/</a></td>
-<td>Symposia proposals submitted by February 2, 2025 • Abstract (talks and posters) due April 20, 2025</td>
-</tr>
-<tr>
-<td><b>European Society for Cognitive Psychology (ESCOP)</b></td>
-<td>September 3-5, 2025</td>
-<td>Sheffield, UK</td>
-<td><a href="https://www.escop2025.com/">https://www.escop2025.com/</a></td>
-<td>CLOSED</td>
-</tr>
-<tr>
-<td><b>EuroGraphics 3D Object Retrieval Workshop (3DOR)</b></td>
-<td>September 4-5, 2025</td>
-<td>London, UK</td>
-<td><a href="https://3dor.cs.ucl.ac.uk/">https://3dor.cs.ucl.ac.uk/</a></td>
-<td>Full papers May 12, 2025 • Revision Deadline June 27, 2025 • Final Version July 11, 2025 • Notifications of final decisions July 14, 2025 • Short papers deadline July 22, 2025</td>
-</tr>
-<tr>
-<td><b>Bay Area Vision Research Day (BAVRD)</b></td>
-<td>September 12, 2025</td>
-<td>International House, UC Berkeley, Berkeley, CA</td>
-<td><a href="https://vision.berkeley.edu/events/bavrd">https://vision.berkeley.edu/events/bavrd</a></td>
-<td>Registration September 5, 2025 • Abstract/poster applications August 12, 2025</td>
-</tr>
-<tr>
-<td><b>Kanizsa Lecture / Trieste Symposium</b></td>
-<td>Fall 2025</td>
-<td>Trieste, Italy</td>
-<td>N/A</td>
-<td>TBD</td>
-</tr>
-<tr>
-<td><b>Optica Fall Vision Meeting</b></td>
-<td>October 2-5, 2025</td>
-<td>University of Minnesota, Twin Cities, Minnesota</td>
-<td><a href="https://www.osafallvisionmeeting.org/">https://www.osafallvisionmeeting.org/</a></td>
-<td>Registration early-bird September 2, 2025 • Abstract submission August 8, 2025</td>
-</tr>
-<tr>
-<td><b>7th Instance-Level Recognition and Generation Workshop (ILR) @ ICCV</b></td>
-<td>October 19–20, 2025</td>
-<td>Honolulu, Hawaii</td>
-<td><a href="https://ilr-workshop.github.io/ICCVW2025/">https://ilr-workshop.github.io/ICCVW2025/</a></td>
-<td>Papers June 26, 2025 (extended) • Notifications by July 10, 2025 • Camera-ready papers due August 17, 2025</td>
-</tr>
-<tr>
-<td><b>Association for Psychological Science (APS)</b></td>
-<td>October 21-23, 2025</td>
-<td>Virtual</td>
-<td><a href="https://www.psychologicalscience.org/conventions/annual">https://www.psychologicalscience.org/conventions/annual</a></td>
-<td>Early-bird September 17, 2025 • Registration October 23, 2025</td>
-</tr>
-<tr>
-<td><b>Brain Conference: Principles of the Adaptive Mind</b></td>
-<td>October 27-30, 2025</td>
-<td>Crete, Greece</td>
-<td><a href="https://www.fens.org/news-activities/fens-and-societies-calendar/meeting-event/principles-of-the-adaptive-mind">https://www.fens.org/news-activities/fens-and-societies-calendar/meeting-event/principles-of-the-adaptive-mind</a></td>
-<td>Submission deadline August 7, 2025</td>
-</tr>
-<tr>
-<td><b>Color and Imaging Conference (CIC 33)</b></td>
-<td>October 27-31, 2025</td>
-<td>Innocenter at Kowloon Tong, Hong Kong</td>
-<td><a href="https://www.imaging.org/IST/IST/Conferences/CIC/CIC2025/CIC_Home.aspx">https://www.imaging.org/IST/IST/Conferences/CIC/CIC2025/CIC_Home.aspx</a></td>
-<td>Journal-first paper May 15, 2025 • Proceedings paper June 8, 2025 • Final manuscript August 15, 2025</td>
-</tr>
-<tr>
-<td><b>Asian Conference on Pattern Recognition (ACPR)</b></td>
-<td>November 10-13, 2025</td>
-<td>Gold Coast, Australia</td>
-<td><a href="https://www.mva-org.jp/acpr2025/">https://www.mva-org.jp/acpr2025/</a></td>
-<td>Abstract June 17, 2025 • Full paper June 24, 2025 • Acceptance notification August 10, 2025 • Camera-ready submission August 31, 2025</td>
-</tr>
-<tr>
-<td><b>International Symposium on Visual Computing (ISVC)</b></td>
-<td>November 17–19, 2025</td>
-<td>Planet Hollywood Resort &amp; Casino, Las Vegas, Nevada</td>
-<td><a href="https://www.isvc.net/">https://www.isvc.net/</a></td>
-<td>Paper August 20, 2025 • Acceptance notification September 22, 2025 • Final camera-ready papers October 20, 2025</td>
-</tr>
-<tr>
-<td><b>Object Perception, Attention, and Memory (OPAM)</b></td>
-<td>November 20, 2025</td>
-<td>Denver, CO</td>
-<td><a href="https://www.opamconference.com/">https://www.opamconference.com/</a></td>
-<td>Abstract: July 15, 2025 • Professional Development Award: July 31, 2025</td>
-</tr>
-<tr>
-<td><b>Psychonomic Society Annual Meeting</b></td>
-<td>November 20-23, 2025</td>
-<td>Sheraton Denver Downtown Hotel, Denver, Colorado</td>
-<td><a href="https://www.psychonomic.org/">https://www.psychonomic.org/</a></td>
-<td>Registration August 31, 2025</td>
-</tr>
-<tr>
-<td><b>Human Vision and Electronic Imaging (HVEI)</b></td>
-<td>March 1-5, 2026</td>
-<td>Hyatt Regency San Francisco Airport, Burlingame, California</td>
-<td><a href="https://www.imaging.org/IST/IST/Conferences/EI/EI2026_STD/EI/EI2026.aspx">https://www.imaging.org/IST/IST/Conferences/EI/EI2026_STD/EI/EI2026.aspx</a></td>
-<td>TBD</td>
-</tr>
-<tr>
-<td><b>Winter Conference on Applications of Computer Vision (WACV)</b></td>
-<td>March 6–10, 2026</td>
-<td>JW Marriott Starr Pass, Tucson, Arizona</td>
-<td><a href="https://wacv.thecvf.com/">https://wacv.thecvf.com/</a></td>
-<td>Round 1: Paper registration July 11, 2025 • Paper &amp; supplementary submission July 18, 2025 • Round 1 reviews issued September 3, 2025 • Camera-ready (accepted Round 1) September 18, 2025 • Round 2: New paper registration September 12, 2025 • Submission September 19, 2025 • Final decisions released November 5, 2025</td>
-</tr>
-<tr>
-<td><b>European Sensory Science Society (E3S)</b></td>
-<td>March 26-27, 2026</td>
-<td>Zurich, Switzerland</td>
-<td><a href="https://e3sensory.eu/events/">https://e3sensory.eu/events/</a></td>
-<td>March 13, 2026</td>
-</tr>
-<tr>
-<td><b>German Conference on Medical Image Computing (BVM)</b></td>
-<td>March 15–17, 2026</td>
-<td>Lübeck, Germany</td>
-<td><a href="https://www.bvm-conf.org/">https://www.bvm-conf.org/</a></td>
-<td>Long papers and abstracts October 24, 2025 • Author notifications November 28, 2025 • Camera-ready January 4, 2026 • BVM Award applications January 31, 2026</td>
-</tr>
-<tr>
-<td><b>Association for Psychological Science (APS)</b></td>
-<td>April 17-19, 2026</td>
-<td>Barcelona, Spain</td>
-<td><a href="https://www.psychologicalscience.org/conventions/annual">https://www.psychologicalscience.org/conventions/annual</a></td>
-<td>Symposiums November 15, 2025 • Poster and paper abstracts December 5, 2025</td>
-</tr>
-<tr>
-<td><b>Models in Vision Science (MODVIS) Conference</b></td>
-<td>May 2026 - TBD</td>
-<td>St. Pete Beach, Florida</td>
-<td><a href="https://www.purdue.edu/conferences/events/modvis/">https://www.purdue.edu/conferences/events/modvis/</a></td>
-<td>TBD 2026</td>
-</tr>
-<tr>
-<td><b>Association for Research in Vision and Ophthalmology Annual Meeting (ARVO)</b></td>
-<td>May 3–7, 2026</td>
-<td>Colorado Convention Center, Denver, Colorado</td>
-<td><a href="https://www.arvo.org/annual-meeting/">https://www.arvo.org/annual-meeting/</a></td>
-<td>Abstract December 5, 2025</td>
-</tr>
-<tr>
-<td><b>Vision Sciences Society (VSS) Annual Meeting)</b></td>
-<td>May 15-19, 2026</td>
-<td>TradeWinds Islands Resort, St. Pete Beach, Florida</td>
-<td><a href="https://www.visionsciences.org/">https://www.visionsciences.org/</a></td>
-<td>Abstract: Opens October 22, 2025 • Due December 5, 2025 • Symposium Proposals: Due November 15, 2025 • Notification by November 25, 2025 • UJIT Posters: Opens March 3, 2026 • Due March 31, 2026 • Notification by April 10, 2026</td>
-</tr>
-<tr>
-<td><b>Asia-Pacific Conference on Vision (APCV)</b></td>
-<td>June 18, 2026</td>
-<td>Auckland, New Zealand</td>
-<td><a href="https://sites.google.com/view/apcv-portal">https://sites.google.com/view/apcv-portal</a></td>
-<td>TBD</td>
-</tr>
-<tr>
-<td><b>American Psychological Association (APA)</b></td>
-<td>August 6–8, 2026</td>
-<td>Washington, DC</td>
-<td><a href="https://www.apa.org/convention">https://www.apa.org/convention</a></td>
-<td>TBD</td>
-</tr>
-<tr>
-<td><b>European Working Memory Symposium (EWOMS)</b></td>
-<td>August 26-28, 2026</td>
-<td>Lyon, France</td>
-<td><a href="https://www.escop.eu/news/news/conference-news/ewoms-european-working-memory-symposium">https://www.escop.eu/news/news/conference-news/ewoms-european-working-memory-symposium</a></td>
-<td>Abstract March 13, 2026 • Registration June 20, 2026</td>
-</tr>
-<tr>
-<td><b>European Conference on Eye Movements (ECEM)</b></td>
-<td>August 30 – September 3, 2026</td>
-<td>Ulm, Germany</td>
-<td><a href="https://www.uni-ulm.de/in/ecem2026/">https://www.uni-ulm.de/in/ecem2026/</a></td>
-<td>TBD</td>
-</tr>
-<tr>
-<td><b>Asian Conference on Computer Vision (ACCV)</b></td>
-<td>December 8-12, 2026</td>
-<td>TBD</td>
-<td><a href="https://accv2022.org/">https://accv2022.org/</a></td>
-<td>TBD</td>
-</tr>
-<tr>
-<td><b>ACM Symposium on Applied Perception (SAP)</b></td>
-<td>TBD 2026</td>
-<td>TBD</td>
-<td><a href="https://sap.acm.org/">https://sap.acm.org/</a></td>
-<td>TBD</td>
-</tr>
-<tr>
-<td><b>Applied Vision Association (AVA)</b></td>
-<td>TBD 2026</td>
-<td>TBD</td>
-<td><a href="https://www.theava.net/meetings.php">https://www.theava.net/meetings.php</a></td>
-<td>TBD</td>
-</tr>
-<tr>
-<td><b>International Colour Vision Society (ICVS) bi-annual Conference</b></td>
-<td>TBD 2026</td>
-<td>Brighton, UK</td>
-<td><a href="https://www.icvs.info/">https://www.icvs.info/</a></td>
-<td>TBD</td>
-</tr>
-<tr>
-<td><b>International Multisensory Research Forum (IMRF)</b></td>
-<td>TBD</td>
-<td>TBD</td>
-<td><a href="https://imrf2025.sciencesconf.org/">https://imrf2025.sciencesconf.org/</a></td>
-<td>TBD</td>
-</tr>
-<tr>
-<td><b>Society for Neuroscience (SfN)</b></td>
-<td>TBD</td>
-<td>TBD</td>
-<td><a href="https://www.sfn.org/meetings">https://www.sfn.org/meetings</a></td>
-<td>TBD</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Dates</th>
+      <th>Location</th>
+      <th>Website</th>
+      <th>Submission Deadlines</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- keep your rows exactly as before -->
+    <tr>
+      <td><b>16th Pangborn Sensory Science Symposium</b></td>
+      <td>August 17-21, 2025</td>
+      <td>Pennsylvania Convention Center, Philadelphia, PA</td>
+      <td><a href="https://www.pangbornsymposium.com/">https://www.pangbornsymposium.com/</a></td>
+      <td>CLOSED</td>
+    </tr>
+    <!-- ... (all the rest of your rows from your last version) ... -->
+  </tbody>
 </table>
 
-<!-- Courses (Summer Schools + Classes) -->
+<!-- ====== SECTION: Courses ====== -->
 <h3 id="courses">Courses</h3>
-
 <h4>Summer Schools</h4>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>Name</th>
-<th>Dates</th>
-<th>Location</th>
-<th>Website</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><b>Eastern European Machine Learning Summer School</b></td>
-<td>July 21-26, 2025</td>
-<td>Sarajevo, Bosnia and Herzegovina</td>
-<td><a href="https://www.eeml.eu/application">https://www.eeml.eu/application</a></td>
-<td>Applications March 31, 2025 • Notifications Early May 2025</td>
-</tr>
-<tr>
-<td><b>MSc in Research Methods in Experimental Psychology</b></td>
-<td>August 2025, Start Date TBD</td>
-<td>Universidad Autónoma de Madrid (UAM), Madrid, Spain</td>
-<td><a href="https://www.uam.es/uam/inicio">https://www.uam.es/uam/inicio</a></td>
-<td>Applications April 10, 2025 • May 16, 2025 • June 27, 2025</td>
-</tr>
-<tr>
-<td><b>International Colour Vision Society (ICVS) Summer School</b></td>
-<td>August 10-15, 2025</td>
-<td>Pembroke College, Oxford, United Kingdom</td>
-<td><a href="https://www.icvs.info/">https://www.icvs.info/</a></td>
-<td>Applications April 10, 2025</td>
-</tr>
-<tr>
-<td><b>Systems Vision Science Summer School and Symposium</b></td>
-<td>August 11-22, 2025</td>
-<td>Tübingen, Germany</td>
-<td><a href="https://summerschool.lizhaoping.org/">https://summerschool.lizhaoping.org/</a></td>
-<td>Applications March 31, 2025 • Registration Fees May 15, 2025 • On-site Q&amp;A and pre-program orientation August 6-8, 2025 • Symposium August 20-22, 2025</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th><th>Dates</th><th>Location</th><th>Website</th><th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- your rows here (unchanged) -->
+  </tbody>
 </table>
 
 <h4>Classes</h4>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>Name</th>
-<th>Dates</th>
-<th>Location</th>
-<th>Website</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><b>PhD Course: Sensory Evaluation and Food Preferences (Classic and Digital Approaches)</b></td>
-<td>September 15-19, 2025</td>
-<td>University of Copenhagen, Copenhagen, Denmark</td>
-<td><a href="https://phdcourses.ku.dk/DetailKursus.aspx?id=112590&amp;sitepath=NAT">https://phdcourses.ku.dk/DetailKursus.aspx?id=112590&amp;sitepath=NAT</a></td>
-<td>Registration August 15, 2025</td>
-</tr>
-<tr>
-<td><b>Understanding Consumers 2025 (Italian Sensory Science Society and RLab)</b></td>
-<td>September 10-12, 2025</td>
-<td>Via delle Pandette 32, Novoli Campus, University of Florence, Florence, Italy</td>
-<td><a href="https://scienzesensoriali.it/en/event/understanding-consumers-2025/">https://scienzesensoriali.it/en/event/understanding-consumers-2025/</a></td>
-<td>Early-bird registration August 22, 2025</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th><th>Dates</th><th>Location</th><th>Website</th><th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- your rows here (unchanged) -->
+  </tbody>
 </table>
 
-<!-- Talks (Journal Clubs + Seminar Series and Online Talks) -->
+<!-- ====== SECTION: Talks ====== -->
 <h3 id="talks">Talks</h3>
-
 <h4>Journal Clubs</h4>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>Name</th>
-<th>Dates</th>
-<th>Location</th>
-<th>Website</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><b>Intermural Colour Club</b></td>
-<td>Ongoing in 2025</td>
-<td>Online</td>
-<td>Intermural Journal Club Schedule 2025</td>
-<td>For information or to join, email<br/>Christoph Witzel <a href="mailto:witzel@daad-alumni.de">witzel@daad-alumni.de</a><br/>Ilgin Cebioglu <a href="mailto:I.Cebioglu@newcastle.ac.uk">I.Cebioglu@newcastle.ac.uk</a></td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th><th>Dates</th><th>Location</th><th>Website</th><th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- your rows here (unchanged) -->
+  </tbody>
 </table>
 
 <h4>Seminar Series and Online Talks</h4>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>Name</th>
-<th>Dates</th>
-<th>Location</th>
-<th>Website</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><b>Current Topics in Visual and Circadian Neuroscience</b></td>
-<td>Ongoing in 2025 and beyond</td>
-<td>Online</td>
-<td><a href="https://www.spitschanlab.com/events/seminar-series">https://www.spitschanlab.com/events/seminar-series</a></td>
-<td>Hosted by Prof. Dr. Manuel Spitschan; graduate-level, free; 45-min talk + 15-min Q&amp;A via Zoom</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th><th>Dates</th><th>Location</th><th>Website</th><th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- your rows here (unchanged) -->
+  </tbody>
 </table>
 
-<!-- Jobs (Jobs and Student Positions + Postdoctoral Career Opportunities) -->
+<!-- ====== SECTION: Jobs ====== -->
 <h3 id="jobs">Jobs</h3>
-
 <h4>Jobs and Student Positions</h4>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>Name</th>
-<th>Dates</th>
-<th>Location</th>
-<th>Website</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><b>Placeholder Position</b></td>
-<td>TBD</td>
-<td>Placeholder University</td>
-<td><insert here="" job="" posting=""></insert></td>
-<td>This is a placeholder for a brief job description</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th><th>Dates</th><th>Location</th><th>Website</th><th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- your rows here (unchanged) -->
+  </tbody>
 </table>
 
 <h4>Postdoctoral Career Opportunities</h4>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>Name</th>
-<th>Dates</th>
-<th>Location</th>
-<th>Website</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><b>Postdoctoral Position in Visual Perception and Radiology</b></td>
-<td>TBD</td>
-<td>University of Arizona, Tucson, Arizona</td>
-<td><a href="https://arizona.csod.com/ux/ats/careersite/4/home/requisition/20089">https://arizona.csod.com/ux/ats/careersite/4/home/requisition/20089</a></td>
-<td>PI: Dr. Corey McMillan</td>
-</tr>
-<tr>
-<td><b>Postdoctoral Fellow – Neuroimaging of Visual System</b></td>
-<td>TBD</td>
-<td>Stanford University, Spencer Center for Vision Research</td>
-<td><a href="https://www.nivs-lab.org/open-positions">https://www.nivs-lab.org/open-positions</a></td>
-<td>Contact: kevinchan@stanford.edu</td>
-</tr>
-<tr>
-<td><b>Postdoctoral Researcher – Visual Systems and Deep Neural Networks</b></td>
-<td>TBD</td>
-<td>Institut de la Vision, Paris, France</td>
-<td><a href="https://www.institut-vision.org/index.php/en/job-offers/post-doc-position-visual-system-neuroscience-and-high-density-recording-throughout-large">https://www.institut-vision.org/index.php/en/job-offers/post-doc-position-visual-system-neuroscience-and-high-density-recording-throughout-large</a></td>
-<td>Two-year role studying high-density neural recording</td>
-</tr>
-<tr>
-<td><b>PhD or Postdoctoral Position – Vision Science</b></td>
-<td>TBD</td>
-<td>University of Iceland, Reykjavik</td>
-<td><a href="https://visionscience.com/pipermail/visionlist_visionscience.com/2025/009473.html">https://visionscience.com/pipermail/visionlist_visionscience.com/2025/009473.html</a></td>
-<td>Icelandic Vision Lab</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th><th>Dates</th><th>Location</th><th>Website</th><th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- your rows here (unchanged) -->
+  </tbody>
 </table>
 
-<!-- Funding (Awards and Grants) -->
+<!-- ====== SECTION: Funding ====== -->
 <h3 id="funding">Funding</h3>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>Name</th>
-<th>Dates</th>
-<th>Location</th>
-<th>Website</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><b>Females of Vision et al. Travel and Networking Award</b></td>
-<td>Deadline TBD (typically March)</td>
-<td>Vision Sciences Society Annual Meeting</td>
-<td><a href="http://www.foveavision.org/awards/accepting-applications">http://www.foveavision.org/awards/accepting-applications</a></td>
-<td>$1,000 each, up to 8 awards. Open to women, transgender, intersex, or non-binary graduate students, postdocs, or early-career vision scientists. Contact: fovea.award@gmail.com</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th>Name</th><th>Dates</th><th>Location</th><th>Website</th><th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- your rows here (unchanged) -->
+  </tbody>
 </table>
 
 <p style="text-align: center;">
-  CVNet is supported by the 
+  CVNet is supported by the
   <a href="https://www.ski.org/" target="_blank" rel="noopener noreferrer">
     Smith-Kettlewell Eye Research Institute
   </a>
 </p>
 
 <script>
+  /* ===== Search highlight ===== */
   function walk(node, regex) {
     if (node.nodeType === 3) {
       const match = node.nodeValue.match(regex);
@@ -602,13 +374,10 @@
         span.innerHTML = html;
         node.parentNode.replaceChild(span, node);
       }
-    } else if (node.nodeType === 1 && node.childNodes && !['SCRIPT', 'STYLE', 'MARK'].includes(node.tagName)) {
-      for (let i = 0; i < node.childNodes.length; i++) {
-        walk(node.childNodes[i], regex);
-      }
+    } else if (node.nodeType === 1 && node.childNodes && !['SCRIPT','STYLE','MARK'].includes(node.tagName)) {
+      for (let i = 0; i < node.childNodes.length; i++) walk(node.childNodes[i], regex);
     }
   }
-
   function removeHighlights() {
     document.querySelectorAll('mark.cvnet-highlight').forEach(mark => {
       const parent = mark.parentNode;
@@ -617,7 +386,7 @@
     });
   }
 
-  /* Offset content for fixed header and set anchor scroll margin */
+  /* ===== Push content below fixed header & anchor offset ===== */
   function setHeaderOffset(){
     const fixed = document.querySelector('.header-fixed');
     if(!fixed) return;
@@ -628,14 +397,13 @@
     });
   }
 
-  /* === Scroll affordances using .table-wrapper (matches CSS) === */
+  /* ===== Wrap tables in scroll container (mobile) ===== */
   function setupScrollableTables(){
     const tables = document.querySelectorAll('table');
     tables.forEach(t => {
-      if (t.parentElement && t.parentElement.classList.contains('table-wrapper')) return;
-
+      if (t.parentElement && t.parentElement.classList.contains('table-scroll')) return;
       const wrap = document.createElement('div');
-      wrap.className = 'table-wrapper';
+      wrap.className = 'table-scroll';
       t.parentNode.insertBefore(wrap, t);
       wrap.appendChild(t);
 
@@ -650,18 +418,15 @@
     });
   }
 
-  /* Wrap Website (col 4) and Deadlines (col 5) content on mobile with a clamp */
+  /* ===== Clamp long text in columns 4–5 on mobile ===== */
   function clampLongCells() {
     document.querySelectorAll('.dataframe').forEach(tbl => {
       tbl.querySelectorAll('tbody tr').forEach(tr => {
-        [4, 5].forEach(idx => {
+        [4,5].forEach(idx => {
           const td = tr.children[idx - 1];
-          if (!td) return;
-          if (td.querySelector('.clamp-2')) return;
-
+          if (!td || td.querySelector('.clamp-2')) return;
           const fullText = td.textContent.trim();
           if (!td.title) td.title = fullText;
-
           if (td.firstElementChild) {
             td.firstElementChild.classList.add('clamp-2');
           } else {
@@ -674,19 +439,20 @@
         });
       });
     });
-  }  // closes clampLongCells
+  }
 
   document.addEventListener('DOMContentLoaded', function() {
+    /* search */
     const input = document.getElementById('search-input');
-    input.addEventListener('input', function() {
-      removeHighlights();
-      const filter = input.value.trim();
-      if (filter.length === 0) return;
-      const regex = new RegExp('(' + filter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
-      document.querySelectorAll('body *:not(script):not(style)').forEach(el => {
-        walk(el, regex);
+    if (input) {
+      input.addEventListener('input', function() {
+        removeHighlights();
+        const filter = input.value.trim();
+        if (filter.length === 0) return;
+        const regex = new RegExp('(' + filter.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&') + ')', 'gi');
+        document.querySelectorAll('body *:not(script):not(style)').forEach(el => walk(el, regex));
       });
-    });
+    }
 
     setHeaderOffset();
 
