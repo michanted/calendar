@@ -182,7 +182,36 @@
     /* Keep original scroll behavior, but let the wrapper own the scrolling when present */
     table { display: block; overflow-x: auto; white-space: nowrap; }
     .table-scroll > table { display: table; overflow: visible; white-space: nowrap; }
+    /* Make table layout predictable on mobile */
+  .dataframe { table-layout: fixed; min-width: 720px; }
+
+  /* Narrow the Website (col 4) and Deadlines (col 5) columns */
+  .dataframe th:nth-child(4), .dataframe td:nth-child(4) { width: 26%; max-width: 26%; }
+  .dataframe th:nth-child(5), .dataframe td:nth-child(5) { width: 34%; max-width: 34%; }
+
+  /* Allow wrapping only in cols 4–5 */
+  .dataframe th:nth-child(4), .dataframe td:nth-child(4),
+  .dataframe th:nth-child(5), .dataframe td:nth-child(5) {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
   }
+
+  /* Multi-line clamp helper (≈2 lines) */
+  .clamp-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+
+    /* fallback */
+    line-height: 1.35;
+    max-height: calc(1.35em * 2);
+  }
+
+  /* Keep link text from stretching rows too tall */
+  .dataframe td:nth-child(4) a { display: inline-block; }
+}
 </style>
 </head>
 <body>
@@ -238,20 +267,6 @@
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><b>American Psychological Association (APA)</b></td>
-<td>August 7-9, 2025</td>
-<td>Colorado Convention Center, Denver, Colorado</td>
-<td><a href="https://www.apa.org/convention">https://www.apa.org/convention</a></td>
-<td>CLOSED</td>
-</tr>
-<tr>
-<td><b>ACM Symposium on Applied Perception (SAP)</b></td>
-<td>August 9–10, 2025</td>
-<td>Simon Fraser University, Vancouver, Canada</td>
-<td><a href="https://sap.acm.org/2025/">https://sap.acm.org/2025/</a></td>
-<td>Abstract April 18, 2025 • Papers April 25, 2025 • Revisions June 4, 2025 • Poster abstracts June 9, 2025 • Notifications May 17, 2025 • Camera-ready June 13, 2025</td>
-</tr>
 <tr>
 <td><b>16th Pangborn Sensory Science Symposium</b></td>
 <td>August 17-21, 2025</td>
@@ -428,6 +443,13 @@
 <td>TBD</td>
 </tr>
 <tr>
+<td><b>American Psychological Association (APA)</b></td>
+<td>August 6–8, 2026</td>
+<td>Washington, DC</td>
+<td><a href="https://www.apa.org/convention">https://www.apa.org/convention</a></td>
+<td>TBD</td>
+</tr>
+<tr>
 <td><b>European Working Memory Symposium (EWOMS)</b></td>
 <td>August 26-28, 2026</td>
 <td>Lyon, France</td>
@@ -446,6 +468,13 @@
 <td>December 8-12, 2026</td>
 <td>TBD</td>
 <td><a href="https://accv2022.org/">https://accv2022.org/</a></td>
+<td>TBD</td>
+</tr>
+<tr>
+<td><b>ACM Symposium on Applied Perception (SAP)</b></td>
+<td>TBD 2026</td>
+<td>TBD</td>
+<td><a href="https://sap.acm.org/">https://sap.acm.org/</a></td>
 <td>TBD</td>
 </tr>
 <tr>
@@ -729,9 +758,7 @@
     const fixed = document.querySelector('.header-fixed');
     if(!fixed) return;
     const h = fixed.offsetHeight || 0;
-    /* push content below fixed header */
     document.body.style.paddingTop = (h + 10) + 'px';
-    /* ensure in-page anchors aren't hidden */
     document.querySelectorAll('h3[id], h4[id]').forEach(el=>{
       el.style.scrollMarginTop = (h + 10) + 'px';
     });
@@ -741,29 +768,49 @@
   function setupScrollableTables(){
     const tables = document.querySelectorAll('table');
     tables.forEach(t => {
-      // Skip if already wrapped
       if (t.parentElement && t.parentElement.classList.contains('table-scroll')) return;
 
-      // Create wrapper and insert
       const wrap = document.createElement('div');
       wrap.className = 'table-scroll';
       t.parentNode.insertBefore(wrap, t);
       wrap.appendChild(t);
 
-      // One-time hint
       const hint = document.createElement('div');
       hint.className = 'scroll-hint';
       hint.textContent = 'Swipe to see more →';
       wrap.appendChild(hint);
 
-      // Hide hint after first interaction
       const markSeen = () => wrap.classList.add('seen');
       wrap.addEventListener('scroll', markSeen, { passive: true });
-
-      // Fallback auto-hide
       setTimeout(markSeen, 4000);
     });
-  }
+  }  // closes setupScrollableTables
+
+  /* Wrap Website (col 4) and Deadlines (col 5) with a clamp container on mobile */
+  function clampLongCells() {
+    document.querySelectorAll('.dataframe').forEach(tbl => {
+      tbl.querySelectorAll('tbody tr').forEach(tr => {
+        [4, 5].forEach(idx => {
+          const td = tr.children[idx - 1];
+          if (!td) return;
+          if (td.querySelector('.clamp-2')) return;
+
+          const fullText = td.textContent.trim();
+          if (!td.title) td.title = fullText;
+
+          if (td.firstElementChild) {
+            td.firstElementChild.classList.add('clamp-2');
+          } else {
+            const span = document.createElement('span');
+            span.className = 'clamp-2';
+            span.textContent = fullText;
+            td.textContent = '';
+            td.appendChild(span);
+          }
+        });
+      });
+    });
+  }  // closes clampLongCells
 
   document.addEventListener('DOMContentLoaded', function() {
     const input = document.getElementById('search-input');
@@ -771,16 +818,18 @@
       removeHighlights();
       const filter = input.value.trim();
       if (filter.length === 0) return;
-      const regex = new RegExp('(' + filter.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&') + ')', 'gi');
+      const regex = new RegExp('(' + filter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
       document.querySelectorAll('body *:not(script):not(style)').forEach(el => {
         walk(el, regex);
       });
     });
+
     setHeaderOffset();
 
-    /* Enable scroll affordances on mobile only (remove guard to enable everywhere) */
+    /* Enable scroll affordances + clamp on mobile only */
     if (window.matchMedia('(max-width: 700px)').matches) {
       setupScrollableTables();
+      clampLongCells();
     }
   });
 
