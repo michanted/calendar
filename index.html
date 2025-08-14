@@ -42,8 +42,13 @@
     padding: 16px 20px;
     text-align:center;
   }
-  .title-banner h2{ margin: 0; }
-  .title-banner .subtitle{ margin-top: 6px; font-size: 14px; }
+  .title-banner h2{
+    margin: 0;
+  }
+  .title-banner .subtitle{
+    margin-top: 6px;
+    font-size: 14px;
+  }
 
   /* Search and nav links */
   .topbar{
@@ -73,7 +78,9 @@
   }
   .quick-links a:hover{ text-decoration: underline; }
 
-  .topbar .back-link{ margin: 0; }
+  .topbar .back-link{
+    margin: 0;
+  }
 
   .search-wrap{
     margin-left:auto;
@@ -98,7 +105,6 @@
   }
   h4 { margin: 18px 0 8px; color: var(--brand-blue); }
 
-  /* ===== Tables (desktop defaults) ===== */
   table {
     width: 100%;
     border-collapse: collapse;
@@ -122,89 +128,83 @@
   a { color: #003366; text-decoration: none; }
   a:hover { text-decoration: underline; }
 
-  mark.cvnet-highlight { background-color: yellow; color: black; }
+  mark.cvnet-highlight {
+    background-color: yellow;
+    color: black;
+  }
+
+  /* ===== Scroll affordances: wrapper + gradients + hint ===== */
+  .table-scroll{
+    position: relative;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-gutter: stable both-edges; /* steadier layout when scrollbar appears */
+  }
+  /* Ensure the table itself isn't trying to scroll when wrapped */
+  .table-scroll > table{
+    display: table;
+    overflow: visible;
+    white-space: normal;
+  }
+  /* Edge gradients that indicate there’s more to scroll */
+  .table-scroll::before,
+  .table-scroll::after{
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 24px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .2s ease;
+  }
+  .table-scroll::before{
+    left: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.08), rgba(0,0,0,0));
+  }
+  .table-scroll::after{
+    right: 0;
+    background: linear-gradient(to left, rgba(0,0,0,0.08), rgba(0,0,0,0));
+  }
+  /* JS toggles these */
+  .table-scroll[data-left="1"]::before{ opacity: 1; }
+  .table-scroll[data-right="1"]::after{ opacity: 1; }
+  /* One-time hint label */
+  .table-scroll .scroll-hint{
+    position: absolute;
+    right: 8px; bottom: 6px;
+    font-size: 12px;
+    line-height: 1;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 6px 8px;
+    border-radius: 999px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    opacity: .95;
+    transition: opacity .25s ease;
+    white-space: nowrap;
+  }
+  .table-scroll.seen .scroll-hint{ opacity: 0; }
 
   /* ===== Responsive enhancements ===== */
-@media (max-width: 700px) {
-  .site-header { margin: 0 12px; padding-top: 12px; }
-  .topbar-row { gap: 8px; }
-
-  /* quick links remain horizontally scrollable chips */
-  .quick-links { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 10px; }
-  .quick-links a { white-space: nowrap; }
-
-  .search-wrap { width: 100%; margin-left: 0; }
-  #search-input { width: 100%; max-width: 100%; }
-
-  /* === HYBRID TABLES ===
-     1) Keep horizontal scroll on small screens
-     2) Sticky first two columns (Name, Dates)
-     3) Narrow columns
-     4) Wrap only in the last column (Deadlines/Notes)
-  */
-  table { 
-    display: block; 
-    overflow-x: auto;            /* keep scroll */
-    -webkit-overflow-scrolling: touch;
+  @media (max-width: 900px) {
+    #search-input { max-width: 60vw; }
   }
-
-  .dataframe {
-    table-layout: fixed;         /* predictable widths */
-    min-width: 720px;            /* gives sticky math room; adjust as needed */
-    font-size: 13px;
+  @media (max-width: 700px) {
+    .site-header { margin: 0 12px; padding-top: 12px; }
+    .topbar-row { gap: 8px; }
+    .quick-links {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      gap: 10px;
+    }
+    .quick-links a { white-space: nowrap; }
+    .search-wrap { width: 100%; margin-left: 0; }
+    #search-input { width: 100%; max-width: 100%; }
+    /* Keep original scroll behavior, but let the wrapper own the scrolling when present */
+    table { display: block; overflow-x: auto; white-space: nowrap; }
+    .table-scroll > table { display: table; overflow: visible; white-space: nowrap; }
   }
-
-  th, td {
-    padding: 8px;
-    white-space: nowrap;         /* default: no wrap */
-    vertical-align: top;
-  }
-
-  /* Column widths (5-col tables) */
-  /* 1: Name (a bit wider) */
-  .dataframe th:nth-child(1), .dataframe td:nth-child(1) { min-width: 220px; max-width: 260px; }
-  /* 2: Dates (short) */
-  .dataframe th:nth-child(2), .dataframe td:nth-child(2) { min-width: 120px; max-width: 140px; }
-  /* 3: Location (medium) */
-  .dataframe th:nth-child(3), .dataframe td:nth-child(3) { min-width: 180px; max-width: 220px; }
-  /* 4: Website (keep compact; URLs will ellipsize) */
-  .dataframe th:nth-child(4), .dataframe td:nth-child(4) { min-width: 200px; max-width: 240px; overflow: hidden; text-overflow: ellipsis; }
-  /* 5: Deadlines/Notes (wrap allowed) */
-  .dataframe th:nth-child(5), .dataframe td:nth-child(5) { 
-    min-width: 260px; 
-    max-width: 340px; 
-    white-space: normal; 
-    word-break: break-word; 
-    overflow-wrap: anywhere; 
-    hyphens: auto;
-  }
-
-  /* Sticky first two columns for context while scrolling */
-  .dataframe th:nth-child(1),
-  .dataframe td:nth-child(1) {
-    position: sticky;
-    left: 0;
-    z-index: 2;                  /* above other cells */
-    background: #fff;            /* cover row striping underlay */
-  }
-  .dataframe th:nth-child(2),
-  .dataframe td:nth-child(2) {
-    position: sticky;
-    left: 220px;                 /* match min-width of col 1 */
-    z-index: 2;
-    background: #fff;
-  }
-
-  /* Keep header row above sticky cells when scrolling */
-  .dataframe thead th {
-    position: sticky;
-    top: 0;
-    z-index: 3;
-  }
-
-  /* Slightly soften zebra striping when overlaid by sticky backgrounds */
-  tr:nth-child(even) { background-color: #f6f6f6; }
-}
 </style>
 </head>
 <body>
@@ -390,7 +390,7 @@
 <td><b>Human Vision and Electronic Imaging (HVEI)</b></td>
 <td>March 1-5, 2026</td>
 <td>Hyatt Regency San Francisco Airport, Burlingame, California</td>
-<td><a href="https://www.imaging.org/IST/IST/Conferences/EI/EI2026_STD/EI2026.aspx?hkey=98ddea62-ed6e-4cf2-bc9e-a313f42a41ab">https://www.imaging.org/IST/IST/Conferences/EI/EI2026_STD/EI2026.aspx?hkey=98ddea62-ed6e-4cf2-bc9e-a313f42a41ab</a></td>
+<td><a href="https://www.imaging.org/IST/IST/Conferences/EI/EI2026_STD/EI2026.aspx?hkey=98ddea62-ed6e-4cf2-bc9e-a313f42a41ab">https://www.imaging.org/IST/IST/Conferences/EI/EI2026_STD/EI/EI2026.aspx</a></td>
 <td>TBD</td>
 </tr>
 <tr>
@@ -759,18 +759,63 @@
     });
   }
 
+  /* === Scroll affordances === */
+  function setupScrollableTables(){
+    const tables = document.querySelectorAll('table');
+    tables.forEach(t => {
+      // Skip if already wrapped
+      if (t.parentElement && t.parentElement.classList.contains('table-scroll')) return;
+
+      // Create wrapper and insert
+      const wrap = document.createElement('div');
+      wrap.className = 'table-scroll';
+      t.parentNode.insertBefore(wrap, t);
+      wrap.appendChild(t);
+
+      // One-time hint
+      const hint = document.createElement('div');
+      hint.className = 'scroll-hint';
+      hint.textContent = 'Swipe to see more →';
+      wrap.appendChild(hint);
+
+      // Update gradient flags
+      const update = () => {
+        const left = wrap.scrollLeft > 0 ? 1 : 0;
+        const right = (wrap.scrollLeft + wrap.clientWidth) < wrap.scrollWidth ? 1 : 0;
+        wrap.dataset.left = left;
+        wrap.dataset.right = right;
+      };
+
+      const markSeen = () => wrap.classList.add('seen');
+
+      wrap.addEventListener('scroll', () => { update(); markSeen(); }, { passive: true });
+      window.addEventListener('resize', update);
+
+      // Initial state
+      update();
+
+      // Fallback auto-hide
+      setTimeout(markSeen, 4000);
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     const input = document.getElementById('search-input');
     input.addEventListener('input', function() {
       removeHighlights();
       const filter = input.value.trim();
       if (filter.length === 0) return;
-      const regex = new RegExp('(' + filter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+      const regex = new RegExp('(' + filter.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&') + ')', 'gi');
       document.querySelectorAll('body *:not(script):not(style)').forEach(el => {
         walk(el, regex);
       });
     });
     setHeaderOffset();
+
+    /* Enable scroll affordances on mobile only (remove guard to enable everywhere) */
+    if (window.matchMedia('(max-width: 700px)').matches) {
+      setupScrollableTables();
+    }
   });
 
   window.addEventListener('resize', setHeaderOffset);
