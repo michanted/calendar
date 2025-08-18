@@ -109,6 +109,7 @@
   }
   h4 { margin: 18px 0 8px; color: var(--brand-blue); }
 
+  /* ===== Tables (desktop/default) ===== */
   table {
     width: 100%;
     border-collapse: collapse;
@@ -129,6 +130,9 @@
     font-weight: bold;
     text-align: left;
   }
+  /* Long URLs wrap instead of forcing overflow */
+  table.dataframe td a { overflow-wrap: anywhere; word-break: break-word; }
+
   a { color: #003366; text-decoration: none; }
   a:hover { text-decoration: underline; }
 
@@ -157,44 +161,41 @@
     .quick-links a {
       scroll-snap-align: start;
       white-space: nowrap; /* keep single-line labels */
-      /* No extra padding/border/background here -> inherit original look */
     }
     .search-wrap { width: 100%; margin-left: 0; }
     #search-input { width: 100%; max-width: 100%; padding: 10px 12px; }
-    table { display: block; overflow-x: auto; white-space: nowrap; }
-
-    /* Mobile card view for tables */
-    table.dataframe { border: 0; white-space: normal; }
-    table.dataframe thead { display: none; }
-    table.dataframe tr {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 8px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 10px;
-      margin-bottom: 12px;
-      background: #fff;
-    }
-    table.dataframe td {
-      display: grid;
-      grid-template-columns: 36% 1fr; /* label | value */
-      align-items: start;
-      border: 0;
-      padding: 0;
-    }
-    table.dataframe td::before {
-      content: attr(data-label);
-      font-weight: bold;
-      color: var(--brand-blue);
-      padding-right: 10px;
-    }
-    table.dataframe a { word-break: break-word; }
   }
 
-  /* Respect reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
+  /* ===== Card view (toggled dynamically to prevent overflow) ===== */
+  /* Keep this block LAST in the style tag so it wins the cascade */
+  table.dataframe.stacked {
+    display: block;
+    width: 100%;
+    border: 0;
+  }
+  table.dataframe.stacked thead { display: none; }
+  table.dataframe.stacked tr{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 12px;
+    background: #fff;
+  }
+  table.dataframe.stacked td{
+    display: grid;
+    grid-template-columns: 36% 1fr; /* label | value */
+    align-items: start;
+    border: 0;
+    padding: 0;
+  }
+  table.dataframe.stacked td::before{
+    content: attr(data-label);
+    font-weight: bold;
+    color: var(--brand-blue);
+    padding-right: 10px;
   }
 </style>
 </head>
@@ -205,7 +206,7 @@
   <header class="site-header">
     <div class="title-banner">
       <h2>CVNet Resource List and Community Calendar</h2>
-      <div class="subtitle">Last updated: 14 August, 2025</div>
+      <div class="subtitle">Last updated: 6 August, 2025</div>
     </div>
 
     <div class="topbar">
@@ -410,7 +411,7 @@
       <td>Symposiums November 15, 2025 • Poster and paper abstracts December 5, 2025</td>
     </tr>
     <tr>
-      <td><b>Models in Vision Science (MODVIS) Conference)</b></td>
+      <td><b>Models in Vision Science (MODVIS) Conference</b></td>
       <td>May 2026 - TBD</td>
       <td>St. Pete Beach, Florida</td>
       <td><a href="https://www.purdue.edu/conferences/events/modvis/">https://www.purdue.edu/conferences/events/modvis/</a></td>
@@ -744,9 +745,7 @@
         node.parentNode.replaceChild(span, node);
       }
     } else if (node.nodeType === 1 && node.childNodes && !['SCRIPT', 'STYLE', 'MARK'].includes(node.tagName)) {
-      for (let i = 0; i < node.childNodes.length; i++) {
-        walk(node.childNodes[i], regex);
-      }
+      for (let i = 0; i < node.childNodes.length; i++) walk(node.childNodes[i], regex);
     }
   }
 
@@ -758,36 +757,112 @@
     });
   }
 
-  /* Offset content for fixed header and set anchor scroll margin */
   function setHeaderOffset(){
     const fixed = document.querySelector('.header-fixed');
     if(!fixed) return;
     const h = fixed.offsetHeight || 0;
-    /* push content below fixed header */
     document.body.style.paddingTop = (h + 10) + 'px';
-    /* ensure in-page anchors aren't hidden */
     document.querySelectorAll('h3[id], h4[id]').forEach(el=>{
       el.style.scrollMarginTop = (h + 10) + 'px';
     });
   }
 
-  document.addEventListener('DOMContentLoaded', function() {
-    const input = document.getElementById('search-input');
-
-    /* Label table cells for mobile card view */
+  /* Add data-labels so cards show header names */
+  function labelTableCells(){
     document.querySelectorAll('table.dataframe').forEach(table => {
       const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent.trim());
       table.querySelectorAll('tbody tr').forEach(row => {
         Array.from(row.children).forEach((td, i) => {
-          td.setAttribute('data-label', headers[i] || '');
+          if (!td.hasAttribute('data-label')) td.setAttribute('data-label', headers[i] || '');
         });
       });
     });
+  }
 
-    /* Debounced, scoped search highlight for better mobile performance */
+  /* Measure a no-wrap minimum width for the header */
+  function measureHeaderMinWidth(table) {
+    const thead = table.querySelector('thead');
+    if (!thead) return 0;
+
+    const cloneTable = document.createElement('table');
+    cloneTable.style.cssText = [
+      'position:absolute','visibility:hidden','left:-9999px','top:0',
+      'width:auto','table-layout:auto','border-collapse:separate',
+      'border-spacing:0','white-space:nowrap'
+    ].join(';');
+
+    cloneTable.appendChild(thead.cloneNode(true));
+    document.body.appendChild(cloneTable);
+    const minWidth = Math.ceil(cloneTable.offsetWidth) + 8; // small safety pad
+    cloneTable.remove();
+    return minWidth;
+  }
+
+  // Get the current pixel width of the rightmost column (header preferred)
+  function getLastColumnWidth(table) {
+    const ths = table.querySelectorAll('thead th');
+    if (ths.length) {
+      const lastHeader = ths[ths.length - 1];
+      return lastHeader.getBoundingClientRect().width;
+    }
+    const firstRow = table.tBodies[0]?.rows[0];
+    if (firstRow && firstRow.cells.length) {
+      const lastTd = firstRow.cells[firstRow.cells.length - 1];
+      return lastTd.getBoundingClientRect().width;
+    }
+    return Infinity;
+  }
+
+  /* Switch to cards when the table would overflow,
+     OR when the header can't fit,
+     OR when the rightmost column is too narrow to be readable. */
+  function updateTableStacking(){
+    document.querySelectorAll('table.dataframe').forEach(table => {
+      // measure as table
+      table.classList.remove('stacked');
+
+      const available = table.clientWidth;
+      const headerMin = measureHeaderMinWidth(table);
+      const overflowing = (table.scrollWidth - table.clientWidth) > 1;
+
+      // if the last column drops under ~140px, cards will be clearer
+      const lastCol = getLastColumnWidth(table);
+      const tooNarrowLastCol = lastCol && lastCol < 140;
+
+      if (overflowing || available < headerMin || tooNarrowLastCol) {
+        table.classList.add('stacked');
+      }
+    });
+  }
+
+  function debounce(fn, ms){ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn.apply(this,args), ms); }; }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const input = document.getElementById('search-input');
+
+    labelTableCells();
+    setHeaderOffset();
+    updateTableStacking();
+
+    if ('ResizeObserver' in window){
+      const ro = new ResizeObserver(debounce(updateTableStacking, 60));
+      ro.observe(document.documentElement);
+      document.querySelectorAll('table.dataframe').forEach(t => ro.observe(t));
+    } else {
+      window.addEventListener('resize', debounce(updateTableStacking, 100));
+    }
+    window.addEventListener('resize', debounce(setHeaderOffset, 100));
+    window.addEventListener('orientationchange', updateTableStacking);
+  });
+
+  // Re-check after all assets/fonts load (sizes can change)
+  window.addEventListener('load', updateTableStacking);
+
+  // Search highlight (unchanged)
+  (function(){
+    const input = document.getElementById('search-input');
     const contentRoot = document.body;
     let searchTimer = null;
-
     function highlightFilter(value) {
       removeHighlights();
       if (!value) return;
@@ -796,16 +871,11 @@
         walk(el, regex);
       });
     }
-
     input.addEventListener('input', () => {
       clearTimeout(searchTimer);
       searchTimer = setTimeout(() => highlightFilter(input.value.trim()), 180);
     });
-
-    setHeaderOffset();
-  });
-
-  window.addEventListener('resize', setHeaderOffset);
+  })();
 </script>
 
 </body>
