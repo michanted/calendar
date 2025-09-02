@@ -311,13 +311,13 @@
       <td>CLOSED</td>
     </tr>
     <tr>
-      <td><b>Fechner Day 2025 (41st meeting of the International Society for Psychophysics)</b></td>
-      <td>Annual</td>
-      <td>October 20–22, 2025</td>
-      <td>Porto de Galinhas, Pernambuco, Brazil</td>
-      <td><a href="https://fechnerday.com/" target="_blank">fechnerday.com</a></td>
-      <td>TBD</td>
-    </tr>
+  <td><b>Fechner Day 2025 (41st meeting of the International Society for Psychophysics)</b></td>
+  <td>Annual</td>
+  <td>October 20–22, 2025</td>
+  <td>Enotel, Porto de Galinhas, Pernambuco (PE), Brazil</td>
+  <td><a href="https://fechner.fonae.org/" target="_blank" rel="noopener noreferrer">fechner.fonae.org</a></td>
+  <td>Abstracts August 1, 2025 • Registration: Early Bird July 15, 2025 • Regular August 1, 2025 • Late October 1, 2025 • Queries: maria.simas@ufpe.br, jadsilva@ffclrp.usp.br</td>
+</tr>
     <tr>
       <td><b>Association for Psychological Science (APS)</b></td>
       <td>Annual</td>
@@ -424,7 +424,7 @@
       <td><a href="https://www.purdue.edu/conferences/events/modvis/">https://www.purdue.edu/conferences/events/modvis/</a></td>
       <td>TBD 2026</td>
     </tr>
-    <tr>
+ <tr>
       <td><b>Association for Research in Vision and Ophthalmology Annual Meeting (ARVO)</b></td>
       <td>Annual</td>
       <td>May 3–7, 2026</td>
@@ -432,7 +432,7 @@
       <td><a href="https://www.arvo.org/annual-meeting/">https://www.arvo.org/annual-meeting/</a></td>
       <td>Abstract December 5, 2025</td>
     </tr>
-    <tr>
+<tr>
       <td><b>Vision Sciences Society (VSS) Annual Meeting</b></td>
       <td>Annual</td>
       <td>May 15-19, 2026</td>
@@ -440,7 +440,19 @@
       <td><a href="https://www.visionsciences.org/">https://www.visionsciences.org/</a></td>
       <td>Abstract: Opens October 22, 2025 • Due December 5, 2025 • Symposium Proposals: Due November 15, 2025 • Notification by November 25, 2025 • UJIT Posters: Opens March 3, 2026 • Due March 31, 2026 • Notification by April 10, 2026</td>
     </tr>
-    <tr>
+<tr>
+  <td><b>IEEE FG 2026 – International Conference on Automatic Face and Gesture Recognition</b></td>
+  <td>Biennial</td>
+  <td>May 25–29, 2026</td>
+  <td>Kyoto, Japan</td>
+  <td><a href="https://fg2026.ieee-biometrics.org/">https://fg2026.ieee-biometrics.org/</a><br/>
+      <a href="https://cmt3.research.microsoft.com/FG2026/">Submission portal</a></td>
+  <td>
+    <b>Round 1:</b> Abstract Sept 25, 2025 • Full Paper Oct 2, 2025 • Notification Dec 11, 2025<br/>
+    <b>Round 2:</b> Abstract Jan 9, 2026 • Full Paper Jan 15, 2026 • Notification Apr 2, 2026 • Camera-ready Apr 21, 2026
+  </td>
+</tr>
+        <tr>
       <td><b>Asia-Pacific Conference on Vision (APCV)</b></td>
       <td>Annual</td>
       <td>June 18, 2026</td>
@@ -574,18 +586,18 @@
 </thead>
 <tbody>
 <tr>
-<td><b>MSc in Research Methods in Experimental Psychology</b></td>
-<td>August 2025, Start Date TBD</td>
-<td>Universidad Autónoma de Madrid (UAM), Madrid, Spain</td>
-<td><a href="https://www.uam.es/uam/inicio">https://www.uam.es/uam/inicio</a></td>
-<td>CLOSED</td>
+  <td><b>MSc in Research Methods in Experimental Psychology</b></td>
+  <td>August 2026, Start Date TBD</td>
+  <td>Universidad Autónoma de Madrid (UAM), Madrid, Spain</td>
+  <td><a href="https://www.uam.es/uam/inicio">https://www.uam.es/uam/inicio</a></td>
+  <td>TBD</td>
 </tr>
 <tr>
-<td><b>Systems Vision Science Summer School and Symposium</b></td>
-<td>August 11-22, 2025</td>
-<td>Tübingen, Germany</td>
-<td><a href="https://summerschool.lizhaoping.org/">https://summerschool.lizhaoping.org/</a></td>
-<td>Applications March 31, 2025 • Registration Fees May 15, 2025 • On-site Q&amp;A and pre-program orientation August 6-8, 2025 • Symposium August 20-22, 2025</td>
+  <td><b>Systems Vision Science Summer School and Symposium</b></td>
+  <td>August 2026 (dates TBA)</td>
+  <td>Tübingen, Germany</td>
+  <td><a href="https://summerschool.lizhaoping.org/">https://summerschool.lizhaoping.org/</a></td>
+  <td>TBD 2026</td>
 </tr>
 <tr>
 <td><b>International Colour Vision Society (ICVS) Summer School</b></td>
@@ -713,7 +725,7 @@
 <td><b>Placeholder Position</b></td>
 <td>TBD</td>
 <td>Placeholder University</td>
-<td><insert here="" job="" posting=""></insert></td>
+<td><em>Posting coming soon</em></td>
 <td>This is a placeholder for a brief job description</td>
 </tr>
 </tbody>
@@ -918,7 +930,7 @@
 
   /* Switch to cards when the table would overflow,
      OR when the header can't fit,
-     OR when the rightmost column is too narrow to be readable. */
+     OR (on small screens only) when the rightmost column is too narrow to be readable. */
   function updateTableStacking(){
     document.querySelectorAll('table.dataframe').forEach(table => {
       // measure as table
@@ -926,13 +938,16 @@
 
       const available = table.clientWidth;
       const headerMin = measureHeaderMinWidth(table);
-      const overflowing = (table.scrollWidth - table.clientWidth) > 1;
+      const overflowing = Math.ceil(table.scrollWidth) > Math.floor(table.clientWidth);
 
-      // if the last column drops under ~140px, cards will be clearer
+      // last-column heuristic
       const lastCol = getLastColumnWidth(table);
-      const tooNarrowLastCol = lastCol && lastCol < 140;
+      const narrowLastCol = lastCol && lastCol < 140;
 
-      if (overflowing || available < headerMin || tooNarrowLastCol) {
+      // Only consider the narrow-last-column rule on smaller viewports
+      const applyNarrowColRule = window.matchMedia('(max-width: 900px)').matches;
+
+      if (overflowing || available < headerMin || (applyNarrowColRule && narrowLastCol)) {
         table.classList.add('stacked');
       }
     });
