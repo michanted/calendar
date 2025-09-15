@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -10,8 +10,12 @@
     --brand-yellow:#FFD12D;
     --brand-blue:#000066;
     --text:#000;
-    --muted:#f9f9f9;
-    --border:#ccc;
+    --muted:#f5f7fb;
+    --border:#dfe3ea;
+
+    --card-bg:#ffffff;
+    --card-shadow: 0 6px 18px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.06);
+    --card-shadow-hover: 0 10px 26px rgba(0,0,0,.10), 0 6px 14px rgba(0,0,0,.08);
 
     /* Help browsers account for fixed header on anchor jumps */
     scroll-padding-top: 90px;
@@ -20,10 +24,15 @@
   body {
     font-family: Arial, sans-serif;
     color: var(--text);
-    background-color: #ffffff;
-    margin: 20px;
+    background-color: var(--muted);
+    margin: 0;
     line-height: 1.6;
     font-size: 16px;
+  }
+
+  /* Page container margins for content */
+  .page {
+    margin: 20px;
   }
 
   /* ===== Fixed header container (covers top edge; content scrolls beneath) ===== */
@@ -32,17 +41,18 @@
     top: 0; left: 0; right: 0;
     z-index: 1000;
     background: #fff; /* prevents content showing through above header */
+    box-shadow: 0 1px 0 rgba(0,0,0,.05);
   }
   /* Inner header respects page side margins and leaves space above yellow banner */
   .site-header {
     margin: 0 20px;         /* aligns with body’s side margin */
-    padding-top: 20px;      /* gap above yellow banner */
+    padding-top: 16px;      /* gap above yellow banner */
   }
 
   /* Title banner */
   .title-banner{
     background: var(--brand-yellow);
-    border-radius: 8px;
+    border-radius: 10px;
     padding: 16px 20px;
     text-align:center;
   }
@@ -60,7 +70,7 @@
     flex-direction: column;      /* stack main row + back link */
     align-items:flex-start;
     gap: 8px;
-    margin: 14px 0 20px 0;
+    margin: 14px 0 16px 0;
   }
   .topbar-row{
     display:flex;
@@ -79,6 +89,10 @@
     color: var(--brand-blue);
     text-decoration:none;
     font-weight: bold;
+    background: rgba(0,0,102,.06);
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,102,.12);
   }
   .quick-links a:hover{ text-decoration: underline; }
 
@@ -96,42 +110,19 @@
   #search-input{
     width: 280px;
     max-width: 50vw;
-    padding: 6px 8px;
-    border:1px solid #ddd;
-    border-radius:4px;
+    padding: 10px 12px;
+    border:1px solid #cfd6e4;
+    border-radius:999px;
+    background:#fff;
   }
 
   h3 {
     color: var(--brand-blue);
-    border-bottom: 2px solid var(--brand-yellow);
-    padding-bottom: 5px;
-    margin-top: 32px;
+    border-bottom: 3px solid var(--brand-yellow);
+    padding-bottom: 6px;
+    margin: 28px 0 14px;
   }
   h4 { margin: 18px 0 8px; color: var(--brand-blue); }
-
-  /* ===== Tables (desktop/default) ===== */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 32px;
-    font-size: 14px;
-  }
-  th, td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    vertical-align: top;
-    text-align: left;
-  }
-  tr:nth-child(even) { background-color: var(--muted); }
-  tr:hover { background-color: #f1f1f1; }
-  th {
-    background-color: #ffe082;
-    color: #000;
-    font-weight: bold;
-    text-align: left;
-  }
-  /* Long URLs wrap instead of forcing overflow */
-  table.dataframe td a { overflow-wrap: anywhere; word-break: break-word; }
 
   a { color: #003366; text-decoration: none; }
   a:hover { text-decoration: underline; }
@@ -141,12 +132,66 @@
     color: black;
   }
 
-  /* ===== Responsive enhancements ===== */
-  @media (max-width: 900px) {
-    #search-input { max-width: 60vw; }
+  /* ===== Card layout ===== */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .card {
+    grid-column: span 12; /* full width by default (mobile-first) */
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    padding: 14px;
+    transition: box-shadow .2s ease, transform .2s ease;
+  }
+  .card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-1px); }
+
+  .card .title {
+    font-weight: 700;
+    color: #001652;
+    margin-bottom: 6px;
+    line-height: 1.35;
+  }
+  .meta {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .meta-row {
+    display: grid;
+    grid-template-columns: 160px minmax(0,1fr);
+    gap: 10px;
+    align-items: start;
+  }
+  .meta-label {
+    font-weight: 700;
+    color: var(--brand-blue);
+  }
+  .notes-list { margin: 0; padding-left: 1.1em; }
+  .notes-list li { margin: 2px 0; }
+
+  /* Section intro paragraph card */
+  .intro {
+    background: #fffaf0;
+    border: 1px solid #ffe3a3;
+    color: #3a2a00;
   }
 
-  /* Mobile niceties & quick-links scroll (restores original button look) */
+  /* Responsive columns */
+  @media (min-width: 720px) {
+    .card.sm-6 { grid-column: span 6; }
+    .card.sm-4 { grid-column: span 4; }
+  }
+  @media (min-width: 1040px) {
+    .card.md-4 { grid-column: span 4; }
+    .card.md-6 { grid-column: span 6; }
+  }
+
+  /* Mobile niceties & quick-links scroll */
   @media (max-width: 700px) {
     .site-header { margin: 0 12px; padding-top: 12px; }
     .topbar-row { gap: 8px; }
@@ -163,41 +208,21 @@
       white-space: nowrap; /* keep single-line labels */
     }
     .search-wrap { width: 100%; margin-left: 0; }
-    #search-input { width: 100%; max-width: 100%; padding: 10px 12px; }
-  }
-
-  /* ===== Card view (toggled dynamically to prevent overflow) ===== */
-  /* Keep this block LAST in the style tag so it wins the cascade */
-  table.dataframe.stacked {
-    display: block;
-    width: 100%;
-    border: 0;
-  }
-  table.dataframe.stacked thead { display: none; }
-  table.dataframe.stacked tr{
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 12px;
-    background: #fff;
-  }
-  table.dataframe.stacked td{
-    display: grid;
-    grid-template-columns: 36% 1fr; /* label | value */
-    align-items: start;
-    border: 0;
-    padding: 0;
-  }
-  table.dataframe.stacked td::before{
-    content: attr(data-label);
-    font-weight: bold;
-    color: var(--brand-blue);
-    padding-right: 10px;
+    #search-input { width: 100%; max-width: 100%; }
   }
 </style>
+
+<!-- Make external links open safely in a new tab -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('a[href^="http"]').forEach(a => {
+      try {
+        const isExternal = !a.href.includes(location.host);
+        if (isExternal) { a.target = "_blank"; a.rel = "noopener noreferrer"; }
+      } catch(e) {}
+    });
+  });
+</script>
 </head>
 <body>
 
@@ -206,7 +231,7 @@
   <header class="site-header">
     <div class="title-banner">
       <h2>CVNet Resource List and Community Calendar</h2>
-      <div class="subtitle">Last updated: 10 September, 2025</div>
+      <div class="subtitle">Last updated: 15 September, 2025</div> <!-- update this last -->
     </div>
 
     <div class="topbar">
@@ -217,11 +242,11 @@
           <a href="#talks">Talks</a>
           <a href="#jobs">Jobs</a>
           <a href="#funding">Funding</a>
-          <a href="#publications">Papers</a>
+          <a href="#publications">Publications</a>
         </nav>
         <div class="search-wrap">
           <span class="icon" aria-hidden="true">🔍</span>
-          <input id="search-input" type="text" placeholder="Search this page…"/>
+          <input id="search-input" type="text" placeholder="Search this page…" aria-label="Search this page"/>
         </div>
       </div>
       <!-- Back link under main nav buttons -->
@@ -232,687 +257,998 @@
   </header>
 </div>
 
-<p>
-  This page lists upcoming <strong>conferences, courses, talks, jobs</strong>, and <strong>funding opportunities</strong> for the color &amp; vision research community. Send additions or corrections to
-  <a href="mailto:davidpeterzell@mac.com">davidpeterzell@mac.com</a> and
-  <a href="mailto:mtedesco12@gmail.com">mtedesco12@gmail.com</a>. Additional opportunities can be found in the
-  <a href="https://cvnet.org/mailman/listinfo/cvnet">CVNet Archive</a> and the
-  <a href="http://visionscience.com/pipermail/visionlist_visionscience.com">VisionList Archive</a>.
-</p>
+<div class="page" id="top"></div>
 
-<!-- Conferences -->
-<h3 id="conferences">Conferences</h3>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>Name</th>
-      <th>Frequency</th>
-      <th>Dates</th>
-      <th>Location</th>
-      <th>Website</th>
-      <th>Submission Deadlines</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><b>Bay Area Vision Research Day (BAVRD)</b></td>
-      <td>Annual</td>
-      <td>September 12, 2025</td>
-      <td>International House, UC Berkeley, Berkeley, CA</td>
-      <td><a href="https://vision.berkeley.edu/events/bavrd">https://vision.berkeley.edu/events/bavrd</a></td>
-      <td>CLOSED</td>
-    </tr>
-    <tr>
-      <td><b>Kanizsa Lecture / Trieste Symposium</b></td>
-      <td>Annual</td>
-      <td>Fall 2025</td>
-      <td>Trieste, Italy</td>
-      <td><a href="https://portale.units.it/en/events/32nd-kanizsa-lecture">https://portale.units.it/en/events/32nd-kanizsa-lecture</a></td>
-      <td>TBD</td>
-    </tr>
-    <tr>
-      <td><b>Optica Fall Vision Meeting</b></td>
-      <td>Annual</td>
-      <td>October 2-5, 2025</td>
-      <td>University of Minnesota, Twin Cities, Minnesota</td>
-      <td><a href="https://www.osafallvisionmeeting.org/">https://www.osafallvisionmeeting.org/</a></td>
-      <td>CLOSED</td>
-    </tr>
-    <tr>
-      <td><b>7th Instance-Level Recognition and Generation Workshop (ILR) @ ICCV</b></td>
-      <td>Biennial (with ICCV)</td>
-      <td>October 19–20, 2025</td>
-      <td>Honolulu, Hawaii</td>
-      <td><a href="https://ilr-workshop.github.io/ICCVW2025/">https://ilr-workshop.github.io/ICCVW2025/</a></td>
-      <td>CLOSED</td>
-    </tr>
-    <tr>
-  <td><b>Fechner Day 2025 (41st meeting of the International Society for Psychophysics)</b></td>
-  <td>Annual</td>
-  <td>October 20–22, 2025</td>
-  <td>Enotel, Porto de Galinhas, Pernambuco (PE), Brazil</td>
-  <td><a href="https://fechner.fonae.org/" target="_blank" rel="noopener noreferrer">fechner.fonae.org</a></td>
-  <td>Abstracts closed • Registration closed • Late registration October 1, 2025 • Queries: maria.simas@ufpe.br, jadsilva@ffclrp.usp.br</td>
-</tr>
-    <tr>
-      <td><b>Association for Psychological Science (APS)</b></td>
-      <td>Annual</td>
-      <td>October 21-23, 2025</td>
-      <td>Virtual</td>
-      <td><a href="https://www.psychologicalscience.org/conventions/annual">https://www.psychologicalscience.org/conventions/annual</a></td>
-      <td>Early-bird September 17, 2025 • Registration October 23, 2025</td>
-    </tr>
-    <tr>
-      <td><b>Brain Conference: Principles of the Adaptive Mind</b></td>
-      <td>Periodic</td>
-      <td>October 27-30, 2025</td>
-      <td>Crete, Greece</td>
-      <td><a href="https://www.fens.org/news-activities/fens-and-societies-calendar/meeting-event/principles-of-the-adaptive-mind">https://www.fens.org/news-activities/fens-and-societies-calendar/meeting-event/principles-of-the-adaptive-mind</a></td>
-      <td>CLOSED</td>
-    </tr>
-    <tr>
-      <td><b>Color and Imaging Conference (CIC 33)</b></td>
-      <td>Annual</td>
-      <td>October 27-31, 2025</td>
-      <td>Innocenter at Kowloon Tong, Hong Kong</td>
-      <td><a href="https://www.imaging.org/IST/IST/Conferences/CIC/CIC2025/CIC_Home.aspx">https://www.imaging.org/IST/IST/Conferences/CIC/CIC2025/CIC_Home.aspx</a></td>
-      <td>CLOSED</td>
-    </tr>
-    <tr>
-      <td><b>Asian Conference on Pattern Recognition (ACPR)</b></td>
-      <td>Biennial</td>
-      <td>November 10-13, 2025</td>
-      <td>Gold Coast, Australia</td>
-      <td><a href="https://www.mva-org.jp/acpr2025/">https://www.mva-org.jp/acpr2025/</a></td>
-      <td>CLOSED</td>
-    </tr>
-    <tr>
-      <td><b>International Symposium on Visual Computing (ISVC)</b></td>
-      <td>Annual</td>
-      <td>November 17–19, 2025</td>
-      <td>Planet Hollywood Resort &amp; Casino, Las Vegas, Nevada</td>
-      <td><a href="https://www.isvc.net/">https://www.isvc.net/</a></td>
-      <td>Paper closed • Acceptance notification September 22, 2025 • Final camera-ready papers October 20, 2025</td>
-    </tr>
-    <tr>
-      <td><b>Object Perception, Attention, and Memory (OPAM)</b></td>
-      <td>Annual</td>
-      <td>November 20, 2025</td>
-      <td>Denver, CO</td>
-      <td><a href="https://www.opamconference.com/">https://www.opamconference.com/</a></td>
-      <td>CLOSED</td>
-    </tr>
-    <tr>
-      <td><b>Psychonomic Society Annual Meeting</b></td>
-      <td>Annual</td>
-      <td>November 20-23, 2025</td>
-      <td>Sheraton Denver Downtown Hotel, Denver, Colorado</td>
-      <td><a href="https://www.psychonomic.org/">https://www.psychonomic.org/</a></td>
-      <td>CLOSED</td>
-    </tr>
+<div class="page">
+  <div class="card intro">
+    This page lists upcoming <strong>conferences, courses, talks, jobs</strong>, and <strong>funding opportunities</strong> for the color &amp; vision research community. Send additions or corrections to
+    <a href="mailto:davidpeterzell@mac.com">davidpeterzell@mac.com</a> and
+    <a href="mailto:mtedesco12@gmail.com">mtedesco12@gmail.com</a>. Additional opportunities can be found in the
+    <a href="https://cvnet.org/mailman/listinfo/cvnet">CVNet Archive</a> and the
+    <a href="http://visionscience.com/pipermail/visionlist_visionscience.com">VisionList Archive</a>.
+  </div>
+
+  <!-- Conferences -->
+  <h3 id="conferences">Conferences</h3>
+  <div class="cards">
+
+    <!-- Each conference as a card -->
+    <div class="card md-6">
+      <div class="title"><b>Kanizsa Lecture / Trieste Symposium</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>Fall 2025</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Trieste, Italy</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://portale.units.it/en/events/32nd-kanizsa-lecture">https://portale.units.it/en/events/32nd-kanizsa-lecture</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Optica Fall Vision Meeting</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>October 2–5, 2025</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>University of Minnesota, Twin Cities, Minnesota</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.osafallvisionmeeting.org/">https://www.osafallvisionmeeting.org/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>Submissions CLOSED</li></ul></div></div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>7th Instance-Level Recognition and Generation Workshop (ILR) @ ICCV</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Biennial (with ICCV)</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>October 19–20, 2025</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Honolulu, Hawaii</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://ilr-workshop.github.io/ICCVW2025/">https://ilr-workshop.github.io/ICCVW2025/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>Submissions CLOSED</li></ul></div></div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Fechner Day 2025 (41st meeting of the International Society for Psychophysics)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>October 20–22, 2025</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Enotel, Porto de Galinhas, Pernambuco (PE), Brazil</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://fechner.fonae.org/">fechner.fonae.org</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Abstracts CLOSED</li>
+              <li>Registration CLOSED</li>
+              <li>Late registration: October 1, 2025</li>
+              <li>Queries: maria.simas@ufpe.br, jadsilva@ffclrp.usp.br</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Association for Psychological Science (APS)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>October 21–23, 2025</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Virtual</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.psychologicalscience.org/conventions/annual">https://www.psychologicalscience.org/conventions/annual</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Early-bird: September 17, 2025</li>
+              <li>Registration through October 23, 2025</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Brain Conference: Principles of the Adaptive Mind</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Periodic</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>October 27–30, 2025</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Crete, Greece</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.fens.org/news-activities/fens-and-societies-calendar/meeting-event/principles-of-the-adaptive-mind">FENS event page</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>Submissions CLOSED</li></ul></div></div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Color and Imaging Conference (CIC 33)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>October 27–31, 2025</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Innocenter at Kowloon Tong, Hong Kong</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.imaging.org/IST/IST/Conferences/CIC/CIC2025/CIC_Home.aspx">imaging.org – CIC 2025</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>Submissions CLOSED</li></ul></div></div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Asian Conference on Pattern Recognition (ACPR)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Biennial</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>November 10–13, 2025</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Gold Coast, Australia</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.mva-org.jp/acpr2025/">https://www.mva-org.jp/acpr2025/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>Submissions CLOSED</li></ul></div></div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>International Symposium on Visual Computing (ISVC)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>November 17–19, 2025</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Planet Hollywood Resort &amp; Casino, Las Vegas, Nevada</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.isvc.net/">https://www.isvc.net/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Paper submissions CLOSED</li>
+              <li>Acceptance notification: September 22, 2025</li>
+              <li>Final camera-ready: October 20, 2025</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Object Perception, Attention, and Memory (OPAM)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>November 20, 2025</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Denver, CO</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.opamconference.com/">https://www.opamconference.com/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>Submissions CLOSED</li></ul></div></div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Psychonomic Society Annual Meeting</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>November 20–23, 2025</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Sheraton Denver Downtown Hotel, Denver, Colorado</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.psychonomic.org/">https://www.psychonomic.org/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>Submissions CLOSED</li></ul></div></div>
+      </div>
+    </div>
 
     <!-- 2026 -->
-    <tr>
-  <td><b>Human Vision and Electronic Imaging (HVEI)</b></td>
-  <td>Annual</td>
-  <td>March 1–5, 2026</td>
-  <td>Hyatt Regency San Francisco Airport, Burlingame, California</td>
-  <td>
-    <a href="https://www.imaging.org/IST/IST/Conferences/EI/EI2026/Conference/C_HVEI.aspx?23416eb0dbe7=3">
-      imaging.org • HVEI 2026
-    </a>
-  </td>
-  <td>
-    Extended submission deadline September 12, 2025 • Author notifications October 10, 2025 • Journal-first • Final journal-first manuscripts due October 31, 2025 • FastTrack (early online) January 9, 2026 • Non-FastTrack (post-symposium) March 23, 2026 • Demo application deadline: January 15, 2026, 09:00 (NY)
-  </td>
-</tr>
+    <div class="card md-6">
+      <div class="title"><b>Human Vision and Electronic Imaging (HVEI)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>March 1–5, 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Hyatt Regency San Francisco Airport, Burlingame, California</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.imaging.org/IST/IST/Conferences/EI/EI2026/Conference/C_HVEI.aspx?23416eb0dbe7=3">imaging.org • HVEI 2026</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Extended submission deadline: September 12, 2025</li>
+              <li>Author notifications: October 10, 2025</li>
+              <li>Journal-first: Final manuscripts due October 31, 2025</li>
+              <li>FastTrack (early online): January 9, 2026</li>
+              <li>Non-FastTrack (post-symposium): March 23, 2026</li>
+              <li>Demo application deadline: January 15, 2026, 09:00 (NY)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<tr>
-      <td><b>Winter Conference on Applications of Computer Vision (WACV)</b></td>
-      <td>Annual</td>
-      <td>March 6–10, 2026</td>
-      <td>JW Marriott Starr Pass, Tucson, Arizona</td>
-      <td><a href="https://wacv.thecvf.com/">https://wacv.thecvf.com/</a></td>
-      <td>Round 1: Paper registration closed • Paper &amp; supplementary submission closed • Round 1 reviews issued September 3, 2025 • Camera-ready (accepted Round 1) September 18, 2025 • Round 2: New paper registration September 12, 2025 • Submission September 19, 2025 • Final decisions released November 5, 2025</td>
-    </tr>
-<tr>
-  <td><b>COSYNE — Computational &amp; Systems Neuroscience</b></td>
-  <td>Annual</td>
-  <td>Main Meeting: March 12–15, 2026 • Workshops: March 16–17, 2026</td>
-  <td>Lisbon (Congress Centre) &amp; Hotel Cascais Miragem, Cascais, Portugal</td>
-  <td><a href="https://www.cosyne.org/">cosyne.org</a></td>
-  <td>Abstract submission deadline October 16, 2025 (11:59 PM PST) • Author notifications December 2025 • Workshop proposals due October 23, 2025 (11:59 PM PST) • Student volunteer applications due December 31, 2025 (free registration; limited slots)</td>
-</tr>
-<tr>
-  <td><b>COSYNE Workshops</b></td>
-  <td>Annual</td>
-  <td>March 16–17, 2026</td>
-  <td>Hotel Cascais Miragem, Cascais, Portugal</td>
-  <td><a href="https://www.cosyne.org/">cosyne.org</a></td>
-  <td>Call for workshop proposals open • Submission deadline October 23, 2025 (11:59 PM PST) • Notifications late November–early December 2025 • One free registration per workshop organizer (others pay)</td>
-</tr>
- <tr>
-      <td><b>German Conference on Medical Image Computing (BVM)</b></td>
-      <td>Annual</td>
-      <td>March 15–17, 2026</td>
-      <td>Lübeck, Germany</td>
-      <td><a href="https://www.bvm-conf.org/">https://www.bvm-conf.org/</a></td>
-      <td>Long papers and abstracts October 24, 2025 • Author notifications November 28, 2025 • Camera-ready January 4, 2026 • BVM Award applications January 31, 2026</td>
-    </tr>
-    <tr>
-      <td><b>European Sensory Science Society (E3S)</b></td>
-      <td>Annual</td>
-      <td>March 26-27, 2026</td>
-      <td>Zurich, Switzerland</td>
-      <td><a href="https://e3sensory.eu/events/">https://e3sensory.eu/events/</a></td>
-      <td>March 13, 2026</td>
-    </tr>
-    <tr>
-      <td><b>Association for Psychological Science (APS)</b></td>
-      <td>Annual</td>
-      <td>April 17-19, 2026</td>
-      <td>Barcelona, Spain</td>
-      <td><a href="https://www.psychologicalscience.org/conventions/annual">https://www.psychologicalscience.org/conventions/annual</a></td>
-      <td>Symposiums November 15, 2025 • Poster and paper abstracts December 5, 2025</td>
-    </tr>
-    <tr>
-      <td><b>Models in Vision Science (MODVIS) Conference</b></td>
-      <td>Annual</td>
-      <td>May 2026 - TBD</td>
-      <td>St. Pete Beach, Florida</td>
-      <td><a href="https://www.purdue.edu/conferences/events/modvis/">https://www.purdue.edu/conferences/events/modvis/</a></td>
-      <td>TBD 2026</td>
-    </tr>
- <tr>
-      <td><b>Association for Research in Vision and Ophthalmology Annual Meeting (ARVO)</b></td>
-      <td>Annual</td>
-      <td>May 3–7, 2026</td>
-      <td>Colorado Convention Center, Denver, Colorado</td>
-      <td><a href="https://www.arvo.org/annual-meeting/">https://www.arvo.org/annual-meeting/</a></td>
-      <td>Abstract December 5, 2025</td>
-    </tr>
-<tr>
-      <td><b>Vision Sciences Society (VSS) Annual Meeting</b></td>
-      <td>Annual</td>
-      <td>May 15-19, 2026</td>
-      <td>TradeWinds Islands Resort, St. Pete Beach, Florida</td>
-      <td><a href="https://www.visionsciences.org/">https://www.visionsciences.org/</a></td>
-      <td>Banner Competition September 17, 2025 • Abstract: Opens October 22, 2025 • Due December 5, 2025 • Symposium Proposals: Due November 15, 2025 • Notification by November 25, 2025 • UJIT Posters: Opens March 3, 2026 • Due March 31, 2026 • Notification by April 10, 2026</td>
-    </tr>
-<tr>
-  <td><b>IEEE FG 2026 – International Conference on Automatic Face and Gesture Recognition</b></td>
-  <td>Biennial</td>
-  <td>May 25–29, 2026</td>
-  <td>Kyoto, Japan</td>
-  <td><a href="https://fg2026.ieee-biometrics.org/">https://fg2026.ieee-biometrics.org/</a><br/>
-      <a href="https://cmt3.research.microsoft.com/FG2026/">Submission portal</a></td>
-  <td>
-    <b>Round 1:</b> Abstract Sept 25, 2025 • Full Paper Oct 2, 2025 • Notification Dec 11, 2025<br/>
-    <b>Round 2:</b> Abstract Jan 9, 2026 • Full Paper Jan 15, 2026 • Notification Apr 2, 2026 • Camera-ready Apr 21, 2026
-  </td>
-</tr>
-    <tr>
-      <td><b>AREADNE 2026 (Research in Encoding and Decoding of Neural Ensembles)</b></td>
-      <td>Biennial</td>
-      <td>June 23–27, 2026</td>
-      <td>Eliopoulos Conference Center, Milos, Greece</td>
-      <td><a href="https://areadne.org">https://areadne.org</a></td>
-      <td>TBD</td>
-    </tr>
-    <tr>
-      <td><b>American Psychological Association (APA)</b></td>
-      <td>Annual</td>
-      <td>August 6–8, 2026</td>
-      <td>Washington, DC</td>
-      <td><a href="https://convention.apa.org/attend/future-conventions">https://convention.apa.org/attend/future-conventions</a></td>
-      <td>TBD</td>
-    </tr>
-    <tr>
-      <td><b>European Working Memory Symposium (EWOMS)</b></td>
-      <td>Biennial</td>
-      <td>August 26-28, 2026</td>
-      <td>Lyon, France</td>
-      <td><a href="https://www.escop.eu/news/news/conference-news/ewoms-european-working-memory-symposium">https://www.escop.eu/news/news/conference-news/ewoms-european-working-memory-symposium</a></td>
-      <td>Abstract March 13, 2026 • Registration June 20, 2026</td>
-    </tr>
-    <tr>
-      <td><b>European Conference on Eye Movements (ECEM)</b></td>
-      <td>Biennial</td>
-      <td>August 30 – September 3, 2026</td>
-      <td>Ulm, Germany</td>
-      <td><a href="https://www.uni-ulm.de/in/ecem2026/">https://www.uni-ulm.de/in/ecem2026/</a></td>
-      <td>TBD</td>
-    </tr>
-    <tr>
-      <td><b>Asian Conference on Computer Vision (ACCV)</b></td>
-      <td>Biennial</td>
-      <td>December 8-12, 2026</td>
-      <td>TBD</td>
-      <td><a href="https://accv2022.org/">https://accv2022.org/</a></td>
-      <td>TBD</td>
-    </tr>
+    <div class="card md-6">
+      <div class="title"><b>Winter Conference on Applications of Computer Vision (WACV)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>March 6–10, 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>JW Marriott Starr Pass, Tucson, Arizona</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://wacv.thecvf.com/">https://wacv.thecvf.com/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Round 1: Reviews issued September 3, 2025</li>
+              <li>Round 1: Camera-ready (accepted) September 18, 2025</li>
+              <li>Round 2: New paper registration September 12, 2025</li>
+              <li>Round 2: Submission September 19, 2025</li>
+              <li>Final decisions: November 5, 2025</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>COSYNE — Computational &amp; Systems Neuroscience</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>Main: March 12–15, 2026 • Workshops: March 16–17, 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Lisbon (Congress Centre) &amp; Hotel Cascais Miragem, Cascais, Portugal</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.cosyne.org/">cosyne.org</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Abstract submission deadline: October 16, 2025 (11:59 PM PST)</li>
+              <li>Author notifications: December 2025</li>
+              <li>Workshop proposals due: October 23, 2025 (11:59 PM PST)</li>
+              <li>Student volunteer applications due: December 31, 2025 (free registration; limited slots)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>COSYNE Workshops</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>March 16–17, 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Hotel Cascais Miragem, Cascais, Portugal</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.cosyne.org/">cosyne.org</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Call for workshop proposals open</li>
+              <li>Submission deadline: October 23, 2025 (11:59 PM PST)</li>
+              <li>Notifications: late November–early December 2025</li>
+              <li>One free registration per organizer (others pay)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>German Conference on Medical Image Computing (BVM)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>March 15–17, 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Lübeck, Germany</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.bvm-conf.org/">https://www.bvm-conf.org/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Long papers &amp; abstracts: October 24, 2025</li>
+              <li>Author notifications: November 28, 2025</li>
+              <li>Camera-ready: January 4, 2026</li>
+              <li>BVM Award applications: January 31, 2026</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>European Sensory Science Society (E3S)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>March 26–27, 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Zurich, Switzerland</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://e3sensory.eu/events/">https://e3sensory.eu/events/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>Deadline: March 13, 2026</li></ul></div></div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Association for Psychological Science (APS)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>April 17–19, 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Barcelona, Spain</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.psychologicalscience.org/conventions/annual">https://www.psychologicalscience.org/conventions/annual</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Symposiums due: November 15, 2025</li>
+              <li>Poster &amp; paper abstracts due: December 5, 2025</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Models in Vision Science (MODVIS) Conference</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>May 2026 – TBD</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>St. Pete Beach, Florida</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.purdue.edu/conferences/events/modvis/">https://www.purdue.edu/conferences/events/modvis/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD 2026</li></ul></div></div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Association for Research in Vision and Ophthalmology (ARVO)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>May 3–7, 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Colorado Convention Center, Denver, Colorado</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.arvo.org/annual-meeting/">https://www.arvo.org/annual-meeting/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>Abstract deadline: December 5, 2025</li></ul></div></div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Vision Sciences Society (VSS) Annual Meeting</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>May 15–19, 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>TradeWinds Islands Resort, St. Pete Beach, Florida</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.visionsciences.org/">https://www.visionsciences.org/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Banner Competition: September 17, 2025</li>
+              <li>Abstract: Opens October 22, 2025 • Due December 5, 2025</li>
+              <li>Symposium Proposals: Due November 15, 2025 • Notification by November 25, 2025</li>
+              <li>UJIT Posters: Opens March 3, 2026 • Due March 31, 2026 • Notification by April 10, 2026</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>IEEE FG 2026 – International Conference on Automatic Face and Gesture Recognition</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Biennial</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>May 25–29, 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Kyoto, Japan</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div>
+          <div>
+            <a href="https://fg2026.ieee-biometrics.org/">https://fg2026.ieee-biometrics.org/</a><br/>
+            <a href="https://cmt3.research.microsoft.com/FG2026/">Submission portal</a>
+          </div>
+        </div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li><b>Round 1</b>: Abstract Sept 25, 2025 • Full Paper Oct 2, 2025 • Notification Dec 11, 2025</li>
+              <li><b>Round 2</b>: Abstract Jan 9, 2026 • Full Paper Jan 15, 2026 • Notification Apr 2, 2026 • Camera-ready Apr 21, 2026</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>AREADNE 2026 (Research in Encoding and Decoding of Neural Ensembles)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Biennial</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>June 23–27, 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Eliopoulos Conference Center, Milos, Greece</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://areadne.org">https://areadne.org</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>American Psychological Association (APA)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>August 6–8, 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Washington, DC</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://convention.apa.org/attend/future-conventions">Future conventions</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>European Working Memory Symposium (EWOMS)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Biennial</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>August 26–28, 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Lyon, France</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.escop.eu/news/news/conference-news/ewoms-european-working-memory-symposium">ESCOP • EWOMS</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Abstract deadline: March 13, 2026</li>
+              <li>Registration deadline: June 20, 2026</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>European Conference on Eye Movements (ECEM)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Biennial</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>August 30 – September 3, 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Ulm, Germany</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.uni-ulm.de/in/ecem2026/">https://www.uni-ulm.de/in/ecem2026/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Asian Conference on Computer Vision (ACCV)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Biennial</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>December 8–12, 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>TBD</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://accv2022.org/">https://accv2022.org/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
 
     <!-- 2026 TBD / Unknown Dates -->
-    <tr>
-      <td><b>ACM Symposium on Applied Perception (SAP)</b></td>
-      <td>Annual</td>
-      <td>TBD 2026</td>
-      <td>TBD</td>
-      <td><a href="https://sap.acm.org/">https://sap.acm.org/</a></td>
-      <td>TBD</td>
-    </tr>
-    <tr>
-      <td><b>Applied Vision Association (AVA)</b></td>
-      <td>Various</td>
-      <td>TBD 2026</td>
-      <td>Brisbane, Australia</td>
-      <td><a href="https://www.theava.net/meetings.php">https://www.theava.net/meetings.php</a></td>
-      <td>TBD</td>
-    </tr>
-    <tr>
-      <td><b>International Colour Vision Society (ICVS) Conference</b></td>
-      <td>Biennial</td>
-      <td>TBD 2026</td>
-      <td>Brighton, UK</td>
-      <td><a href="https://www.icvs.info/index.php/conferences">https://www.icvs.info/index.php/conferences</a></td>
-      <td>TBD</td>
-    </tr>
-    <tr>
-      <td><b>International Multisensory Research Forum (IMRF)</b></td>
-      <td>Annual</td>
-      <td>TBD 2026</td>
-      <td>TBD</td>
-      <td><a href="https://imrf2025.sciencesconf.org/">https://imrf2025.sciencesconf.org/</a></td>
-      <td>TBD</td>
-    </tr>
-    <tr>
-      <td><b>Society for Neuroscience (SfN)</b></td>
-      <td>Annual</td>
-      <td>TBD 2026</td>
-      <td>TBD</td>
-      <td><a href="https://www.sfn.org/meetings">https://www.sfn.org/meetings</a></td>
-      <td>TBD</td>
-    </tr>
-    <tr>
-      <td><b>16th Pangborn Sensory Science Symposium</b></td>
-      <td>Biennial</td>
-      <td>TBD 2026</td>
-      <td>TBD</td>
-      <td><a href="https://www.pangbornsymposium.com/">https://www.pangbornsymposium.com/</a></td>
-      <td>TBD</td>
-    </tr>
-<tr>
-      <td><b>Asia-Pacific Conference on Vision (APCV)</b></td>
-      <td>Annual</td>
-      <td>TBD 2026</td>
-      <td>Auckland, New Zealand</td>
-      <td><a href="https://sites.google.com/view/apcv-portal">https://sites.google.com/view/apcv-portal</a></td>
-      <td>TBD</td>
-    </tr>
-    <tr>
-      <td><b>Visual Science Art Conference (VSAC)</b></td>
-      <td>Annual</td>
-      <td>TBD 2026</td>
-      <td>TBD</td>
-      <td><a href="https://2025.vsac.eu/">https://2025.vsac.eu/</a></td>
-      <td>TBD</td>
-    </tr>
-     <tr>
-      <td><b>European Conference on Visual Perception (ECVP)</b></td>
-      <td>Annual</td>
-      <td>August 2026</td>
-      <td>Bournemouth, UK</td>
-      <td><a href="http://ecvp.org/future.html">http://ecvp.org/future.html</a></td>
-      <td>TBD</td>
-    </tr>
- <tr>
-      <td><b>European Society for Cognitive Psychology (ESCOP)</b></td>
-      <td>Biennial</td>
-      <td>TBD</td>
-      <td>TBD</td>
-      <td><a href="https://www.escop2025.com/">https://www.escop2025.com/</a></td>
-      <td>TBD</td>
-    </tr>
-    <tr>
-      <td><b>EuroGraphics 3D Object Retrieval Workshop (3DOR)</b></td>
-      <td>Annual</td>
-      <td>TBD</td>
-      <td>TBD</td>
-      <td><a href="https://www.jobs.ac.uk/job/DOK542/research-assistant">https://www.jobs.ac.uk/job/DOK542/research-assistant</a></td>
-      <td>TBD</td>
-    </tr>
-    <tr>
-      <td><b>Gruppo del Colore (Associazione Italiana Colore)</b></td>
-      <td>Annual</td>
-      <td>TBD</td>
-      <td>TBD</td>
-      <td><a href="https://www.gruppodelcolore.org/?lang=en">https://www.gruppodelcolore.org/?lang=en</a></td>
-      <td>TBD</td>
-    </tr>
-  </tbody>
-</table>
+    <div class="card md-6">
+      <div class="title"><b>ACM Symposium on Applied Perception (SAP)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>TBD 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>TBD</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://sap.acm.org/">https://sap.acm.org/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
 
-<!-- Courses (Summer Schools + Classes) -->
-<h3 id="courses">Courses</h3>
+    <div class="card md-6">
+      <div class="title"><b>Applied Vision Association (AVA)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Various</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>TBD 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Brisbane, Australia</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.theava.net/meetings.php">https://www.theava.net/meetings.php</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
 
-<h4>Summer Schools</h4>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>Name</th>
-<th>Dates</th>
-<th>Location</th>
-<th>Website</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td><b>Systems Vision Science Summer School and Symposium</b></td>
-  <td>August 2026 (dates TBA)</td>
-  <td>Tübingen, Germany</td>
-  <td><a href="https://summerschool.lizhaoping.org/">https://summerschool.lizhaoping.org/</a></td>
-  <td>TBD 2026</td>
-</tr>
-<tr>
-<td><b>Eastern European Machine Learning Summer School</b></td>
-<td>TBD 2026</td>
-<td>TBD</td>
-<td><a href="https://www.eeml.eu/application">https://www.eeml.eu/application</a></td>
-<td>TBD</td>
-</tr>
-<tr>
-  <td><b>MSc in Research Methods in Experimental Psychology</b></td>
-  <td>2026 TBD</td>
-  <td>Universidad Autónoma de Madrid (UAM), Madrid, Spain</td>
-  <td><a href="https://www.uam.es/uam/inicio">https://www.uam.es/uam/inicio</a></td>
-  <td>TBD</td>
-</tr>
-<tr>
-<td><b>International Colour Vision Society (ICVS) Summer School</b></td>
-<td>TBD 2027</td>
-<td>Pembroke College, Oxford, UK</td>
-<td><a href="https://www.icvs.info/index.php/summer-school">https://www.icvs.info/index.php/summer-school</a></td>
-<td>TBD</td>
-</tr>
-</tbody>
-</table>
+    <div class="card md-6">
+      <div class="title"><b>International Colour Vision Society (ICVS) Conference</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Biennial</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>TBD 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Brighton, UK</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.icvs.info/index.php/conferences">https://www.icvs.info/index.php/conferences</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
 
-<h4>Classes</h4>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>Name</th>
-<th>Dates</th>
-<th>Location</th>
-<th>Website</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><b>Understanding Consumers 2025 (Italian Sensory Science Society and RLab)</b></td>
-<td>September 10-12, 2025</td>
-<td>Via delle Pandette 32, Novoli Campus, University of Florence, Florence, Italy</td>
-<td><a href="https://scienzesensoriali.it/en/event/understanding-consumers-2025/">https://scienzesensoriali.it/en/event/understanding-consumers-2025/</a></td>
-<td>Early-bird registration CLOSED</td>
-</tr>
-<tr>
-<td><b>PhD Course: Sensory Evaluation and Food Preferences (Classic and Digital Approaches)</b></td>
-<td>September 15-19, 2025</td>
-<td>University of Copenhagen, Copenhagen, Denmark</td>
-<td><a href="https://phdcourses.ku.dk/DetailKursus.aspx?id=112590&amp;sitepath=NAT">https://phdcourses.ku.dk/DetailKursus.aspx?id=112590&amp;sitepath=NAT</a></td>
-<td>CLOSED</td>
-</tr>
-<tr>
-  <td><b>Creating Perceptual Experiments with Unity and VR (CIC 33)</b></td>
-  <td>October 27, 2025 • 8:30 am–12:45 pm HKT</td>
-  <td>Online</td>
-  <td><a href="https://www.imaging.org/IST/iCore/Events/Function_Display.aspx?EventKey=C25&amp;FunctionKey=C25/SC03">Course information</a></td>
-  <td>Instructor: Richard Murray (York University) • Topics: using Unity in psychophysics, C#, luminance calibration via tonemapping, callback-based experiment coding • Online only, no in-person component</td>
-</tr>
-<tr>
-  <td><b>A Practical Introduction to Eye Tracking</b></td>
-  <td>November 26-28, 2025</td>
-  <td>Lund, Sweden</td>
-  <td><a href="https://www.humlab.lu.se/education/commissioned-education/">https://www.humlab.lu.se/education/commissioned-education/</a></td>
-  <td>TBD</td>
-</tr>
-</tbody>
-</table>
+    <div class="card md-6">
+      <div class="title"><b>International Multisensory Research Forum (IMRF)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>TBD 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>TBD</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://imrf2025.sciencesconf.org/">https://imrf2025.sciencesconf.org/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
 
-<!-- Talks (Journal Clubs + Seminar Series and Online Talks) -->
-<h3 id="talks">Talks</h3>
+    <div class="card md-6">
+      <div class="title"><b>Society for Neuroscience (SfN)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>TBD 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>TBD</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.sfn.org/meetings">https://www.sfn.org/meetings</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
 
-<h4>Journal Clubs</h4>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>Name</th>
-<th>Dates</th>
-<th>Location</th>
-<th>Website</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><b>Intermural Colour Club</b></td>
-<td>Ongoing in 2025</td>
-<td>Online</td>
-<td><a href="https://docs.google.com/document/d/1LH_FEBCwvE0z8OuWMLs7e_OVKg1VB2vwleyXzHHug44/edit?tab=t.0">Intermural Journal Club Schedule 2025</a></td>
-<td>For information or to join, email<br/>Christoph Witzel <a href="mailto:witzel@daad-alumni.de">witzel@daad-alumni.de</a><br/>Ilgin Cebioglu <a href="mailto:I.Cebioglu@newcastle.ac.uk">I.Cebioglu@newcastle.ac.uk</a></td>
-</tr>
-</tbody>
-</table>
+    <div class="card md-6">
+      <div class="title"><b>16th Pangborn Sensory Science Symposium</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Biennial</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>TBD 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>TBD</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.pangbornsymposium.com/">https://www.pangbornsymposium.com/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
 
-<h4>Seminar Series and Online Talks</h4>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>Name</th>
-<th>Dates</th>
-<th>Location</th>
-<th>Website</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><b>Current Topics in Visual and Circadian Neuroscience</b></td>
-<td>Ongoing in 2025 and beyond</td>
-<td>Online</td>
-<td><a href="https://www.spitschanlab.com/events/seminar-series">https://www.spitschanlab.com/events/seminar-series</a></td>
-<td>Hosted by Prof. Dr. Manuel Spitschan; graduate-level, free; 45-min talk + 15-min Q&amp;A via Zoom</td>
-</tr>
-<tr>
-<td><b>Optica Color TG Webinar — Prof. Yuhao Zhu: Color Discrimination and Chromatic Adaptation</b></td>
-<td>September 29, 2025, 13:00–14:00 EDT (10:00–11:00 PDT)</td>
-<td>Online</td>
-<td><a href="https://www.optica.org/events/webinar/2025/09_september/color_discrimination_and_chromatic_adaptation_measuring_modeling_and_exploiting_them_for_energy-e/">https://www.optica.org/events/webinar/2025/09_september/color_discrimination_and_chromatic_adaptation_measuring_modeling_and_exploiting_them_for_energy-e/</a></td>
-<td>Energy-efficient XR displays; psychophysical paradigms</td>
-</tr>
-</tbody>
-</table>
+    <div class="card md-6">
+      <div class="title"><b>Asia-Pacific Conference on Vision (APCV)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>TBD 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Auckland, New Zealand</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://sites.google.com/view/apcv-portal">https://sites.google.com/view/apcv-portal</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
 
-<!-- Jobs (Jobs and Student Positions + Postdoctoral Career Opportunities) -->
-<h3 id="jobs">Jobs</h3>
+    <div class="card md-6">
+      <div class="title"><b>Visual Science Art Conference (VSAC)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>TBD 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>TBD</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://2025.vsac.eu/">https://2025.vsac.eu/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
 
-<h4>Jobs and Student Positions</h4>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>Name</th>
-<th>Dates</th>
-<th>Location</th>
-<th>Website</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td><b>Research Assistants – Visual Plasticity (2 positions)</b></td>
-  <td>Start Jan 2026</td>
-  <td>Child Vision Lab, University College London (UCL), London, UK</td>
-  <td><a href="https://www.ucl.ac.uk/child-vision-lab">https://www.ucl.ac.uk/child-vision-lab</a></td>
-  <td>2 RA posts available • Application deadline: October 16, 2025</td>
-</tr>
-</tbody>
-</table>
+    <div class="card md-6">
+      <div class="title"><b>European Conference on Visual Perception (ECVP)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>August 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Bournemouth, UK</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="http://ecvp.org/future.html">http://ecvp.org/future.html</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
 
-<h4>Postdoctoral Career Opportunities</h4>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>Name</th>
-<th>Dates</th>
-<th>Location</th>
-<th>Website</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td><b>Postdoc – Grounded Gesture Generation in Context</b></td>
-  <td>Start Feb 1, 2026 (negotiable)</td>
-  <td>Max Planck Institute for Psycholinguistics, Nijmegen, NL</td>
-  <td><a href="https://www.mpi.nl/career-positions">https://www.mpi.nl/career-positions</a></td>
-  <td>NWO-funded project “Grounded Gesture Generation in Context” • Application deadline: October 31, 2025</td>
-</tr>
-<tr>
-<td><b>Postdoctoral Position in Visual Perception and Radiology</b></td>
-<td>TBD</td>
-<td>University of Arizona, Tucson, Arizona</td>
-<td><a href="https://arizona.csod.com/ux/ats/careersite/4/home/requisition/20089">https://arizona.csod.com/ux/ats/careersite/4/home/requisition/20089</a></td>
-<td>PI: Dr. Corey McMillan</td>
-</tr>
-<tr>
-<td><b>Postdoctoral Fellow – Neuroimaging of Visual System</b></td>
-<td>TBD</td>
-<td>Stanford University, Spencer Center for Vision Research</td>
-<td><a href="https://www.nivs-lab.org/open-positions">https://www.nivs-lab.org/open-positions</a></td>
-<td>Contact: kevinchan@stanford.edu</td>
-</tr>
-<tr>
-<td><b>Postdoctoral Researcher – Visual Systems and Deep Neural Networks</b></td>
-<td>TBD</td>
-<td>Institut de la Vision, Paris, France</td>
-<td><a href="https://www.institut-vision.org/index.php/en/job-offers/post-doc-position-visual-system-neuroscience-and-high-density-recording-throughout-large">https://www.institut-vision.org/index.php/en/job-offers/post-doc-position-visual-system-neuroscience-and-high-density-recording-throughout-large</a></td>
-<td>Two-year role studying high-density neural recording</td>
-</tr>
-<tr>
-<td><b>PhD or Postdoctoral Position – Vision Science</b></td>
-<td>TBD</td>
-<td>University of Iceland, Reykjavik</td>
-<td><a href="https://visionscience.com/pipermail/visionlist_visionscience.com/2025/009473.html">https://visionscience.com/pipermail/visionlist_visionscience.com/2025/009473.html</a></td>
-<td>Icelandic Vision Lab</td>
-</tr>
-</tbody>
-</table>
+    <div class="card md-6">
+      <div class="title"><b>European Society for Cognitive Psychology (ESCOP)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Biennial</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>TBD</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>TBD</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.escop2025.com/">https://www.escop2025.com/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
 
-<h4>Faculty Positions</h4>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>Name</th>
-      <th>Dates</th>
-      <th>Location</th>
-      <th>Website</th>
-      <th>Notes</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><b>Senior Lecturer in Psychology</b></td>
-      <td>Start Aug 16, 2026</td>
-      <td>Vanderbilt University, Nashville, TN</td>
-      <td><a href="https://apply.interfolio.com/173008">apply.interfolio.com/173008</a></td>
-      <td>Non-tenure-track instructional faculty (3-year renewable) • Teach General Psychology plus quantitative/experimental and elective courses • PhD required by Aug 1, 2026 • Screening begins Dec 2025 • Contact: <a href="mailto:isabel.gauthier@vanderbilt.edu">isabel.gauthier@vanderbilt.edu</a></td>
-    </tr>
-  </tbody>
-</table>
+    <div class="card md-6">
+      <div class="title"><b>EuroGraphics 3D Object Retrieval Workshop (3DOR)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>TBD</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>TBD</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.jobs.ac.uk/job/DOK542/research-assistant">https://www.jobs.ac.uk/job/DOK542/research-assistant</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
 
-<!-- Funding (Awards and Grants) -->
-<h3 id="funding">Funding</h3>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>Name</th>
-<th>Dates</th>
-<th>Location</th>
-<th>Website</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><b>Females of Vision et al. Travel and Networking Award</b></td>
-<td>Deadline TBD (typically March)</td>
-<td>Vision Sciences Society Annual Meeting</td>
-<td><a href="http://www.foveavision.org/awards/accepting-applications">http://www.foveavision.org/awards/accepting-applications</a></td>
-<td>$1,000 each, up to 8 awards. Open to women, transgender, intersex, or non-binary graduate students, postdocs, or early-career vision scientists. Contact: fovea.award@gmail.com</td>
-</tr>
-</tbody>
-</table>
+    <div class="card md-6">
+      <div class="title"><b>Gruppo del Colore (Associazione Italiana Colore)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>TBD</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>TBD</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.gruppodelcolore.org/?lang=en">https://www.gruppodelcolore.org/?lang=en</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
+<div class="card md-6">
+      <div class="title"><b>Bay Area Vision Research Day (BAVRD)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div>2026 TBD</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>International House, UC Berkeley, Berkeley, CA</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://vision.berkeley.edu/events/bavrd">https://vision.berkeley.edu/events/bavrd</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list"><li>TBD</li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<!-- Calls for Papers & Special Issues -->
-<h3 id="publications">Calls for Papers &amp; Special Issues</h3>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>Name</th>
-      <th>Dates</th>
-      <th>Location</th>
-      <th>Website</th>
-      <th>Notes</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-<td><b>Responsible Imaging @ ICCV 2025 — Workshop</b></td>
-<td>CfP CLOSED (ICCV workshops)</td>
-<td>Honolulu, Hawaii</td>
-<td><em>Website TBD</em></td>
-<td>Added for visibility per CVNet; CfP closed</td>
-</tr>
-    <tr>
-  <td><b>BMC Biology Special Issue: Integrative and Translational Serial Dependence</b></td>
-  <td>Submission deadline October 11, 2025</td>
-  <td>Online — BMC Biology</td>
-  <td><a href="https://www.biomedcentral.com/collections/itsd">https://www.biomedcentral.com/collections/itsd</a></td>
-  <td>Guest editors: Sabrina Hansmann-Roth, Árni Kristjánsson, David Pascucci, David Whitney</td>
-</tr>
+  </div><!-- /cards (Conferences) -->
 
-<tr>
-  <td><b>APAH@ICCV 2025 – Workshop on Advanced Perception for Autonomous Healthcare</b></td>
-  <td>Workshop October 20, 2025 • Submission deadline CLOSED (July 3, 2025)</td>
-  <td>Honolulu, Hawaii, USA (with ICCV 2025)</td>
-  <td><a href="https://apahws.github.io">https://apahws.github.io</a></td>
-  <td>Topics: vision-guided surgical robotics, medical imaging, embodied AI, privacy-preserving models</td>
-</tr>
-<tr>
-      <td><b>Visual Cognition Special Issue: The Control of Visual Attention</b></td>
-      <td>Submission deadline November 1, 2025</td>
-      <td>Online — Visual Cognition (Taylor &amp; Francis)</td>
-      <td><a href="https://think.taylorandfrancis.com/special_issues/the-control-of-visual-attention-in-honor-of-charles-folk-roger-remington/">https://think.taylorandfrancis.com/special_issues/the-control-of-visual-attention-in-honor-of-charles-folk-roger-remington/</a></td>
-      <td>In honor of Charles Folk &amp; Roger Remington • Full Research, Brief, and Review articles considered</td>
-    </tr>
-<tr>
-  <td><b>IEEE FG 2026 – International Conference on Automatic Face and Gesture Recognition</b></td>
-  <td>Conference May 25–29, 2026 • Deadlines: Round 1 Abstract Sept 25, 2025 • Paper Oct 2, 2025 • Round 2 Jan 9–15, 2026</td>
-  <td>Kyoto, Japan</td>
-  <td><a href="https://fg2026.ieee-biometrics.org/">https://fg2026.ieee-biometrics.org/</a></td>
-  <td>Premier forum for face, gesture, and body recognition research; accepted papers in IEEE Xplore</td>
-</tr>
-  </tbody>
-</table>
+  <!-- Courses -->
+  <h3 id="courses">Courses</h3>
 
-<p style="text-align: center;">
-  CVNet is supported by the 
-  <a href="https://www.ski.org/" target="_blank" rel="noopener noreferrer">
-    Smith-Kettlewell Eye Research Institute
-  </a>
-</p>
+  <h4>Summer Schools</h4>
+  <div class="cards">
+    <div class="card md-6">
+      <div class="title"><b>Systems Vision Science Summer School and Symposium</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>August 2026 (dates TBA)</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Tübingen, Germany</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://summerschool.lizhaoping.org/">https://summerschool.lizhaoping.org/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD 2026</li></ul></div></div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Eastern European Machine Learning Summer School</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>TBD 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>TBD</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.eeml.eu/application">https://www.eeml.eu/application</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>MSc in Research Methods in Experimental Psychology</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>2026 TBD</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Universidad Autónoma de Madrid (UAM), Madrid, Spain</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.uam.es/uam/inicio">https://www.uam.es/uam/inicio</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>International Colour Vision Society (ICVS) Summer School</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>TBD 2027</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Pembroke College, Oxford, UK</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.icvs.info/index.php/summer-school">https://www.icvs.info/index.php/summer-school</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
+  </div>
+
+  <h4>Classes</h4>
+  <div class="cards">
+    <div class="card md-6">
+      <div class="title"><b>Understanding Consumers 2025 (Italian Sensory Science Society and RLab)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>September 10–12, 2025</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Via delle Pandette 32, Novoli Campus, University of Florence, Florence, Italy</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://scienzesensoriali.it/en/event/understanding-consumers-2025/">Event page</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>Early-bird registration CLOSED</li></ul></div></div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>PhD Course: Sensory Evaluation and Food Preferences (Classic and Digital Approaches)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>September 15–19, 2025</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>University of Copenhagen, Copenhagen, Denmark</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://phdcourses.ku.dk/DetailKursus.aspx?id=112590&sitepath=NAT">Course page</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>CLOSED</li></ul></div></div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Creating Perceptual Experiments with Unity and VR (CIC 33)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>October 27, 2025 • 8:30 am–12:45 pm HKT</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Online</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.imaging.org/IST/iCore/Events/Function_Display.aspx?EventKey=C25&FunctionKey=C25/SC03">Course information</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Instructor: Richard Murray (York University)</li>
+              <li>Topics: Unity in psychophysics, C#, luminance calibration via tonemapping, callback-based experiment coding</li>
+              <li>Online only, no in-person component</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>A Practical Introduction to Eye Tracking</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>November 26–28, 2025</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Lund, Sweden</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.humlab.lu.se/education/commissioned-education/">Course page</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Talks -->
+  <h3 id="talks">Talks</h3>
+
+  <h4>Journal Clubs</h4>
+  <div class="cards">
+    <div class="card md-6">
+      <div class="title"><b>Intermural Colour Club</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>Ongoing in 2025</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Online</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://docs.google.com/document/d/1LH_FEBCwvE0z8OuWMLs7e_OVKg1VB2vwleyXzHHug44/edit?tab=t.0">Journal Club Schedule 2025</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>For information or to join, email:</li>
+              <li>Christoph Witzel — <a href="mailto:witzel@daad-alumni.de">witzel@daad-alumni.de</a></li>
+              <li>Ilgin Cebioglu — <a href="mailto:I.Cebioglu@newcastle.ac.uk">I.Cebioglu@newcastle.ac.uk</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h4>Seminar Series and Online Talks</h4>
+  <div class="cards">
+    <div class="card md-6">
+      <div class="title"><b>Current Topics in Visual and Circadian Neuroscience</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>Ongoing in 2025 and beyond</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Online</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.spitschanlab.com/events/seminar-series">https://www.spitschanlab.com/events/seminar-series</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Hosted by Prof. Dr. Manuel Spitschan</li>
+              <li>Graduate-level, free</li>
+              <li>Format: 45-min talk + 15-min Q&amp;A (Zoom)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Optica Color TG Webinar — Prof. Yuhao Zhu: Color Discrimination and Chromatic Adaptation</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>September 29, 2025, 13:00–14:00 EDT (10:00–11:00 PDT)</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Online</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.optica.org/events/webinar/2025/09_september/color_discrimination_and_chromatic_adaptation_measuring_modeling_and_exploiting_them_for_energy-e/">Event page</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Focus: energy-efficient XR displays</li>
+              <li>Psychophysical paradigms</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Jobs -->
+  <h3 id="jobs">Jobs</h3>
+
+  <h4>Jobs and Student Positions</h4>
+  <div class="cards">
+    <div class="card md-6">
+      <div class="title"><b>Research Assistants – Visual Plasticity (2 positions)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>Start Jan 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Child Vision Lab, University College London (UCL), London, UK</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.ucl.ac.uk/child-vision-lab">https://www.ucl.ac.uk/child-vision-lab</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Two RA posts available</li>
+              <li>Application deadline: October 16, 2025</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h4>Postdoctoral Career Opportunities</h4>
+  <div class="cards">
+    <div class="card md-6">
+      <div class="title"><b>Postdoc – Grounded Gesture Generation in Context</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>Start Feb 1, 2026 (negotiable)</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Max Planck Institute for Psycholinguistics, Nijmegen, NL</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.mpi.nl/career-positions">https://www.mpi.nl/career-positions</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>NWO-funded project “Grounded Gesture Generation in Context”</li>
+              <li>Application deadline: October 31, 2025</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card md-6">
+      <div class="title"><b>Postdoctoral Fellow – Neuroimaging of Visual System</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>TBD</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Stanford University, Spencer Center for Vision Research</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.nivs-lab.org/open-positions">Open positions</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>Contact: kevinchan@stanford.edu</li></ul></div></div>
+      </div>
+    </div>
+    <div class="card md-6">
+      <div class="title"><b>PhD or Postdoctoral Position – Vision Science</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>TBD</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>University of Iceland, Reykjavik</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div>
+          <div><a href="https://visionscience.com/pipermail/visionlist_visionscience.com/2025/009473.html">VisionList post</a></div>
+        </div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>Icelandic Vision Lab</li></ul></div></div>
+      </div>
+    </div>
+  </div>
+
+  <h4>Faculty Positions</h4>
+  <div class="cards">
+    <div class="card md-6">
+      <div class="title"><b>Sensitometry &amp; Colorimetry Teacher</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>Start Nov 1, 2025</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>ENS Louis-Lumière, Cité du Cinéma, 20 rue Ampère, 93200 Saint-Denis, France</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div>
+          <div>
+            <a href="https://media.licdn.com/dms/document/media/v2/D4E1FAQG9dJXIDRmNGQ/feedshare-document-pdf-analyzed/B4EZklH8AvIQAY-/0/1757264463945?e=1758758400&v=beta&t=wo3cGIzo8QEPxPAO2lQCK9-hEVicxhwuWGj3aWdlJcw">Job PDF (LinkedIn)</a>
+          </div>
+        </div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Full-time (Category A), 1-year renewable fixed-term</li>
+              <li>Teaches sensitometry &amp; colorimetry across Photography &amp; Cinema Masters (L3/M1/M2)</li>
+              <li>Supervision of theses; lab management</li>
+              <li>Strong IT/Python required</li>
+              <li>Apply by <b>Sept 21, 2025</b> to <a href="mailto:direction@ens-louis-lumiere.fr">direction@ens-louis-lumiere.fr</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Assistant Professor in Psychology (Cognitive Neuroscience)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>Start Aug 7, 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>University of South Florida, Tampa, FL</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div>
+          <div><a href="https://fa-ewkd-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/USF/job/41553/?utm_medium=jobshare&utm_source=External+Job+Share">USF Job 41553</a></div>
+        </div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Focus on human cognition</li>
+              <li>Screening begins Oct 17, 2025</li>
+              <li>Contact: <a href="mailto:ratchley@usf.edu">ratchley@usf.edu</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Senior Lecturer in Psychology</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>Start Aug 16, 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Vanderbilt University, Nashville, TN</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div>
+          <div><a href="https://apply.interfolio.com/173008">apply.interfolio.com/173008</a></div>
+        </div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Non-tenure-track instructional faculty (3-year renewable)</li>
+              <li>Teach General Psychology plus quantitative/experimental and elective courses</li>
+              <li>PhD required by Aug 1, 2026</li>
+              <li>Screening begins Dec 2025</li>
+              <li>Contact: <a href="mailto:isabel.gauthier@vanderbilt.edu">isabel.gauthier@vanderbilt.edu</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Funding -->
+  <h3 id="funding">Funding</h3>
+  <div class="cards">
+    <div class="card md-6">
+      <div class="title"><b>Females of Vision et al. Travel and Networking Award</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>Deadline TBD (typically March)</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Vision Sciences Society Annual Meeting</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="http://www.foveavision.org/awards/accepting-applications">http://www.foveavision.org/awards/accepting-applications</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>$1,000 each, up to 8 awards</li>
+              <li>Open to women, transgender, intersex, or non-binary graduate students, postdocs, or early-career vision scientists</li>
+              <li>Contact: <a href="mailto:fovea.award@gmail.com">fovea.award@gmail.com</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Publications -->
+  <h3 id="publications">Calls for Papers &amp; Special Issues</h3>
+  <div class="cards">
+    <div class="card md-6">
+      <div class="title"><b>Best Illusion of the Year Contest (2025)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>Submission deadline September 20, 2025</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Online</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="mailto:smart@neuralcorrelate.com">smart@neuralcorrelate.com</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Submit a 1-minute video of a novel illusion (any modality)</li>
+              <li>Top-10 finalists; worldwide voting</li>
+              <li>Prizes: $3,000 / $2,000 / $1,000</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Responsible Imaging @ ICCV 2025 — Workshop</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>CfP CLOSED (ICCV workshops)</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Honolulu, Hawaii</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><em>Website TBD</em></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>Added for visibility per CVNet</li><li>CfP closed</li></ul></div></div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>BMC Biology Special Issue: Integrative and Translational Serial Dependence</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>Submission deadline October 11, 2025</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Online — BMC Biology</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.biomedcentral.com/collections/itsd">https://www.biomedcentral.com/collections/itsd</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Guest editors: Sabrina Hansmann-Roth, Árni Kristjánsson, David Pascucci, David Whitney</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>APAH@ICCV 2025 – Advanced Perception for Autonomous Healthcare (Workshop)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>Workshop October 20, 2025 • Submission CLOSED (July 3, 2025)</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Honolulu, Hawaii, USA (with ICCV 2025)</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://apahws.github.io">https://apahws.github.io</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Topics: vision-guided surgical robotics, medical imaging, embodied AI</li>
+              <li>Privacy-preserving models</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>Visual Cognition Special Issue: The Control of Visual Attention</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>Submission deadline November 1, 2025</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Online — Visual Cognition (Taylor &amp; Francis)</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div>
+          <div><a href="https://think.taylorandfrancis.com/special_issues/the-control-of-visual-attention-in-honor-of-charles-folk-roger-remington/">CfP page</a></div>
+        </div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>In honor of Charles Folk &amp; Roger Remington</li>
+              <li>Accepts Full Research, Brief, and Review articles</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card md-6">
+      <div class="title"><b>IEEE FG 2026 – International Conference on Automatic Face and Gesture Recognition</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>Conference May 25–29, 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Kyoto, Japan</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://fg2026.ieee-biometrics.org/">https://fg2026.ieee-biometrics.org/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Papers published in IEEE Xplore</li>
+              <li>Deadlines — Round 1: Abstract Sept 25, 2025 • Paper Oct 2, 2025</li>
+              <li>Deadlines — Round 2: Jan 9–15, 2026</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p style="text-align: center; margin: 24px 0;">
+    CVNet is supported by the
+    <a href="https://www.ski.org/" target="_blank" rel="noopener noreferrer">
+      Smith-Kettlewell Eye Research Institute
+    </a>
+  </p>
+</div><!-- /page -->
 
 <script>
   function walk(node, regex) {
@@ -947,110 +1283,20 @@
     });
   }
 
-  /* Add data-labels so cards show header names */
-  function labelTableCells(){
-    document.querySelectorAll('table.dataframe').forEach(table => {
-      const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent.trim());
-      table.querySelectorAll('tbody tr').forEach(row => {
-        Array.from(row.children).forEach((td, i) => {
-          if (!td.hasAttribute('data-label')) td.setAttribute('data-label', headers[i] || '');
-        });
-      });
-    });
-  }
-
-  /* Measure a no-wrap minimum width for the header */
-  function measureHeaderMinWidth(table) {
-    const thead = table.querySelector('thead');
-    if (!thead) return 0;
-
-    const cloneTable = document.createElement('table');
-    cloneTable.style.cssText = [
-      'position:absolute','visibility:hidden','left:-9999px','top:0',
-      'width:auto','table-layout:auto','border-collapse:separate',
-      'border-spacing:0','white-space:nowrap'
-    ].join(';');
-
-    cloneTable.appendChild(thead.cloneNode(true));
-    document.body.appendChild(cloneTable);
-    const minWidth = Math.ceil(cloneTable.offsetWidth) + 8; // small safety pad
-    cloneTable.remove();
-    return minWidth;
-  }
-
-  // Get the current pixel width of the rightmost column (header preferred)
-  function getLastColumnWidth(table) {
-    const ths = table.querySelectorAll('thead th');
-    if (ths.length) {
-      const lastHeader = ths[ths.length - 1];
-      return lastHeader.getBoundingClientRect().width;
-    }
-    const firstRow = table.tBodies[0]?.rows[0];
-    if (firstRow && firstRow.cells.length) {
-      const lastTd = firstRow.cells[firstRow.cells.length - 1];
-      return lastTd.getBoundingClientRect().width;
-    }
-    return Infinity;
-  }
-
-  /* Switch to cards when the table would overflow,
-     OR when the header can't fit,
-     OR (on small screens only) when the rightmost column is too narrow to be readable. */
-  function updateTableStacking(){
-    document.querySelectorAll('table.dataframe').forEach(table => {
-      // measure as table
-      table.classList.remove('stacked');
-
-      const available = table.clientWidth;
-      const headerMin = measureHeaderMinWidth(table);
-      const overflowing = Math.ceil(table.scrollWidth) > Math.floor(table.clientWidth);
-
-      // last-column heuristic
-      const lastCol = getLastColumnWidth(table);
-      const narrowLastCol = lastCol && lastCol < 140;
-
-      // Only consider the narrow-last-column rule on smaller viewports
-      const applyNarrowColRule = window.matchMedia('(max-width: 900px)').matches;
-
-      if (overflowing || available < headerMin || (applyNarrowColRule && narrowLastCol)) {
-        table.classList.add('stacked');
-      }
-    });
-  }
-
   function debounce(fn, ms){ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn.apply(this,args), ms); }; }
 
   document.addEventListener('DOMContentLoaded', function() {
     const input = document.getElementById('search-input');
 
-    labelTableCells();
     setHeaderOffset();
-    updateTableStacking();
 
-    if ('ResizeObserver' in window){
-      const ro = new ResizeObserver(debounce(updateTableStacking, 60));
-      ro.observe(document.documentElement);
-      document.querySelectorAll('table.dataframe').forEach(t => ro.observe(t));
-    } else {
-      window.addEventListener('resize', debounce(updateTableStacking, 100));
-    }
-    window.addEventListener('resize', debounce(setHeaderOffset, 100));
-    window.addEventListener('orientationchange', updateTableStacking);
-  });
-
-  // Re-check after all assets/fonts load (sizes can change)
-  window.addEventListener('load', updateTableStacking);
-
-  // Search highlight (unchanged)
-  (function(){
-    const input = document.getElementById('search-input');
-    const contentRoot = document.body;
+    // Search highlight works on card content, too
     let searchTimer = null;
     function highlightFilter(value) {
       removeHighlights();
       if (!value) return;
       const regex = new RegExp('(' + value.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&') + ')', 'gi');
-      contentRoot.querySelectorAll(':not(header):not(.header-fixed):not(script):not(style)').forEach(el => {
+      document.body.querySelectorAll(':not(header):not(.header-fixed):not(script):not(style)').forEach(el => {
         walk(el, regex);
       });
     }
@@ -1058,7 +1304,9 @@
       clearTimeout(searchTimer);
       searchTimer = setTimeout(() => highlightFilter(input.value.trim()), 180);
     });
-  })();
+  });
+
+  window.addEventListener('resize', debounce(setHeaderOffset, 100));
 </script>
 
 </body>
