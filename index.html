@@ -146,112 +146,145 @@
     color: black;
   }
 
-  /* ===== Card layout ===== */
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 14px;
-    margin-bottom: 24px;
-  }
-  .card {
-    grid-column: span 12; /* full width by default (mobile-first) */
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    box-shadow: var(--card-shadow);
-    padding: 14px;
-    transition: box-shadow .2s ease, transform .2s ease;
-    /* Added: make sure content inside cards can wrap and never overflow */
-    overflow-wrap:anywhere;
-    word-break: break-word;
-  }
-  .card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-1px); }
+/* ===== Card layout ===== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
 
-  .card .title {
-    font-weight: 700;
-    color: #001652;
-    margin-bottom: 6px;
-    line-height: 1.35;
-    /* Added: prevent long titles from causing overflow */
-    overflow-wrap:anywhere;
-    word-break: break-word;
-  }
-  .meta {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-  .meta-row {
-    display: grid;
-    grid-template-columns: 160px minmax(0,1fr);
+.card {
+  grid-column: span 12; /* full width by default (mobile-first) */
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  padding: 14px;
+  transition: box-shadow .2s ease, transform .2s ease;
+  /* Added: make sure content inside cards can wrap and never overflow */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.card:hover {
+  box-shadow: var(--card-shadow-hover);
+  transform: translateY(-1px);
+}
+
+.card .title {
+  font-weight: 700;
+  color: #001652;
+  margin-bottom: 6px;
+  line-height: 1.35;
+  /* Added: prevent long titles from causing overflow */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 160px minmax(0,1fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.meta-label {
+  font-weight: 700;
+  color: var(--brand-blue);
+}
+
+.notes-list {
+  margin: 0;
+  padding-left: 1.1em;
+}
+
+.notes-list li {
+  margin: 2px 0;
+}
+
+/* Added: guarantee the value column actually shrinks and wraps on narrow screens */
+.meta-row > :last-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Section intro paragraph card */
+.intro {
+  background: #fffaf0;
+  border: 1px solid #ffe3a3;
+  color: #3a2a00;
+}
+
+/* Responsive columns */
+@media (min-width: 720px) {
+  .card.sm-6 { grid-column: span 6; }
+  .card.sm-4 { grid-column: span 4; }
+  .card.md-6 { grid-column: span 6; } /* ensure half width at medium+ */
+}
+
+/* Mobile niceties & quick-links scroll */
+@media (max-width: 700px) {
+  .site-header { margin: 0 12px; padding-top: 12px; }
+  .topbar-row { gap: 8px; }
+  .quick-links {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     gap: 10px;
-    align-items: start;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 6px;
   }
-  .meta-label {
-    font-weight: 700;
-    color: var(--brand-blue);
+  .quick-links a {
+    scroll-snap-align: start;
   }
-  .notes-list { margin: 0; padding-left: 1.1em; }
-  .notes-list li { margin: 2px 0; }
+  .search-wrap { width: 100%; margin-left: 0; }
+  #search-input { width: 100%; max-width: 100%; }
 
-  /* Added: guarantee the value column actually shrinks and wraps on narrow screens */
-  .meta-row > :last-child {
-    min-width: 0;
-    overflow-wrap:anywhere;
-    word-break: break-word;
-  }
+  /* Added: slightly narrower label on phones to give values more room */
+  .meta-row { grid-template-columns: 120px minmax(0,1fr); }
+}
 
-  /* Section intro paragraph card */
-  .intro {
-    background: #fffaf0;
-    border: 1px solid #ffe3a3;
-    color: #3a2a00;
-  }
+/* ✅ Accessible focus outlines for keyboard users */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--brand-yellow);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
 
-  /* Responsive columns */
-  @media (min-width: 720px) {
-    .card.sm-6 { grid-column: span 6; }
-    .card.sm-4 { grid-column: span 4; }
-  }
-  @media (min-width: 1040px) {
-    .card.md-4 { grid-column: span 4; }
-    .card.md-6 { grid-column: span 6; }
-  }
-
-  /* Mobile niceties & quick-links scroll */
-  @media (max-width: 700px) {
-    .site-header { margin: 0 12px; padding-top: 12px; }
-    .topbar-row { gap: 8px; }
-    .quick-links {
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      gap: 10px;
-      scroll-snap-type: x mandatory;
-      padding-bottom: 6px;
-    }
-    .quick-links a {
-      scroll-snap-align: start;
-    }
-    .search-wrap { width: 100%; margin-left: 0; }
-    #search-input { width: 100%; max-width: 100%; }
-
-    /* Added: slightly narrower label on phones to give values more room */
-    .meta-row { grid-template-columns: 120px minmax(0,1fr); }
-  }
+/* ✅ Improve search input UX */
+input[type="search"] {
+  -webkit-appearance: textfield;
+  accent-color: var(--brand-blue);
+  padding-right: 2.2em;
+}
+input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 </style>
 
-<!-- Make external links open safely in a new tab -->
+<!-- ✅ External links: open safely in a new tab -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('a[href^="http"]').forEach(a => {
       try {
         const isExternal = !a.href.includes(location.host);
         if (isExternal) { a.target = "_blank"; a.rel = "noopener noreferrer"; }
-      } catch(e) {}
+      } catch (e) {}
     });
   });
 </script>
+
+
 </head>
 <body>
 
@@ -260,7 +293,7 @@
   <header class="site-header">
     <div class="title-banner">
       <h2>CVNet Resource List and Community Calendar</h2>
-      <div class="subtitle">Last updated: 15 September, 2025</div> <!-- update this last -->
+      <div class="subtitle">Last updated: 17 September, 2025</div> <!-- update this last -->
     </div>
 
     <div class="topbar">
@@ -275,7 +308,7 @@
         </nav>
         <div class="search-wrap">
           <span class="icon" aria-hidden="true">🔍</span>
-          <input id="search-input" type="text" placeholder="Search this page…" aria-label="Search this page"/>
+          <input id="search-input" type="search" placeholder="Search this page…" aria-label="Search this page"/>
         </div>
       </div>
       <!-- Back link under main nav buttons -->
@@ -302,18 +335,7 @@
   <div class="cards">
 
     <!-- Each conference as a card -->
-    <div class="card md-6">
-      <div class="title"><b>Kanizsa Lecture / Trieste Symposium</b></div>
-      <div class="meta">
-        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
-        <div class="meta-row"><div class="meta-label">Dates</div><div>Fall 2025</div></div>
-        <div class="meta-row"><div class="meta-label">Location</div><div>Trieste, Italy</div></div>
-        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://portale.units.it/en/events/32nd-kanizsa-lecture">https://portale.units.it/en/events/32nd-kanizsa-lecture</a></div></div>
-        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
-      </div>
-    </div>
-
-    <div class="card md-6">
+        <div class="card md-6">
       <div class="title"><b>Optica Fall Vision Meeting</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
@@ -394,6 +416,28 @@
         <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>Submissions CLOSED</li></ul></div></div>
       </div>
     </div>
+
+<div class="card md-6">
+  <div class="title"><b>Kanizsa Lecture / Trieste Symposium</b></div>
+  <div class="meta">
+    <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+    <div class="meta-row"><div class="meta-label">Dates</div><div>October 31, 2025 • 4:00 PM</div></div>
+    <div class="meta-row"><div class="meta-label">Location</div><div>University of Trieste, Trieste, Italy</div></div>
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div><a href="https://portale.units.it/en/events/32nd-kanizsa-lecture">University of Trieste – 32nd Kanizsa Lecture</a></div>
+    </div>
+    <div class="meta-row">
+      <div class="meta-label">Notes</div>
+      <div>
+        <ul class="notes-list">
+          <li>2025 Lecturer: Vebjørn Ekroll</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
 
     <div class="card md-6">
       <div class="title"><b>Asian Conference on Pattern Recognition (ACPR)</b></div>
@@ -602,6 +646,62 @@
       </div>
     </div>
 
+<div class="card md-6">
+  <div class="title"><b>SAND Challenge @ IEEE ICASSP 2026</b></div>
+  <div class="meta">
+    <div class="meta-row"><div class="meta-label">Dates</div><div>May 4–8, 2026</div></div>
+    <div class="meta-row"><div class="meta-label">Location</div><div>Barcelona, Spain (with ICASSP 2026)</div></div>
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div><a href="https://sand.icar.cnr.it" aria-label="SAND Challenge website">sand.icar.cnr.it</a></div>
+    </div>
+    <div class="meta-row">
+      <div class="meta-label">Notes</div>
+      <div>
+        <ul class="notes-list">
+          <li><b>Round 1:</b> Abstract due Sept 25, 2025 • Full Paper Oct 2, 2025 • Notification Dec 11, 2025</li>
+          <li><b>Round 2:</b> Abstract due Jan 9, 2026 • Full Paper Jan 15, 2026 • Notification Apr 2, 2026 • Camera-ready Apr 21, 2026</li>
+          <li><b>Workshops:</b> Proposal deadline Nov 13, 2025</li>
+          <li>Calls also open for tutorials and demos</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card md-6">
+  <div class="title"><b>IECMA 2026 – 3rd International Electronic Conference on Machines &amp; Applications</b></div>
+  <div class="meta">
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Biennial</div>
+    </div>
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>May 12–14, 2026</div>
+    </div>
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Online</div>
+    </div>
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://sciforum.net/event/IECMA2026" aria-label="IECMA 2026 event page">sciforum.net – IECMA 2026</a>
+      </div>
+    </div>
+    <div class="meta-row">
+      <div class="meta-label">Notes</div>
+      <div>
+        <ul class="notes-list">
+          <li>Abstract submission deadline: January 9, 2026</li>
+          <li>Free registration deadline: May 6, 2026</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
     <div class="card md-6">
       <div class="title"><b>Vision Sciences Society (VSS) Annual Meeting</b></div>
       <div class="meta">
@@ -623,27 +723,32 @@
     </div>
 
     <div class="card md-6">
-      <div class="title"><b>IEEE FG 2026 – International Conference on Automatic Face and Gesture Recognition</b></div>
-      <div class="meta">
-        <div class="meta-row"><div class="meta-label">Frequency</div><div>Biennial</div></div>
-        <div class="meta-row"><div class="meta-label">Dates</div><div>May 25–29, 2026</div></div>
-        <div class="meta-row"><div class="meta-label">Location</div><div>Kyoto, Japan</div></div>
-        <div class="meta-row"><div class="meta-label">Website</div>
-          <div>
-            <a href="https://fg2026.ieee-biometrics.org/">https://fg2026.ieee-biometrics.org/</a><br/>
-            <a href="https://cmt3.research.microsoft.com/FG2026/">Submission portal</a>
-          </div>
-        </div>
-        <div class="meta-row"><div class="meta-label">Notes</div>
-          <div>
-            <ul class="notes-list">
-              <li><b>Round 1</b>: Abstract Sept 25, 2025 • Full Paper Oct 2, 2025 • Notification Dec 11, 2025</li>
-              <li><b>Round 2</b>: Abstract Jan 9, 2026 • Full Paper Jan 15, 2026 • Notification Apr 2, 2026 • Camera-ready Apr 21, 2026</li>
-            </ul>
-          </div>
-        </div>
+  <div class="title"><b>IEEE FG 2026 – International Conference on Automatic Face and Gesture Recognition</b></div>
+  <div class="meta">
+    <div class="meta-row"><div class="meta-label">Frequency</div><div>Biennial</div></div>
+    <div class="meta-row"><div class="meta-label">Dates</div><div>May 25–29, 2026</div></div>
+    <div class="meta-row"><div class="meta-label">Location</div><div>Kyoto, Japan</div></div>
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://fg2026.ieee-biometrics.org/" aria-label="IEEE FG 2026 conference page">fg2026.ieee-biometrics.org</a><br/>
+        <a href="https://cmt3.research.microsoft.com/FG2026/" aria-label="IEEE FG 2026 submission portal">Submission portal</a>
       </div>
     </div>
+    <div class="meta-row">
+      <div class="meta-label">Notes</div>
+      <div>
+        <ul class="notes-list">
+          <li><b>Round 1:</b> Abstract Sept 25, 2025 • Full Paper Oct 2, 2025 • Notification Dec 11, 2025</li>
+          <li><b>Round 2:</b> Abstract Jan 9, 2026 • Full Paper Jan 15, 2026 • Notification Apr 2, 2026 • Camera-ready Apr 21, 2026</li>
+          <li><b>Workshops:</b> Proposal deadline Nov 13, 2025</li>
+          <li>Calls also open for tutorials and demos</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
 
     <div class="card md-6">
       <div class="title"><b>AREADNE 2026 (Research in Encoding and Decoding of Neural Ensembles)</b></div>
@@ -904,7 +1009,8 @@
 
   <h4>Classes</h4>
   <div class="cards">
-    <div class="card md-6">
+    
+<div class="card md-6">
       <div class="title"><b>Understanding Consumers 2025 (Italian Sensory Science Society and RLab)</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Dates</div><div>September 10–12, 2025</div></div>
@@ -941,6 +1047,36 @@
         </div>
       </div>
     </div>
+
+<div class="card md-6">
+  <div class="title"><b>Imaging for XR 2025 (IS&amp;T)</b></div>
+  <div class="meta">
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>November 14, 2025</div>
+    </div>
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Online</div>
+    </div>
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://imaging.org/IST/IST/Conferences/XR/XR2025/Conference/C_XR.aspx" aria-label="Imaging for XR 2025 event page">imaging.org – XR 2025</a>
+      </div>
+    </div>
+    <div class="meta-row">
+      <div class="meta-label">Notes</div>
+      <div>
+        <ul class="notes-list">
+          <li>Time: 08:00–16:00 PT (11:00–19:00 ET)</li>
+          <li>Early-bird deadline: October 14, 2025</li>
+          <li>Recordings available until January 15, 2026</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 
     <div class="card md-6">
       <div class="title"><b>A Practical Introduction to Eye Tracking</b></div>
@@ -1037,6 +1173,29 @@
       </div>
     </div>
   </div>
+
+<div class="cards">
+  <div class="card md-6">
+    <div class="title"><b>PhD Position — Cognitive &amp; Neural Development Lab (UMass Amherst)</b></div>
+    <div class="meta">
+      <div class="meta-row"><div class="meta-label">Dates</div><div>Start: Fall 2026</div></div>
+      <div class="meta-row"><div class="meta-label">Location</div><div>University of Massachusetts Amherst, Amherst, MA</div></div>
+      <div class="meta-row">
+        <div class="meta-label">Website</div>
+        <div><a href="https://www.umass.edu/pbs/blaser-lab" aria-label="UMass Amherst Cognitive & Neural Development PhD position">Blaser Lab – UMass Amherst</a></div>
+      </div>
+      <div class="meta-row">
+        <div class="meta-label">Notes</div>
+        <div>
+          <ul class="notes-list">
+            <li>Research in cognitive and neural development (behavioral + fMRI)</li>
+            <li>Mentored by Dr. Erik Blaser (lab PI)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
   <h4>Postdoctoral Career Opportunities</h4>
   <div class="cards">
@@ -1169,10 +1328,64 @@
     </div>
   </div>
 
+<div class="cards">
+  <div class="card md-6">
+    <div class="title"><b>Shanahan Foundation Fellowship (Allen Institute + UW)</b></div>
+    <div class="meta">
+      <div class="meta-row"><div class="meta-label">Dates</div><div>Application deadline: December 1, 2025</div></div>
+      <div class="meta-row"><div class="meta-label">Location</div><div>Seattle, WA (Allen Institute &amp; University of Washington)</div></div>
+      <div class="meta-row">
+        <div class="meta-label">Website</div>
+        <div><a href="https://alleninstitute.org/what-we-do/brain-science/careers/shanahan-foundation-fellowship/" aria-label="Shanahan Foundation Fellowship page">Allen Institute – Shanahan Fellowship</a></div>
+      </div>
+      <div class="meta-row">
+        <div class="meta-label">Notes</div>
+        <div>
+          <ul class="notes-list">
+            <li>Prestigious 3-year postdoctoral fellowship</li>
+            <li>Start date: Fall 2026</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
   <!-- Publications -->
   <h3 id="publications">Calls for Papers &amp; Special Issues</h3>
   <div class="cards">
-    <div class="card md-6">
+
+<div class="card md-6">
+  <div class="title"><b>ISMAR 2025 – “Pitch Your Lab” (Call for Presentations)</b></div>
+  <div class="meta">
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>Submission deadline: September 19, 2025</div>
+    </div>
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Online (with ISMAR 2025)</div>
+    </div>
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://ismar25.org/" aria-label="ISMAR 2025 Pitch Your Lab call">ismar25.org</a>
+      </div>
+    </div>
+    <div class="meta-row">
+      <div class="meta-label">Notes</div>
+      <div>
+        <ul class="notes-list">
+          <li>Short presentations highlighting lab work</li>
+          <li>Opportunity to showcase your group during ISMAR</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="card md-6">
       <div class="title"><b>Best Illusion of the Year Contest (2025)</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Dates</div><div>Submission deadline September 20, 2025</div></div>
@@ -1281,6 +1494,11 @@
 
 <script>
   function walk(node, regex) {
+    // Skip excluded containers entirely (header/nav or any [data-no-highlight] region)
+    if (node.nodeType === 1) {
+      if (node.closest && node.closest('.header-fixed,[data-no-highlight]')) return;
+    }
+
     if (node.nodeType === 3) {
       const match = node.nodeValue.match(regex);
       if (match) {
@@ -1289,8 +1507,14 @@
         span.innerHTML = html;
         node.parentNode.replaceChild(span, node);
       }
-    } else if (node.nodeType === 1 && node.childNodes && !['SCRIPT', 'STYLE', 'MARK'].includes(node.tagName)) {
-      for (let i = 0; i < node.childNodes.length; i++) walk(node.childNodes[i], regex);
+    } else if (
+      node.nodeType === 1 &&
+      node.childNodes &&
+      !['SCRIPT', 'STYLE', 'MARK'].includes(node.tagName)
+    ) {
+      for (let i = 0; i < node.childNodes.length; i++) {
+        walk(node.childNodes[i], regex);
+      }
     }
   }
 
@@ -1302,33 +1526,37 @@
     });
   }
 
-  function setHeaderOffset(){
+  function setHeaderOffset() {
     const fixed = document.querySelector('.header-fixed');
-    if(!fixed) return;
+    if (!fixed) return;
     const h = fixed.offsetHeight || 0;
     document.body.style.paddingTop = (h + 10) + 'px';
-    document.querySelectorAll('h3[id], h4[id]').forEach(el=>{
+    document.querySelectorAll('h3[id], h4[id]').forEach(el => {
       el.style.scrollMarginTop = (h + 10) + 'px';
     });
   }
 
-  function debounce(fn, ms){ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn.apply(this,args), ms); }; }
+  function debounce(fn, ms) {
+    let t;
+    return (...args) => { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), ms); };
+  }
 
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const input = document.getElementById('search-input');
 
     setHeaderOffset();
 
-    // Search highlight works on card content, too
     let searchTimer = null;
     function highlightFilter(value) {
       removeHighlights();
       if (!value) return;
-      const regex = new RegExp('(' + value.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&') + ')', 'gi');
-      document.body.querySelectorAll(':not(header):not(.header-fixed):not(script):not(style)').forEach(el => {
-        walk(el, regex);
+      const regex = new RegExp('(' + value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+      // Only search within main content areas, never in the fixed header
+      document.querySelectorAll('.page').forEach(root => {
+        walk(root, regex);
       });
     }
+
     input.addEventListener('input', () => {
       clearTimeout(searchTimer);
       searchTimer = setTimeout(() => highlightFilter(input.value.trim()), 180);
