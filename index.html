@@ -6,6 +6,9 @@
 <title>CVNet - Community Calendar</title>
 <meta name="theme-color" content="#FFD12D"/>
 <style>
+  /* Added: predictably size elements and improve wrapping */
+  *, *::before, *::after { box-sizing: border-box; }
+
   :root{
     --brand-yellow:#FFD12D;
     --brand-blue:#000066;
@@ -28,6 +31,8 @@
     margin: 0;
     line-height: 1.6;
     font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   /* Page container margins for content */
@@ -58,6 +63,9 @@
   }
   .title-banner h2{
     margin: 0;
+    /* Added: allow long page titles to wrap safely on small screens */
+    overflow-wrap:anywhere;
+    word-break: break-word;
   }
   .title-banner .subtitle{
     margin-top: 6px;
@@ -93,6 +101,7 @@
     padding: 6px 10px;
     border-radius: 999px;
     border: 1px solid rgba(0,0,102,.12);
+    white-space: nowrap; /* keep single-line labels */
   }
   .quick-links a:hover{ text-decoration: underline; }
 
@@ -124,7 +133,12 @@
   }
   h4 { margin: 18px 0 8px; color: var(--brand-blue); }
 
-  a { color: #003366; text-decoration: none; }
+  a {
+    color: #003366; text-decoration: none;
+    /* Added: ensure very long URLs or emails wrap instead of overflowing */
+    overflow-wrap:anywhere;
+    word-break: break-word;
+  }
   a:hover { text-decoration: underline; }
 
   mark.cvnet-highlight {
@@ -147,6 +161,9 @@
     box-shadow: var(--card-shadow);
     padding: 14px;
     transition: box-shadow .2s ease, transform .2s ease;
+    /* Added: make sure content inside cards can wrap and never overflow */
+    overflow-wrap:anywhere;
+    word-break: break-word;
   }
   .card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-1px); }
 
@@ -155,6 +172,9 @@
     color: #001652;
     margin-bottom: 6px;
     line-height: 1.35;
+    /* Added: prevent long titles from causing overflow */
+    overflow-wrap:anywhere;
+    word-break: break-word;
   }
   .meta {
     display: grid;
@@ -173,6 +193,13 @@
   }
   .notes-list { margin: 0; padding-left: 1.1em; }
   .notes-list li { margin: 2px 0; }
+
+  /* Added: guarantee the value column actually shrinks and wraps on narrow screens */
+  .meta-row > :last-child {
+    min-width: 0;
+    overflow-wrap:anywhere;
+    word-break: break-word;
+  }
 
   /* Section intro paragraph card */
   .intro {
@@ -205,10 +232,12 @@
     }
     .quick-links a {
       scroll-snap-align: start;
-      white-space: nowrap; /* keep single-line labels */
     }
     .search-wrap { width: 100%; margin-left: 0; }
     #search-input { width: 100%; max-width: 100%; }
+
+    /* Added: slightly narrower label on phones to give values more room */
+    .meta-row { grid-template-columns: 120px minmax(0,1fr); }
   }
 </style>
 
@@ -810,7 +839,7 @@
         <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
       </div>
     </div>
-<div class="card md-6">
+    <div class="card md-6">
       <div class="title"><b>Bay Area Vision Research Day (BAVRD)</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
