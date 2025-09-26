@@ -6,6 +6,19 @@
 <title>CVNet - Community Calendar</title>
 <meta name="theme-color" content="#FFD12D"/>
 <style>
+
+.section-desc {
+  margin: 6px 0 8px;        /* lowered bottom so the +* can matter */
+  color: #2f3a56;
+  font-size: 0.95rem;
+}
+
+/* adds a little breathing room to whatever follows the blurb */
+.section-desc + * {
+  margin-top: 8px;
+}
+
+
   /* Added: predictably size elements and improve wrapping */
   *, *::before, *::after { box-sizing: border-box; }
 
@@ -248,8 +261,9 @@
   .search-wrap { width: 100%; margin-left: 0; }
   #search-input { width: 100%; max-width: 100%; }
 
-  /* Added: slightly narrower label on phones to give values more room */
-  .meta-row { grid-template-columns: 120px minmax(0,1fr); }
+  /* Slightly narrower label on phones; allow label wrapping */
+  .meta-row { grid-template-columns: minmax(90px,140px) minmax(0,1fr); }
+  .meta-label { overflow-wrap:anywhere; }
 }
 
 /* ✅ Accessible focus outlines for keyboard users */
@@ -270,15 +284,34 @@ input[type="search"] {
   padding-right: 2.2em;
 }
 input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
+
+/* ✅ Skip link for keyboard users */
+.sr-skip {
+  position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+}
+.sr-skip:focus {
+  position:fixed; left:16px; top:16px; width:auto; height:auto; padding:8px 12px;
+  background:#fff; border:2px solid var(--brand-yellow); border-radius:8px; z-index:1001;
+}
+
+/* ✅ Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .card { transition: none; }
+  .card:hover { transform: none; }
+}
 </style>
 
-<!-- ✅ External links: open safely in a new tab -->
+<!-- ✅ External links: open safely in a new tab (robust) -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('a[href^="http"]').forEach(a => {
+    const { host } = location;
+    document.querySelectorAll('a[href]').forEach(a => {
       try {
-        const isExternal = !a.href.includes(location.host);
-        if (isExternal) { a.target = "_blank"; a.rel = "noopener noreferrer"; }
+        const url = new URL(a.getAttribute('href'), location.origin);
+        const isHttp = url.protocol === 'http:' || url.protocol === 'https:';
+        const external = isHttp && url.host !== host;
+        if (external) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
       } catch (e) {}
     });
   });
@@ -287,7 +320,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 
 </head>
 <body>
-
+<a href="#conferences" class="sr-skip">Skip to main content</a>
 <!-- Fixed header container that spans the very top -->
 <div class="header-fixed">
   <header class="site-header">
@@ -299,14 +332,16 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
     <div class="topbar">
       <div class="topbar-row">
         <nav class="quick-links" aria-label="Quick section links">
-          <a href="#conferences">Conferences</a>
-          <a href="#courses">Courses</a>
-          <a href="#talks">Talks</a>
-          <a href="#jobs">Jobs</a>
-          <a href="#funding">Funding</a>
-          <a href="#publications">Publications</a>
-        </nav>
-        <div class="search-wrap">
+  <a href="#conferences">Conferences</a>
+  <a href="#education">Education</a>
+  <a href="#talks">Talks</a>
+  <a href="#gradprograms">Grad Programs</a>
+  <a href="#jobs">Jobs</a>
+  <a href="#funding">Funding</a>
+  <a href="#calls">Calls &amp; Special Issues</a>
+  <a href="#competitions">Competitions</a>
+</nav>
+        <div class="search-wrap" role="search">
           <span class="icon" aria-hidden="true">🔍</span>
           <input id="search-input" type="search" placeholder="Search this page…" aria-label="Search this page"/>
         </div>
@@ -332,6 +367,9 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 
   <!-- Conferences -->
   <h3 id="conferences">Conferences</h3>
+<p class="section-desc">
+  Major academic and industry meetings in vision science, neuroscience, imaging, color, and related fields. Includes key dates for abstracts, registration, and workshops.
+</p>
   <div class="cards">
 
     <!-- Each conference as a card -->
@@ -418,7 +456,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
     </div>
 
 <div class="card md-6">
-  <div class="title"><b>Kanizsa Lecture / Trieste Symposium</b></div>
+  <div class="title"><b>Kanizsa Lecture</b></div>
   <div class="meta">
     <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
     <div class="meta-row"><div class="meta-label">Dates</div><div>October 31, 2025 • 4:00 PM</div></div>
@@ -438,6 +476,21 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
   </div>
 </div>
 
+<div class="card md-6">
+  <div class="title"><b>ACM Symposium on Spatial User Interaction (SUI 2025)</b></div>
+  <div class="meta">
+    <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
+    <div class="meta-row"><div class="meta-label">Dates</div><div>November 9–11, 2025</div></div>
+    <div class="meta-row"><div class="meta-label">Location</div><div>Montréal, Canada</div></div>
+    <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://sui.acm.org/2025/registration">sui.acm.org</a></div></div>
+    <div class="meta-row"><div class="meta-label">Notes</div><div>
+  <ul class="notes-list">
+    <li>Registration open</li>
+    <li>Joint option with VRST 2025</li>
+  </ul>
+</div></div>
+  </div>
+</div>
 
     <div class="card md-6">
       <div class="title"><b>Asian Conference on Pattern Recognition (ACPR)</b></div>
@@ -534,6 +587,38 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
         </div>
       </div>
     </div>
+
+<div class="card md-6">
+  <div class="title"><b>AAAI 2026 Workshop — Neuro for AI &amp; AI for Neuro: Towards Multi-Modal Natural Intelligence</b></div>
+  <div class="meta">
+    <div class="meta-row"><div class="meta-label">Frequency</div><div>Workshop @ AAAI</div></div>
+    <div class="meta-row"><div class="meta-label">Dates</div><div>January 27, 2026</div></div>
+    <div class="meta-row"><div class="meta-label">Location</div><div>Singapore</div></div>
+    <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://neuroai-multimodal-workshop.github.io/">Workshop site</a></div></div>
+    <div class="meta-row"><div class="meta-label">Notes</div><div>
+      <ul class="notes-list">
+        <li>Submissions via OpenReview due: <b>October 30, 2025</b></li>
+      </ul>
+    </div></div>
+  </div>
+</div>
+
+<div class="card md-6">
+  <div class="title"><b>Electronic Imaging Symposium (EI 2026)</b></div>
+  <div class="meta">
+    <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual (multi-conference symposium)</div></div>
+    <div class="meta-row"><div class="meta-label">Dates</div><div>March 1–5, 2026</div></div>
+    <div class="meta-row"><div class="meta-label">Location</div><div>Hyatt Regency San Francisco Airport, Burlingame, CA</div></div>
+    <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://imaging.org/IST/IST/Conferences/EI/EI2026/Program.aspx">imaging.org – EI 2026</a></div></div>
+    <div class="meta-row"><div class="meta-label">Notes</div><div>
+      <ul class="notes-list">
+        <li><b>Abstract submission deadline: October 15, 2025</b> (extended)</li>
+        <li>Includes 17 technical conferences (e.g., HVEI)</li>
+      </ul>
+    </div></div>
+  </div>
+</div>
+
 
     <div class="card md-6">
       <div class="title"><b>COSYNE — Computational &amp; Systems Neuroscience</b></div>
@@ -813,7 +898,25 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
     </div>
 
     <!-- 2026 TBD / Unknown Dates -->
-    <div class="card md-6">
+    
+<div class="card md-6">
+  <div class="title"><b>Trieste “Spring Congressino”</b></div>
+  <div class="meta">
+    <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual (Spring)</div></div>
+    <div class="meta-row"><div class="meta-label">Dates</div><div>Spring 2026 — TBD</div></div>
+    <div class="meta-row"><div class="meta-label">Location</div><div>Trieste, Italy</div></div>
+   <div class="meta-row">
+  <div class="meta-label">Website</div>
+  <div><a href="https://portale.units.it/en/events/calendar">https://portale.units.it/en/events/calendar</a></div>
+</div>
+    <div class="meta-row"><div class="meta-label">Notes</div><div>
+      <ul class="notes-list">
+      </ul>
+    </div></div>
+  </div>
+</div>
+
+<div class="card md-6">
       <div class="title"><b>ACM Symposium on Applied Perception (SAP)</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
@@ -929,8 +1032,8 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
         <div class="meta-row"><div class="meta-label">Dates</div><div>TBD</div></div>
         <div class="meta-row"><div class="meta-label">Location</div><div>TBD</div></div>
-        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.jobs.ac.uk/job/DOK542/research-assistant">https://www.jobs.ac.uk/job/DOK542/research-assistant</a></div></div>
-        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><em>TBD</em></div></div>
+<div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>Official site/link pending</li></ul></div></div>
       </div>
     </div>
 
@@ -962,7 +1065,10 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
   </div><!-- /cards (Conferences) -->
 
   <!-- Courses -->
-  <h3 id="courses">Courses</h3>
+  <h3 id="education">Education</h3>
+<p class="section-desc">
+  Workshops, classes, and summer schools to build skills in perception, imaging, analysis, and research methods.
+</p>
 
   <h4>Summer Schools</h4>
   <div class="cards">
@@ -1030,6 +1136,30 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
       </div>
     </div>
 
+<div class="card md-6">
+  <div class="title"><b>LightLogR: Open &amp; Reproducible Analysis of Light Exposure &amp; Visual Experience Data</b></div>
+  <div class="meta">
+    <div class="meta-row"><div class="meta-label">Dates</div><div>
+      Beginner: Oct 7, 2025 • Mar 4, 2026<br/>
+      Advanced: Dec 9, 2025 • May 6, 2026
+    </div></div>
+    <div class="meta-row"><div class="meta-label">Location</div><div>Online</div></div>
+    <div class="meta-row">
+  <div class="meta-label">Website</div>
+  <div>
+    <a href="https://tum-conf.zoom.us/webinar/register/WN_xGoHi1i_Sz2flC6-qGcLoQ#/registration">
+      https://tum-conf.zoom.us/webinar/register/WN_xGoHi1i_Sz2flC6-qGcLoQ#/registration
+    </a>
+  </div>
+</div>
+    <div class="meta-row"><div class="meta-label">Notes</div><div>
+      <ul class="notes-list">
+        <li>Hands-on training in open, reproducible analysis</li>
+      </ul>
+    </div></div>
+  </div>
+</div>
+
     <div class="card md-6">
       <div class="title"><b>Creating Perceptual Experiments with Unity and VR (CIC 33)</b></div>
       <div class="meta">
@@ -1061,17 +1191,15 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
     </div>
     <div class="meta-row">
       <div class="meta-label">Website</div>
-      <div>
-        <a href="https://imaging.org/IST/IST/Conferences/XR/XR2025/Conference/C_XR.aspx" aria-label="Imaging for XR 2025 event page">imaging.org – XR 2025</a>
-      </div>
+      <div><a href="https://bit.ly/Imaging4XR_Register">https://bit.ly/Imaging4XR_Register</a></div>
     </div>
     <div class="meta-row">
       <div class="meta-label">Notes</div>
       <div>
         <ul class="notes-list">
-          <li>Time: 08:00–16:00 PT (11:00–19:00 ET)</li>
+          <li>Time: 08:00–16:00 PT (11:00–19:00 ET; 17:00–01:00 Paris)</li>
           <li>Early-bird deadline: October 14, 2025</li>
-          <li>Recordings available until January 15, 2026</li>
+          <li>Student &amp; classroom discounts available</li>
         </ul>
       </div>
     </div>
@@ -1091,6 +1219,9 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 
   <!-- Talks -->
   <h3 id="talks">Talks</h3>
+<p class="section-desc">
+  Recurring journal clubs and seminar series open to the community, plus notable one-off talks.
+</p>
 
   <h4>Journal Clubs</h4>
   <div class="cards">
@@ -1151,29 +1282,11 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
     </div>
   </div>
 
-  <!-- Jobs -->
-  <h3 id="jobs">Jobs</h3>
 
-  <h4>Jobs and Student Positions</h4>
-  <div class="cards">
-    <div class="card md-6">
-      <div class="title"><b>Research Assistants – Visual Plasticity (2 positions)</b></div>
-      <div class="meta">
-        <div class="meta-row"><div class="meta-label">Dates</div><div>Start Jan 2026</div></div>
-        <div class="meta-row"><div class="meta-label">Location</div><div>Child Vision Lab, University College London (UCL), London, UK</div></div>
-        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.ucl.ac.uk/child-vision-lab">https://www.ucl.ac.uk/child-vision-lab</a></div></div>
-        <div class="meta-row"><div class="meta-label">Notes</div>
-          <div>
-            <ul class="notes-list">
-              <li>Two RA posts available</li>
-              <li>Application deadline: October 16, 2025</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
+<h3 id="gradprograms">Grad Programs</h3>
+<p class="section-desc">
+  Doctoral and Masters opportunities. Includes dedicated PhD and MSc programs submitted by members.
+</p>
 <div class="cards">
   <div class="card md-6">
     <div class="title"><b>PhD Position — Cognitive &amp; Neural Development Lab (UMass Amherst)</b></div>
@@ -1195,11 +1308,109 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
       </div>
     </div>
   </div>
+
+ <div class="card md-6">
+      <div class="title"><b>PhD or Postdoctoral Position – Vision Science</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>TBD</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>University of Iceland, Reykjavik</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div>
+          <div><a href="https://visionscience.com/pipermail/visionlist_visionscience.com/2025/009473.html">VisionList post</a></div>
+        </div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>Icelandic Vision Lab</li></ul></div></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Jobs -->
+  <h3 id="jobs">Jobs</h3>
+<p class="section-desc">
+  PhD, postdoc, RA, and faculty positions in vision, perception, neuroscience, imaging, and allied areas.
+</p>
+
+<h4>Jobs and Student Positions</h4>
+
+
+  <div class="cards">
+    
+<div class="card md-6">
+  <div class="title"><b>PhD Position — Fairness in Face Recognition (GOOD-BIAS!)</b></div>
+  <div class="meta">
+    <div class="meta-row"><div class="meta-label">Location</div><div>EURECOM, Sophia Antipolis, France</div></div>
+   <div class="meta-row">
+  <div class="meta-label">Website</div>
+  <div><a href="https://www.eurecom.fr/en/job/holistic-and-generalizable-solutions-bias-mitigation-face-recognition">https://www.eurecom.fr/en/job/holistic-and-generalizable-solutions-bias-mitigation-face-recognition</a></div>
 </div>
+    <div class="meta-row"><div class="meta-label">Notes</div><div>
+      <ul class="notes-list">
+        <li>Focus: bias and fairness in biometrics</li>
+      </ul>
+    </div></div>
+  </div>
+</div>
+
+<div class="card md-6">
+  <div class="title"><b>PhD Position — Sensory Perception in Autism</b></div>
+  <div class="meta">
+    <div class="meta-row"><div class="meta-label">Location</div><div>Technische Universität Dresden, Germany</div></div>
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://www.verw.tu-dresden.de/StellAus/stelle.asp?id=12400&amp;lang=en">
+          https://www.verw.tu-dresden.de/StellAus/stelle.asp?id=12400&amp;lang=en
+        </a>
+      </div>
+    </div>
+    <div class="meta-row"><div class="meta-label">Notes</div><div>
+      <ul class="notes-list">
+        <li>3-year funded position</li>
+        <li>Research: visual thalamus alterations in autism</li>
+      </ul>
+    </div></div>
+  </div>
+</div>
+
+
+<div class="card md-6">
+  <div class="title"><b>Assistant/Associate Professor — Computational Psychology</b></div>
+  <div class="meta">
+    <div class="meta-row"><div class="meta-label">Location</div><div>Tufts University, Medford, MA</div></div>
+    <div class="meta-row">
+  <div class="meta-label">Website</div>
+  <div><a href="https://apply.interfolio.com/172807">Job posting (Interfolio)</a></div>
+</div>
+    <div class="meta-row"><div class="meta-label">Notes</div><div>
+      <ul class="notes-list">
+        <li>Review of applications begins <b>October 1, 2025</b></li>
+      </ul>
+    </div></div>
+  </div>
+</div>
+
+
+<div class="card md-6">
+      <div class="title"><b>Research Assistants – Visual Plasticity (2 positions)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Dates</div><div>Start Jan 2026</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Child Vision Lab, University College London (UCL), London, UK</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.ucl.ac.uk/child-vision-lab">https://www.ucl.ac.uk/child-vision-lab</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div>
+          <div>
+            <ul class="notes-list">
+              <li>Two RA posts available</li>
+              <li>Application deadline: October 16, 2025</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <h4>Postdoctoral Career Opportunities</h4>
   <div class="cards">
-    <div class="card md-6">
+    
+<div class="card md-6">
       <div class="title"><b>Postdoc – Grounded Gesture Generation in Context</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Dates</div><div>Start Feb 1, 2026 (negotiable)</div></div>
@@ -1215,6 +1426,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
         </div>
       </div>
     </div>
+
     <div class="card md-6">
       <div class="title"><b>Postdoctoral Fellow – Neuroimaging of Visual System</b></div>
       <div class="meta">
@@ -1224,18 +1436,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
         <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>Contact: kevinchan@stanford.edu</li></ul></div></div>
       </div>
     </div>
-    <div class="card md-6">
-      <div class="title"><b>PhD or Postdoctoral Position – Vision Science</b></div>
-      <div class="meta">
-        <div class="meta-row"><div class="meta-label">Dates</div><div>TBD</div></div>
-        <div class="meta-row"><div class="meta-label">Location</div><div>University of Iceland, Reykjavik</div></div>
-        <div class="meta-row"><div class="meta-label">Website</div>
-          <div><a href="https://visionscience.com/pipermail/visionlist_visionscience.com/2025/009473.html">VisionList post</a></div>
-        </div>
-        <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>Icelandic Vision Lab</li></ul></div></div>
-      </div>
-    </div>
-  </div>
+   </div>
 
   <h4>Faculty Positions</h4>
   <div class="cards">
@@ -1306,40 +1507,40 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
     </div>
   </div>
 
-  <!-- Funding -->
-  <h3 id="funding">Funding</h3>
-  <div class="cards">
-    <div class="card md-6">
-      <div class="title"><b>Females of Vision et al. Travel and Networking Award</b></div>
-      <div class="meta">
-        <div class="meta-row"><div class="meta-label">Dates</div><div>Deadline TBD (typically March)</div></div>
-        <div class="meta-row"><div class="meta-label">Location</div><div>Vision Sciences Society Annual Meeting</div></div>
-        <div class="meta-row"><div class="meta-label">Website</div><div><a href="http://www.foveavision.org/awards/accepting-applications">http://www.foveavision.org/awards/accepting-applications</a></div></div>
-        <div class="meta-row"><div class="meta-label">Notes</div>
-          <div>
-            <ul class="notes-list">
-              <li>$1,000 each, up to 8 awards</li>
-              <li>Open to women, transgender, intersex, or non-binary graduate students, postdocs, or early-career vision scientists</li>
-              <li>Contact: <a href="mailto:fovea.award@gmail.com">fovea.award@gmail.com</a></li>
-            </ul>
-          </div>
+<!-- Funding -->
+<h3 id="funding">Funding</h3>
+<p class="section-desc">
+  Travel awards, fellowships, and research support opportunities with typical timelines and eligibility notes.
+</p>
+
+<div class="cards">
+  <div class="card md-6">
+    <div class="title"><b>Females of Vision et al. Travel and Networking Award</b></div>
+    <div class="meta">
+      <div class="meta-row"><div class="meta-label">Dates</div><div>Deadline TBD (typically March)</div></div>
+      <div class="meta-row"><div class="meta-label">Location</div><div>Vision Sciences Society Annual Meeting</div></div>
+      <div class="meta-row"><div class="meta-label">Website</div><div><a href="http://www.foveavision.org/awards/accepting-applications">http://www.foveavision.org/awards/accepting-applications</a></div></div>
+      <div class="meta-row"><div class="meta-label">Notes</div>
+        <div>
+          <ul class="notes-list">
+            <li>$1,000 each, up to 8 awards</li>
+            <li>Open to women, transgender, intersex, or non-binary graduate students, postdocs, or early-career vision scientists</li>
+            <li>Contact: <a href="mailto:fovea.award@gmail.com">fovea.award@gmail.com</a></li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
 
-<div class="cards">
   <div class="card md-6">
     <div class="title"><b>Shanahan Foundation Fellowship (Allen Institute + UW)</b></div>
     <div class="meta">
       <div class="meta-row"><div class="meta-label">Dates</div><div>Application deadline: December 1, 2025</div></div>
       <div class="meta-row"><div class="meta-label">Location</div><div>Seattle, WA (Allen Institute &amp; University of Washington)</div></div>
-      <div class="meta-row">
-        <div class="meta-label">Website</div>
+      <div class="meta-row"><div class="meta-label">Website</div>
         <div><a href="https://alleninstitute.org/what-we-do/brain-science/careers/shanahan-foundation-fellowship/" aria-label="Shanahan Foundation Fellowship page">Allen Institute – Shanahan Fellowship</a></div>
       </div>
-      <div class="meta-row">
-        <div class="meta-label">Notes</div>
+      <div class="meta-row"><div class="meta-label">Notes</div>
         <div>
           <ul class="notes-list">
             <li>Prestigious 3-year postdoctoral fellowship</li>
@@ -1351,8 +1552,12 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
   </div>
 </div>
 
+
   <!-- Publications -->
-  <h3 id="publications">Calls for Papers &amp; Special Issues</h3>
+<h3 id="calls">Calls & Special Issues</h3>
+<p class="section-desc">
+  Active calls for papers, special issues, and related solicitations relevant to the community.
+</p>
   <div class="cards">
 
 <div class="card md-6">
@@ -1360,7 +1565,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
   <div class="meta">
     <div class="meta-row">
       <div class="meta-label">Dates</div>
-      <div>Submission deadline: September 19, 2025</div>
+      <div>Submission deadline: CLOSED </div>
     </div>
     <div class="meta-row">
       <div class="meta-label">Location</div>
@@ -1384,25 +1589,6 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
   </div>
 </div>
     
-
-<div class="card md-6">
-      <div class="title"><b>Best Illusion of the Year Contest (2025)</b></div>
-      <div class="meta">
-        <div class="meta-row"><div class="meta-label">Dates</div><div>Submission deadline September 20, 2025</div></div>
-        <div class="meta-row"><div class="meta-label">Location</div><div>Online</div></div>
-        <div class="meta-row"><div class="meta-label">Website</div><div><a href="mailto:smart@neuralcorrelate.com">smart@neuralcorrelate.com</a></div></div>
-        <div class="meta-row"><div class="meta-label">Notes</div>
-          <div>
-            <ul class="notes-list">
-              <li>Submit a 1-minute video of a novel illusion (any modality)</li>
-              <li>Top-10 finalists; worldwide voting</li>
-              <li>Prizes: $3,000 / $2,000 / $1,000</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="card md-6">
       <div class="title"><b>Responsible Imaging @ ICCV 2025 — Workshop</b></div>
       <div class="meta">
@@ -1464,26 +1650,34 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
         </div>
       </div>
     </div>
+</div>
 
-    <div class="card md-6">
-      <div class="title"><b>IEEE FG 2026 – International Conference on Automatic Face and Gesture Recognition</b></div>
+<h3 id="competitions">Competitions and Prizes</h3>
+<p class="section-desc">
+  Community contests and prizes highlighting creativity and achievement (e.g., Illusion of the Year).
+</p>
+<div class="cards">
+<div class="card md-6">
+      <div class="title"><b>Best Illusion of the Year Contest (2025)</b></div>
       <div class="meta">
-        <div class="meta-row"><div class="meta-label">Dates</div><div>Conference May 25–29, 2026</div></div>
-        <div class="meta-row"><div class="meta-label">Location</div><div>Kyoto, Japan</div></div>
-        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://fg2026.ieee-biometrics.org/">https://fg2026.ieee-biometrics.org/</a></div></div>
+        <div class="meta-row"><div class="meta-label">Dates</div><div><b>Submission deadline October 14, 2025</b> (extended)</div></div>
+        <div class="meta-row"><div class="meta-label">Location</div><div>Online</div></div>
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="mailto:smart@neuralcorrelate.com">smart@neuralcorrelate.com</a></div></div>
         <div class="meta-row"><div class="meta-label">Notes</div>
           <div>
             <ul class="notes-list">
-              <li>Papers published in IEEE Xplore</li>
-              <li>Deadlines — Round 1: Abstract Sept 25, 2025 • Paper Oct 2, 2025</li>
-              <li>Deadlines — Round 2: Jan 9–15, 2026</li>
+              <li>Submit a 1-minute video of a novel illusion (any modality)</li>
+              <li>Top-10 finalists; worldwide voting</li>
+              <li>Prizes: $3,000 / $2,000 / $1,000</li>
             </ul>
           </div>
         </div>
       </div>
     </div>
-  </div>
+</div>
 
+
+    
   <p style="text-align: center; margin: 24px 0;">
     CVNet is supported by the
     <a href="https://www.ski.org/" target="_blank" rel="noopener noreferrer">
@@ -1547,9 +1741,14 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
     setHeaderOffset();
 
     let searchTimer = null;
+    let lastQuery = '';
     function highlightFilter(value) {
       removeHighlights();
-      if (!value) return;
+      if (!value || value.length < 2 || value === lastQuery) {
+        if (!value) lastQuery = '';
+        return;
+      }
+      lastQuery = value;
       const regex = new RegExp('(' + value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
       // Only search within main content areas, never in the fixed header
       document.querySelectorAll('.page').forEach(root => {
@@ -1559,12 +1758,19 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 
     input.addEventListener('input', () => {
       clearTimeout(searchTimer);
-      searchTimer = setTimeout(() => highlightFilter(input.value.trim()), 180);
+      searchTimer = setTimeout(() => {
+        const q = input.value.trim();
+        if (!q) { lastQuery = ''; removeHighlights(); return; }
+        highlightFilter(q);
+      }, 180);
     });
   });
 
   window.addEventListener('resize', debounce(setHeaderOffset, 100));
+  // Also recalc after full assets load to avoid initial anchor "peek"
+  window.addEventListener('load', setHeaderOffset);
 </script>
 
 </body>
 </html>
+```
