@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>CVNet - Community Calendar</title>
+<meta name="theme-color" content="#FFD12D"/>
+
+<style>
+  :root{
+    --brand-yellow:#FFD12D;
+    --brand-blue:#000066;
+    --text:#0f172a;
+    --muted:#f6f7fb;
+    --border:#e6e9f2;
+    --border-strong:#d7dcec;
+
+    --card-bg:#ffffff;
+    --card-shadow: 0 6px 18px rgba(0,0,0,.06), 0 2px 8px rgba(0,0,0,.04);
+    --card-shadow-hover: 0 10px 26px rgba(0,0,0,.09), 0 6px 14px rgba(0,0,0,.06);
+
+    scroll-padding-top: 90px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: Arial, sans-serif; color: var(--text); background: var(--muted); margin: 0; line-height: 1.6; font-size: 16px; }
+  a { color: #003366; text-decoration: none; overflow-wrap:anywhere; word-break: break-word; }
+  a:hover { text-decoration: underline; }
+  .page { margin: 20px; }
+
+  /* Header */
+  .header-fixed { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: #fff; box-shadow: 0 1px 0 rgba(0,0,0,.05); }
+  .site-header { margin: 0 20px; padding-top: 16px; }
+  .title-banner{ background: var(--brand-yellow); border-radius: 10px; padding: 16px 20px; text-align:center; }
+  .title-banner h2{ margin: 0; overflow-wrap:anywhere; }
+  .title-banner .subtitle{ margin-top: 6px; font-size: 14px; }
+  .cv-back-links{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin:.5rem 0;}
+  .cv-btn{ display:inline-block; padding:.5rem .75rem; font-weight:600; border:1px solid var(--border); background:#fff; color:#000066; border-radius:.6rem; box-shadow: var(--card-shadow); }
+  .cv-btn:hover{ outline:2px solid var(--brand-yellow); }
+
+  h3 { color: var(--brand-blue); border-bottom: 3px solid var(--brand-yellow); padding-bottom: 6px; margin: 28px 0 14px; }
+  mark.cvnet-highlight { background: yellow; color:black; }
+
+  /* Toolbar (modern dropdown filters) */
+  .toolbar-shell{
+    position: sticky; top: 78px; z-index: 900;
+    background: #fff; border:1px solid var(--border); border-radius:14px; padding:10px;
+    box-shadow: var(--card-shadow); margin: 12px 0 14px;
+  }
+  .toolbar{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .tool{
+    display:flex; align-items:center; gap:8px; background:#fff; border:1px solid var(--border);
+    padding:8px 10px; border-radius:999px;
+  }
+  .tool input[type="search"]{
+    border:0; outline:none; min-width: 200px; width: clamp(160px, 26vw, 340px);
+  }
+  .btn{ border:0; background:transparent; cursor:pointer; font-weight:700; color:#0f1b4c; }
+  .btn.pill{ border:1px solid var(--border); border-radius:999px; padding:8px 12px; background:#fff; }
+  .btn.clear-all{ border-style:dashed; }
+  .count-badge{
+    display:inline-block; min-width:1.25em; padding:1px 6px; border-radius:999px; font-size:12px; font-weight:700;
+    background:#eef2ff; border:1px solid #dbe2ff; color:#1f2a6b; margin-left:6px;
+  }
+
+  /* details dropdowns */
+  details.filter { position: relative; }
+  details.filter > summary{
+    list-style:none; cursor:pointer; display:flex; align-items:center; gap:8px;
+    border:1px solid var(--border); padding:8px 12px; border-radius:999px; font-weight:700; color:#0f1b4c;
+  }
+  details.filter > summary::-webkit-details-marker{ display:none; }
+  details.filter[open] > summary{ background:#fbfcff; }
+  .menu{
+    position:absolute; top: calc(100% + 8px); left:0; min-width: 240px;
+    background:#fff; border:1px solid var(--border-strong); border-radius:12px; box-shadow: var(--card-shadow); padding:10px;
+  }
+  .menu .row{ display:flex; gap:8px; align-items:center; padding:6px 4px; border-radius:8px; }
+  .menu .row:hover{ background:#fbfcff; }
+  .menu .footer{ display:flex; gap:8px; justify-content:flex-end; margin-top:8px; }
+  .menu .footer .btn{ border:1px solid var(--border); border-radius:8px; padding:6px 10px; }
+
+  /* Active filter chips */
+  .active-chips{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+  .chip{
+    display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px;
+    border:1px solid var(--border); background:#fbfcff; font-weight:600; color:#1f2a6b;
+  }
+  .chip button{ border:0; background:transparent; cursor:pointer; font-weight:700; }
+
+  /* Cards */
+  .cards { display: grid; grid-template-columns: repeat(12, 1fr); gap: 14px; margin-bottom: 24px; }
+  .card { grid-column: span 12; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--card-shadow); padding: 14px; transition: box-shadow .2s, transform .2s; overflow-wrap:anywhere; }
+  .card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-1px); }
+  .card .title { font-weight: 700; color: #001652; margin-bottom: 6px; line-height: 1.35; }
+  .meta { display:grid; grid-template-columns: 1fr; gap: 8px; }
+  .meta-row { display:grid; grid-template-columns: 160px minmax(0,1fr); gap: 10px; align-items:start; }
+  .meta-label { font-weight:700; color: var(--brand-blue); }
+  .meta-row > :last-child { min-width:0; overflow-wrap:anywhere; }
+
+  .intro { background: #fffaf0; border: 1px solid #ffe3a3; color: #3a2a00; }
+
+  /* Table (gentle) */
+  .table-wrap{ width:100%; overflow:auto; border:1px solid var(--border); border-radius:12px; background:#fff; box-shadow: var(--card-shadow); }
+  table { width:100%; border-collapse: separate; border-spacing: 0; font-size: 0.95rem; }
+  thead th{ position: sticky; top:0; background:#fbfcff; text-align:left; border-bottom:1px solid var(--border); padding:12px; color:#0f1b4c; font-weight:700; }
+  tbody td{ border-top:1px solid #f2f3f7; padding:10px 12px; vertical-align: top; }
+  tbody tr:nth-child(odd){ background:#fcfdff; }
+  tbody tr:hover{ background:#f7f9ff; }
+
+  /* Responsive */
+  @media (min-width: 720px) { .card.sm-6 { grid-column: span 6; } }
+  @media (max-width: 700px) {
+    .site-header { margin: 0 12px; padding-top: 12px; }
+    .tool input[type="search"]{ min-width: 140px; }
+    .toolbar{ gap:8px; }
+    .menu{ left:auto; right:0; }
+    .meta-row { grid-template-columns: minmax(90px,140px) minmax(0,1fr); }
+  }
+
+  /* A11y niceties */
+  a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--brand-yellow); outline-offset: 2px; border-radius: 6px; }
+  input[type="search"] { -webkit-appearance: textfield; accent-color: var(--brand-blue); padding-right: 2.2em; }
+  input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
+
+  .sr-skip { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+  .sr-skip:focus { position:fixed; left:16px; top:16px; width:auto; height:auto; padding:8px 12px; background:#fff; border:2px solid var(--brand-yellow); border-radius:8px; z-index:1001; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .card { transition: none; }
+    .card:hover { transform: none; }
+  }
+
+  .section-desc { margin: 6px 0 8px; color: #2f3a56; font-size: 0.95rem; }
+  .section-desc + * { margin-top: 8px; }
+
+  .results-bar{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; color:#374151; font-size:0.95rem; margin: 6px 0 14px; }
+  .pill{ background:#eef2ff; border:1px solid #dbe2ff; color:#1f2a6b; border-radius:999px; padding:2px 8px; font-weight:600; }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const { host } = location;
+    document.querySelectorAll('a[href]').forEach(a => {
+      try {
+        const url = new URL(a.getAttribute('href'), location.origin);
+        const isHttp = url.protocol === 'http:' || url.protocol === 'https:';
+        const external = isHttp && url.host !== host;
+        if (external) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
+      } catch (e) {}
+    });
+  });
+</script>
+</head>
+
+<body>
+<a href="#top" class="sr-skip">Skip to main content</a>
+
+<div class="header-fixed">
+  <header class="site-header">
+    <div class="title-banner">
+      <h2>CVNet Journals List</h2>
+      <div class="subtitle">Last updated: 2 October, 2025</div>
+    </div>
+
+    <p class="cv-back-links" aria-label="Navigate back">
+      <a class="cv-btn" href="https://calendar.cvnet.org/">← Back to Calendar</a>
+      <a class="cv-btn" href="https://info.cvnet.org/">← Back to CVNet</a>
+    </p>
+  </header>
+</div>
+
+<div class="page" id="top">
+  <div class="card intro">
+    This page lists relevant journals for the color &amp; vision research community. Send additions or corrections to David Peterzell
+    <a href="mailto:davidpeterzell@mac.com">davidpeterzell@mac.com</a> and Michaela Tedesco
+    <a href="mailto:mtedesco12@gmail.com">mtedesco12@gmail.com</a>.
+  </div>
+
+  <h3 id="journals">Journals</h3>
+
+  <!-- Modern Filter Toolbar -->
+  <div class="toolbar-shell" role="region" aria-label="Filters">
+    <div class="toolbar">
+      <!-- Search -->
+      <div class="tool" role="search">
+        <span class="icon" aria-hidden="true">🔎</span>
+        <input id="search-input" type="search" placeholder="Search title, focus, OA, impact…" aria-label="Search journals">
+      </div>
+
+      <!-- OA dropdown -->
+      <details class="filter" id="flt-oa">
+        <summary id="btn-oa" class="btn">
+          OA <span id="oa-count" class="count-badge" style="display:none;">0</span>
+        </summary>
+        <div class="menu" role="menu" aria-label="Open Access">
+          <label class="row"><input type="checkbox" value="Fully OA"> Fully OA</label>
+          <label class="row"><input type="checkbox" value="Hybrid"> Hybrid</label>
+          <label class="row"><input type="checkbox" value="Unknown"> Unknown</label>
+          <div class="footer">
+            <button class="btn" data-action="clear-oa">Clear</button>
+            <button class="btn" data-action="apply-oa">Apply</button>
+          </div>
+        </div>
+      </details>
+
+      <!-- Focus dropdown -->
+      <details class="filter" id="flt-focus">
+        <summary id="btn-focus" class="btn">
+          Focus <span id="focus-count" class="count-badge" style="display:none;">0</span>
+        </summary>
+        <div class="menu" role="menu" aria-label="Focus">
+          <label class="row"><input type="checkbox" value="Basic"> Basic</label>
+          <label class="row"><input type="checkbox" value="Clinical"> Clinical</label>
+          <label class="row"><input type="checkbox" value="Applied"> Applied</label>
+          <label class="row"><input type="checkbox" value="Translational"> Translational</label>
+          <div class="footer">
+            <button class="btn" data-action="clear-focus">Clear</button>
+            <button class="btn" data-action="apply-focus">Apply</button>
+          </div>
+        </div>
+      </details>
+
+      <!-- Sort -->
+      <details class="filter" id="flt-sort">
+        <summary id="btn-sort" class="btn">Sort</summary>
+        <div class="menu" role="menu" aria-label="Sort">
+          <label class="row"><input type="radio" name="sort" value="title" checked> Title (A–Z)</label>
+          <label class="row"><input type="radio" name="sort" value="impact"> Impact (high → low)</label>
+        </div>
+      </details>
+
+      <button class="btn pill clear-all" id="btn-clear-all" title="Clear search and filters">Clear all</button>
+    </div>
+
+    <!-- Active filter chips -->
+    <div id="active-chips" class="active-chips" aria-live="polite"></div>
+  </div>
+
+  <div class="results-bar">
+    <span id="result-count" class="pill" aria-live="polite">0</span>
+    <span id="result-text">journals</span>
+    <div style="margin-left:auto; display:flex; gap:10px; align-items:center;">
+      <div class="view-toggle" role="group" aria-label="Change view">
+        <button id="btn-cards" class="btn pill" type="button" aria-pressed="true">Cards</button>
+        <button id="btn-table" class="btn pill" type="button" aria-pressed="false">Table</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cards view -->
+  <div class="cards" id="journal-cards" aria-live="polite"></div>
+
+  <!-- Table view -->
+  <div id="table-view" class="table-wrap" style="display:none;">
+    <table aria-describedby="result-text">
+      <thead>
+        <tr>
+          <th scope="col">Journal</th>
+          <th scope="col">Website</th>
+          <th scope="col">Impact</th>
+          <th scope="col">Focus</th>
+          <th scope="col">Open Access</th>
+          <th scope="col">OA Policy</th>
+        </tr>
+      </thead>
+      <tbody id="journal-rows"></tbody>
+    </table>
+  </div>
+
+  <p style="text-align: center; margin: 24px 0;">
+    CVNet is supported by the
+    <a href="https://www.ski.org/">Smith-Kettlewell Eye Research Institute</a>
+  </p>
+</div>
+
+<!-- DATA -->
+<script id="journal-data" type="application/json">
+[
+  {"title":"Acta Ophthalmologica","website":"https://onlinelibrary.wiley.com/journal/17553768","website_label":"onlinelibrary.wiley.com","impact":"2.8 (self-reported, verified by Wiley/Clarivate) — 2023/2024 — Wiley, Bioxbio, WoS (flagged as reported)","focus":"Clinical / Basic — Ophthalmology","oa":"Unknown/Verify","oa_policy_url":"","oa_policy_label":"","examples_url":"","examples_label":""},
+  {"title":"American Journal of Ophthalmology","website":"https://www.ajo.com","website_label":"www.ajo.com","impact":"1.9 (self-reported, Hindawi/Wiley) — 2023/2024 — Publisher-reported (flagged)","focus":"Clinical — Ophthalmology","oa":"Hybrid (Subscription + optional OA) | Subscription journal with OA option for authors (APC)","oa_policy_url":"https://www.aaojournal.org/","oa_policy_label":"www.aaojournal.org","examples_url":"","examples_label":""},
+  {"title":"Annual Review of Vision Science","website":"https://www.annualreviews.org/journal/vision","website_label":"www.annualreviews.org","impact":"5.5 — 2024.0 — Wikipedia","focus":"Basic — Vision Science","oa":"Unknown/Verify","oa_policy_url":"","oa_policy_label":"","examples_url":"","examples_label":""},
+  {"title":"Biomedical Optics Express","website":"https://opg.optica.org/boe/home.cfm","website_label":"opg.optica.org","impact":" —  — ","focus":"Basic / Applied — Optics & Photonics","oa":"Fully OA (Gold)","oa_policy_url":"https://opg.optica.org/boe/about.cfm","oa_policy_label":"opg.optica.org","examples_url":"","examples_label":""},
+  {"title":"British Journal of Ophthalmology","website":"https://bjo.bmj.com","website_label":"bjo.bmj.com","impact":"2.2 — 2024.0 — Wikipedia","focus":"Clinical — Ophthalmology","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://authors.bmj.com/policies/open-access/","oa_policy_label":"authors.bmj.com","examples_url":"","examples_label":""},
+  {"title":"Clinical & Experimental Ophthalmology","website":"https://onlinelibrary.wiley.com/journal/14429071","website_label":"onlinelibrary.wiley.com","impact":"1.7 — 2024.0 — Wikipedia","focus":"Clinical — Ophthalmology","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://authorservices.wiley.com/author-resources/Journal-Authors/open-access/affiliation-policies-payments/index.html","oa_policy_label":"authorservices.wiley.com","examples_url":"","examples_label":""},
+  {"title":"Clinical Optometry","website":"https://www.dovepress.com/clinical-optometry-journal","website_label":"www.dovepress.com","impact":" —  — ","focus":"Clinical — Optometry","oa":"Fully OA (Gold)","oa_policy_url":"https://www.dovepress.com/open-access-advantage","oa_policy_label":"www.dovepress.com","examples_url":"","examples_label":""},
+  {"title":"Clinical and Experimental Optometry","website":"https://onlinelibrary.wiley.com/journal/14440938","website_label":"onlinelibrary.wiley.com","impact":"1.7 — 2024.0 — Wikipedia","focus":"Clinical — Optometry","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://authorservices.wiley.com/author-resources/Journal-Authors/open-access/affiliation-policies-payments/index.html","oa_policy_label":"authorservices.wiley.com","examples_url":"","examples_label":""},
+  {"title":"Contact Lens and Anterior Eye","website":"https://www.journals.elsevier.com/contact-lens-and-anterior-eye","website_label":"www.journals.elsevier.com","impact":"2.2 — 2024.0 — Wikipedia","focus":"Clinical — Optometry","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://www.elsevier.com/about/policies/open-access-policies/article-publishing-charge","oa_policy_label":"www.elsevier.com","examples_url":"","examples_label":""},
+  {"title":"Current Eye Research","website":"https://www.tandfonline.com/journals/icey20","website_label":"www.tandfonline.com","impact":"1.7 — 2024.0 — Wikipedia","focus":"Basic / Clinical — Ophthalmology, Vision Science","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://authorservices.taylorandfrancis.com/publishing-open-access/","oa_policy_label":"authorservices.taylorandfrancis.com","examples_url":"","examples_label":""},
+  {"title":"Documenta Ophthalmologica","website":"https://link.springer.com/journal/10633","website_label":"link.springer.com","impact":"1.4 — 2024.0 — Wikipedia","focus":"Basic / Clinical — Ophthalmology, Electrophysiology","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://www.springer.com/gp/open-access","oa_policy_label":"www.springer.com","examples_url":"","examples_label":""},
+  {"title":"Eye","website":"https://www.nature.com/eye/","website_label":"www.nature.com","impact":"2.2 — 2024.0 — Wikipedia","focus":"Clinical — Ophthalmology","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://www.nature.com/nature-portfolio/open-research","oa_policy_label":"www.nature.com","examples_url":"","examples_label":""},
+  {"title":"Eye and Vision","website":"https://eandv.biomedcentral.com","website_label":"eandv.biomedcentral.com","impact":" —  — ","focus":"Clinical / Basic — Ophthalmology, Vision","oa":"Fully OA (Gold)","oa_policy_url":"https://www.springernature.com/gp/open-research","oa_policy_label":"www.springernature.com","examples_url":"","examples_label":""},
+  {"title":"Frontiers in Neuroscience (Perception Science section)","website":"https://www.frontiersin.org/journals/neuroscience/sections/perception-science","website_label":"www.frontiersin.org","impact":"5.2 — 2023/2024 — Wikipedia","focus":"Basic — Neuroscience, Perception","oa":"Fully OA (Gold)","oa_policy_url":"https://www.frontiersin.org/about/open-access","oa_policy_label":"www.frontiersin.org","examples_url":"","examples_label":""},
+  {"title":"Graefe’s Archive for Clinical and Experimental Ophthalmology","website":"https://link.springer.com/journal/417","website_label":"link.springer.com","impact":"2.2 — 2024.0 — Wikipedia","focus":"Clinical — Ophthalmology","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://www.springer.com/gp/open-access","oa_policy_label":"www.springer.com","examples_url":"","examples_label":""},
+  {"title":"Investigative Ophthalmology & Visual Science (IOVS)","website":"https://iovs.arvojournals.org","website_label":"iovs.arvojournals.org","impact":"3.1 — 2024.0 — Wikipedia","focus":"Basic / Clinical — Ophthalmology, Vision Science","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://arvojournals.org/oa","oa_policy_label":"arvojournals.org","examples_url":"","examples_label":""},
+  {"title":"JAMA Ophthalmology","website":"https://jamanetwork.com/journals/jamaophthalmology","website_label":"jamanetwork.com","impact":"2.9 — 2024.0 — Wikipedia","focus":"Clinical — Ophthalmology","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://jamanetwork.com/journals/jama/pages/instructions-for-authors#articlepublicaccess","oa_policy_label":"jamanetwork.com","examples_url":"","examples_label":""},
+  {"title":"Journal of Cataract & Refractive Surgery","website":"https://journals.lww.com/jcrs/pages/default.aspx","website_label":"journals.lww.com","impact":"2.0 — 2024.0 — Wikipedia","focus":"Clinical — Ophthalmology","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://www.lww.com/open-access/","oa_policy_label":"www.lww.com","examples_url":"","examples_label":""},
+  {"title":"Journal of Vision","website":"https://jov.arvojournals.org","website_label":"jov.arvojournals.org","impact":"2.3 — 2024.0 — Wikipedia","focus":"Basic — Vision Science, Perception","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://arvojournals.org/oa","oa_policy_label":"arvojournals.org","examples_url":"","examples_label":""},
+  {"title":"Macula Society Journal (placeholder if applicable)","website":"https://example.com","website_label":"example.com","impact":" —  — ","focus":"Clinical — Ophthalmology","oa":"Unknown/Verify","oa_policy_url":"","oa_policy_label":"","examples_url":"","examples_label":""},
+  {"title":"Medical Hypotheses and Discovery in Ophthalmology","website":"https://mehdijournal.com/index.php/mehdiophthalmol","website_label":"mehdijournal.com","impact":" —  — ","focus":"Clinical — Ophthalmology","oa":"Fully OA (Gold)","oa_policy_url":"https://mehdijournal.com/index.php/mehdiophthalmol/OA","oa_policy_label":"mehdijournal.com","examples_url":"","examples_label":""},
+  {"title":"Neural Regeneration Research (Vision-related subset)","website":"https://journals.lww.com/nrronline/pages/default.aspx","website_label":"journals.lww.com","impact":"2.5 — 2024.0 — Wikipedia","focus":"Basic — Neuroscience, Regeneration","oa":"Fully OA (Gold)","oa_policy_url":"https://journals.lww.com/nrronline/Pages/openaccess.aspx","oa_policy_label":"journals.lww.com","examples_url":"","examples_label":""},
+  {"title":"Neural Plasticity","website":"https://www.hindawi.com/journals/np/","website_label":"www.hindawi.com","impact":" —  — ","focus":"Basic — Neuroscience","oa":"Fully OA (Gold)","oa_policy_url":"https://www.hindawi.com/about/open-access/","oa_policy_label":"www.hindawi.com","examples_url":"","examples_label":""},
+  {"title":"NeuroImage","website":"https://www.sciencedirect.com/journal/neuroimage","website_label":"www.sciencedirect.com","impact":"5.7 — 2024.0 — Wikipedia","focus":"Basic — Neuroscience, Imaging","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://www.elsevier.com/about/policies/open-access-policies/article-publishing-charge","oa_policy_label":"www.elsevier.com","examples_url":"","examples_label":""},
+  {"title":"NeuroImage: Clinical","website":"https://www.sciencedirect.com/journal/neuroimage-clinical","website_label":"www.sciencedirect.com","impact":"4.2 — 2024.0 — Wikipedia","focus":"Clinical / Basic — Neuroscience, Imaging","oa":"Fully OA (Gold)","oa_policy_url":"https://www.elsevier.com/about/policies/open-access-policies/article-publishing-charge","oa_policy_label":"www.elsevier.com","examples_url":"","examples_label":""},
+  {"title":"Ophthalmic and Physiological Optics","website":"https://onlinelibrary.wiley.com/journal/14751313","website_label":"onlinelibrary.wiley.com","impact":"2.3 — 2024.0 — Wikipedia","focus":"Clinical / Applied — Optometry, Vision Science","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://authorservices.wiley.com/author-resources/Journal-Authors/open-access/affiliation-policies-payments/index.html","oa_policy_label":"authorservices.wiley.com","examples_url":"","examples_label":""},
+  {"title":"Ophthalmology","website":"https://www.aaojournal.org/","website_label":"www.aaojournal.org","impact":"3.6 — 2024.0 — Wikipedia","focus":"Clinical — Ophthalmology","oa":"Hybrid (Subscription + optional OA) | Subscription with OA option (APC)","oa_policy_url":"https://www.aaojournal.org/content/authorinfo","oa_policy_label":"www.aaojournal.org","examples_url":"","examples_label":""},
+  {"title":"Ophthalmology Retina","website":"https://www.aaojournal.org/journals/ophthalmology-retina","website_label":"www.aaojournal.org","impact":" —  — ","focus":"Clinical — Ophthalmology (Retina)","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://www.aaojournal.org/content/authorinfo","oa_policy_label":"www.aaojournal.org","examples_url":"","examples_label":""},
+  {"title":"Ophthalmology Science","website":"https://www.aaojournal.org/journals/ophthalmology-science","website_label":"www.aaojournal.org","impact":" —  — ","focus":"Clinical / Basic — Ophthalmology (Science)","oa":"Fully OA (Gold)","oa_policy_url":"https://www.aaojournal.org/content/authorinfo","oa_policy_label":"www.aaojournal.org","examples_url":"","examples_label":""},
+  {"title":"Optica","website":"https://opg.optica.org/optica/home.cfm","website_label":"opg.optica.org","impact":"4.1 — 2024.0 — Wikipedia","focus":"Basic / Applied — Optics & Photonics","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://opg.optica.org/optica/about.cfm","oa_policy_label":"opg.optica.org","examples_url":"","examples_label":""},
+  {"title":"Optometry and Vision Science","website":"https://journals.lww.com/optvissci/pages/default.aspx","website_label":"journals.lww.com","impact":"1.4 — 2024.0 — Wikipedia","focus":"Clinical / Applied — Optometry, Vision Science","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://www.lww.com/open-access/","oa_policy_label":"www.lww.com","examples_url":"","examples_label":""},
+  {"title":"Perception","website":"https://journals.sagepub.com/home/pec","website_label":"journals.sagepub.com","impact":"1.6 — 2024.0 — Wikipedia","focus":"Basic — Vision, Perception","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://journals.sagepub.com/publisher-policies/open-access-policies","oa_policy_label":"journals.sagepub.com","examples_url":"","examples_label":""},
+  {"title":"PLoS ONE (Vision-related subset)","website":"https://journals.plos.org/plosone/browse/vision_science","website_label":"journals.plos.org","impact":"2.7 — 2024.0 — Wikipedia","focus":"Basic / Applied — Vision Science (subset of PLoS ONE)","oa":"Fully OA (Gold)","oa_policy_url":"https://plos.org/open-science/open-access/","oa_policy_label":"plos.org","examples_url":"","examples_label":""},
+  {"title":"Progress in Retinal and Eye Research","website":"https://www.sciencedirect.com/journal/progress-in-retinal-and-eye-research","website_label":"www.sciencedirect.com","impact":"7.4 — 2024.0 — Wikipedia","focus":"Basic / Clinical — Ophthalmology, Vision Science","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://www.elsevier.com/about/policies/open-access-policies/article-publishing-charge","oa_policy_label":"www.elsevier.com","examples_url":"","examples_label":""},
+  {"title":"Scientific Reports (Vision-related subset)","website":"https://www.nature.com/srep/","website_label":"www.nature.com","impact":"4.6 — 2024.0 — Wikipedia","focus":"Basic / Applied — Vision Science (subset of Scientific Reports)","oa":"Fully OA (Gold)","oa_policy_url":"https://www.nature.com/srep/open-policies","oa_policy_label":"www.nature.com","examples_url":"","examples_label":""},
+  {"title":"Survey of Ophthalmology","website":"https://www.surveyofophthalmology.com","website_label":"www.surveyofophthalmology.com","impact":"2.5 — 2024.0 — Wikipedia","focus":"Clinical — Ophthalmology (Review journal)","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://www.elsevier.com/about/policies/open-access-policies/article-publishing-charge","oa_policy_label":"www.elsevier.com","examples_url":"","examples_label":""},
+  {"title":"Translational Vision Science & Technology (TVST)","website":"https://tvst.arvojournals.org","website_label":"tvst.arvojournals.org","impact":"2.9 — 2024.0 — Wikipedia","focus":"Translational — Vision Science, Ophthalmology","oa":"Fully OA (Gold)","oa_policy_url":"https://arvojournals.org/oa","oa_policy_label":"arvojournals.org","examples_url":"","examples_label":""},
+  {"title":"Vision","website":"https://www.mdpi.com/journal/vision","website_label":"www.mdpi.com","impact":" —  — ","focus":"Basic / Applied — Vision Science","oa":"Fully OA (Gold)","oa_policy_url":"https://www.mdpi.com/openaccess","oa_policy_label":"www.mdpi.com","examples_url":"","examples_label":""},
+  {"title":"Vision Research","website":"https://www.sciencedirect.com/journal/vision-research","website_label":"www.sciencedirect.com","impact":"2.6 — 2024.0 — Wikipedia","focus":"Basic — Vision Science","oa":"Hybrid (Subscription + optional OA)","oa_policy_url":"https://www.elsevier.com/about/policies/open-access-policies/article-publishing-charge","oa_policy_label":"www.elsevier.com","examples_url":"","examples_label":""},
+  {"title":"Vision: Science and Applications (VISA) papers in Optica journals","website":"https://opg.optica.org/ao/issue.cfm?issueid=4336","website_label":"opg.optica.org","impact":" —  — ","focus":"Applied / Basic — Optics & Vision Applications","oa":"Hybrid / Mixed across Optica journals","oa_policy_url":"https://www.optica.org/en-us/publications/optica_open/","oa_policy_label":"www.optica.org","examples_url":"","examples_label":""},
+  {"title":"Visual Neuroscience","website":"https://www.cambridge.org/core/journals/visual-neuroscience","website_label":"www.cambridge.org","impact":"2.3 — 2024.0 — Cambridge/Maxapress news","focus":"Basic — Vision Science, Neuroscience","oa":"Unknown/Verify","oa_policy_url":"","oa_policy_label":"","examples_url":"","examples_label":""}
+]
+</script>
+
+<script>
+  /* Utilities */
+  const $ = sel => document.querySelector(sel);
+  const $$ = sel => Array.from(document.querySelectorAll(sel));
+  const norm = s => (s||"").toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+
+  function walk(node, regex) {
+    if (node.nodeType === 1) { if (node.closest && node.closest('.header-fixed,[data-no-highlight]')) return; }
+    if (node.nodeType === 3) {
+      if (regex.test(node.nodeValue)) {
+        const span = document.createElement('span');
+        span.innerHTML = node.nodeValue.replace(regex, '<mark class="cvnet-highlight">$1</mark>');
+        node.parentNode.replaceChild(span, node);
+      }
+    } else if (node.nodeType === 1 && node.childNodes && !['SCRIPT','STYLE','MARK'].includes(node.tagName)) {
+      for (let i=0;i<node.childNodes.length;i++) walk(node.childNodes[i], regex);
+    }
+  }
+  function removeHighlights(root=document){
+    root.querySelectorAll('mark.cvnet-highlight').forEach(mark => {
+      const parent = mark.parentNode; parent.replaceChild(document.createTextNode(mark.textContent), mark); parent.normalize();
+    });
+  }
+  function setHeaderOffset() {
+    const fixed = document.querySelector('.header-fixed'); if (!fixed) return;
+    const h = fixed.offsetHeight || 0;
+    document.body.style.paddingTop = (h + 10) + 'px';
+    document.querySelectorAll('h3[id], h4[id]').forEach(el => { el.style.scrollMarginTop = (h + 10) + 'px'; });
+  }
+  const debounce = (fn, ms) => { let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn.apply(this,args), ms); }; };
+
+  /* Data */
+  const RAW = JSON.parse(document.getElementById('journal-data').textContent);
+  const DATA = RAW.slice(); // original order; sort per setting
+
+  /* Helpers */
+  function oaBucket(j){
+    const o = norm(j.oa);
+    if (o.includes('fully oa')) return 'Fully OA';
+    if (o.includes('hybrid')) return 'Hybrid';
+    return 'Unknown';
+  }
+  function hasFocus(j, key){ return norm(j.focus).includes(norm(key)); }
+  function parseImpactNumber(impactStr){
+    const m = (impactStr||'').match(/(\d+(?:\.\d+)?)/);
+    return m ? parseFloat(m[1]) : NaN;
+  }
+
+  /* Renderers */
+  function createMetaRow(label, html) {
+    const row = document.createElement('div');
+    row.className = 'meta-row';
+    row.innerHTML = `<div class="meta-label">${label}</div><div>${html}</div>`;
+    return row;
+  }
+  function renderCards(list){
+    const container = $('#journal-cards'); container.innerHTML = '';
+    list.forEach(j => {
+      const card = document.createElement('div'); card.className = 'card sm-6';
+      const title = document.createElement('div'); title.className = 'title'; title.textContent = j.title || 'Untitled Journal';
+      const meta = document.createElement('div'); meta.className = 'meta';
+      if (j.website) meta.appendChild(createMetaRow('Website', `<a href="${j.website}">${j.website_label || j.website}</a>`));
+      if (j.impact && j.impact.replace(/\s|—/g,'').length) meta.appendChild(createMetaRow('Impact Factor', j.impact));
+      if (j.focus) meta.appendChild(createMetaRow('Focus', j.focus));
+      if (j.oa || j.oa_policy_url) {
+        const bits=[]; if (j.oa) bits.push(j.oa); if (j.oa_policy_url) bits.push(`<a href="${j.oa_policy_url}">${j.oa_policy_label || 'OA policy'}</a>`);
+        meta.appendChild(createMetaRow('Open Access', bits.join(' • ')));
+      }
+      card.appendChild(title); card.appendChild(meta); container.appendChild(card);
+    });
+  }
+  function renderTable(list){
+    const tbody = $('#journal-rows'); tbody.innerHTML = '';
+    list.forEach(j=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${j.title || ''}</td>
+        <td>${j.website ? `<a href="${j.website}">${j.website_label || j.website}</a>` : ''}</td>
+        <td>${j.impact || ''}</td>
+        <td>${j.focus || ''}</td>
+        <td>${j.oa || ''}</td>
+        <td>${j.oa_policy_url ? `<a href="${j.oa_policy_url}">${j.oa_policy_label || 'OA policy'}</a>` : ''}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+  function updateResultMeta(count){
+    $('#result-count').textContent = count;
+    $('#result-text').textContent = count === 1 ? 'journal' : 'journals';
+  }
+
+  /* State */
+  const state = {
+    view: localStorage.getItem('cvnet_view') === 'table' ? 'table' : 'cards',
+    search: '',
+    oa: new Set(), focus: new Set(),
+    sort: localStorage.getItem('cvnet_sort') || 'title'
+  };
+
+  function syncBadges(){
+    const oc = state.oa.size; $('#oa-count').textContent = oc; $('#oa-count').style.display = oc? 'inline-block':'none';
+    const fc = state.focus.size; $('#focus-count').textContent = fc; $('#focus-count').style.display = fc? 'inline-block':'none';
+  }
+
+  function syncChips(){
+    const box = $('#active-chips'); box.innerHTML = '';
+    if (state.search.trim()){
+      const chip = document.createElement('span'); chip.className='chip';
+      chip.innerHTML = `Search: “${state.search.trim()}” <button aria-label="Clear search">×</button>`;
+      chip.querySelector('button').addEventListener('click', ()=>{ $('#search-input').value=''; state.search=''; renderAll(); });
+      box.appendChild(chip);
+    }
+    state.oa.forEach(v=>{
+      const chip = document.createElement('span'); chip.className='chip';
+      chip.innerHTML = `OA: ${v} <button aria-label="Remove ${v}">×</button>`;
+      chip.querySelector('button').addEventListener('click', ()=>{ state.oa.delete(v);
+        $$('#flt-oa .menu input[type="checkbox"]').forEach(cb=>{ if (cb.value===v) cb.checked=false; });
+        renderAll(); });
+      box.appendChild(chip);
+    });
+    state.focus.forEach(v=>{
+      const chip = document.createElement('span'); chip.className='chip';
+      chip.innerHTML = `Focus: ${v} <button aria-label="Remove ${v}">×</button>`;
+      chip.querySelector('button').addEventListener('click', ()=>{ state.focus.delete(v);
+        $$('#flt-focus .menu input[type="checkbox"]').forEach(cb=>{ if (cb.value===v) cb.checked=false; });
+        renderAll(); });
+      box.appendChild(chip);
+    });
+  }
+
+  /* Filtering, sorting, highlighting */
+  function applyFilters(){
+    const tokens = norm(state.search).split(/\s+/).filter(Boolean);
+    let list = DATA.filter(j=>{
+      if (state.oa.size){ if (!state.oa.has(oaBucket(j))) return false; }
+      if (state.focus.size){
+        let ok=false; for (const f of state.focus){ if (hasFocus(j,f)) { ok=true; break; } }
+        if (!ok) return false;
+      }
+      if (tokens.length){
+        const hay = norm([j.title, j.website_label, j.impact, j.focus, j.oa].join(' | '));
+        for (const t of tokens){ if (!hay.includes(t)) return false; }
+      }
+      return true;
+    });
+
+    if (state.sort === 'title'){
+      list.sort((a,b)=> (a.title||'').localeCompare(b.title||''));
+    } else if (state.sort === 'impact'){
+      list.sort((a,b)=> (parseImpactNumber(b.impact) || -1) - (parseImpactNumber(a.impact) || -1));
+    }
+    return list;
+  }
+
+  function highlightVisible(query){
+    removeHighlights(document);
+    const q = (query||'').trim(); if (q.length < 2) return;
+    const esc = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${esc})`,'gi');
+    document.querySelectorAll('.page').forEach(root => walk(root, regex));
+  }
+
+  function setView(mode){
+    state.view = mode;
+    const isCards = mode === 'cards';
+    $('#journal-cards').style.display = isCards ? '' : 'none';
+    $('#table-view').style.display = isCards ? 'none' : '';
+    $('#btn-cards').setAttribute('aria-pressed', isCards ? 'true' : 'false');
+    $('#btn-table').setAttribute('aria-pressed', isCards ? 'false' : 'true');
+    localStorage.setItem('cvnet_view', mode);
+  }
+
+  function renderAll(){
+    syncBadges(); syncChips();
+    const list = applyFilters();
+    if (state.view === 'cards') { renderCards(list); } else { renderTable(list); }
+    updateResultMeta(list.length);
+    highlightVisible(state.search);
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // init view
+    setView(state.view);
+    // init sort radio
+    $$('#flt-sort input[name="sort"]').forEach(r=>{ r.checked = (r.value===state.sort); });
+    renderAll(); setHeaderOffset();
+
+    // search
+    const onSearch = debounce(()=>{
+      state.search = $('#search-input').value || '';
+      renderAll();
+    }, 140);
+    $('#search-input').addEventListener('input', onSearch);
+
+    // view toggle
+    $('#btn-cards').addEventListener('click', ()=>{ setView('cards'); renderAll(); setHeaderOffset(); });
+    $('#btn-table').addEventListener('click', ()=>{ setView('table'); renderAll(); setHeaderOffset(); });
+
+    // OA menu
+    $('#flt-oa').addEventListener('click', (e)=>{
+      const act = e.target?.dataset?.action;
+      if (act === 'clear-oa'){ e.preventDefault(); state.oa.clear(); $$('#flt-oa input[type="checkbox"]').forEach(cb=>cb.checked=false); renderAll(); }
+      if (act === 'apply-oa'){ e.preventDefault(); state.oa.clear(); $$('#flt-oa input[type="checkbox"]').forEach(cb=>{ if (cb.checked) state.oa.add(cb.value); }); $('#flt-oa').open=false; renderAll(); }
+    });
+
+    // Focus menu
+    $('#flt-focus').addEventListener('click', (e)=>{
+      const act = e.target?.dataset?.action;
+      if (act === 'clear-focus'){ e.preventDefault(); state.focus.clear(); $$('#flt-focus input[type="checkbox"]').forEach(cb=>cb.checked=false); renderAll(); }
+      if (act === 'apply-focus'){ e.preventDefault(); state.focus.clear(); $$('#flt-focus input[type="checkbox"]').forEach(cb=>{ if (cb.checked) state.focus.add(cb.value); }); $('#flt-focus').open=false; renderAll(); }
+    });
+
+    // Sort menu
+    $('#flt-sort').addEventListener('change', (e)=>{
+      if (e.target.name === 'sort'){ state.sort = e.target.value; localStorage.setItem('cvnet_sort', state.sort); renderAll(); }
+    });
+
+    // Clear all
+    $('#btn-clear-all').addEventListener('click', ()=>{
+      state.search=''; $('#search-input').value='';
+      state.oa.clear(); state.focus.clear();
+      $$('#flt-oa input[type="checkbox"], #flt-focus input[type="checkbox"]').forEach(cb=>cb.checked=false);
+      renderAll();
+    });
+
+    // close menus on outside click
+    document.addEventListener('click', (e)=>{
+      $$('details.filter[open]').forEach(d=>{
+        if (!d.contains(e.target)) d.open=false;
+      });
+    });
+
+    window.addEventListener('resize', debounce(setHeaderOffset, 120));
+    window.addEventListener('load', setHeaderOffset);
+  });
+</script>
+</body>
+</html>
