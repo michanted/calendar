@@ -303,6 +303,47 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
   .card { transition: none; }
   .card:hover { transform: none; }
 }
+
+/* === Footer (calendar + resources hybrid) ================================ */
+.site-footer{
+  background:#fff;
+  border-top:1px solid var(--border);
+  margin-top:32px;
+}
+.footer-inner{
+  margin:0 20px;
+  padding:18px 0;
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  justify-content:space-between;
+  align-items:center;
+}
+.footer-left small{ color:#2f3a56; }
+.footer-nav{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.footer-nav a{
+  color:var(--brand-blue);
+  text-decoration:none;
+  font-weight:bold;
+  border:1px solid rgba(0,0,102,.12);
+  background:rgba(0,0,102,.06);
+  padding:6px 10px;
+  border-radius:999px;
+}
+.footer-nav a:hover{ text-decoration: underline; }
+
+/* optional micro-row if you ever want a second line */
+.footer-sub{
+  margin:0 20px;
+  padding:0 0 16px;
+  color:#56607a;
+  font-size:.9rem;
+}
+
 </style>
 
 <!-- ✅ External links: open safely in a new tab (robust) -->
@@ -328,8 +369,8 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 <div class="header-fixed">
   <header class="site-header">
     <div class="title-banner">
-      <h2>CVNet Resource List and Community Calendar</h2>
-      <div class="subtitle">Last updated: 8 October, 2025</div> 
+      <h2>CVNet Community Calendar</h2>
+      <div class="subtitle">Last updated: 9 October, 2025</div> 
     </div>
 
     <div class="topbar">
@@ -2724,13 +2765,34 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 
 
     
-  <p style="text-align: center; margin: 24px 0;">
-    CVNet is supported by the
-    <a href="https://www.ski.org/" target="_blank" rel="noopener noreferrer">
-      Smith-Kettlewell Eye Research Institute
-    </a>
-  </p>
-</div><!-- /page -->
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <!-- Left: keep the calendar’s maintainer/updated message -->
+    <div class="footer-left">
+      <small>
+        © <span id="cal-year"></span> CVNet &nbsp;•&nbsp; This page is maintained by
+       David Peterzell and Michaela Tedesco <span id="cal-updated">Last updated: </span>
+      </small>
+    </div>
+
+    <!-- Right: add the resource-style quick actions -->
+    <nav class="footer-nav" aria-label="Footer">
+      <a href="#top" aria-label="Back to top">Back to top ↑</a>
+<a href="https://info.cvnet.org/" aria-label="Back to CVNet">Back to CVNet</a>
+      <a href="resources.html">Online Resources</a>
+      <a href="./journals%20list.html">Journals</a>
+      <a href="https://cvnet.org/mailman/listinfo/cvnet">CVNet Archive</a>
+      <a href="http://visionscience.com/pipermail/visionlist_visionscience.com">VisionList Archive</a>
+    </nav>
+  </div>
+
+   <div class="footer-sub">
+    This calendar is community-curated. Send additions or corrections to  <a href="mailto:davidpeterzell@mac.com">davidpeterzell@mac.com</a> &
+        <a href="mailto:mtedesco12@gmail.com">mtedesco12@gmail.com</a>.
+
+  </div>
+</footer>
+
 
 <script>
   function walk(node, regex) {
@@ -2817,6 +2879,8 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
   // Also recalc after full assets load to avoid initial anchor "peek"
   window.addEventListener('load', setHeaderOffset);
 </script>
+
+
 
 </body>
 </html>
