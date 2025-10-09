@@ -138,6 +138,16 @@
 
   .results-bar{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; color:#374151; font-size:0.95rem; margin: 6px 0 14px; }
   .pill{ background:#eef2ff; border:1px solid #dbe2ff; color:#1f2a6b; border-radius:999px; padding:2px 8px; font-weight:600; }
+  /* Footer layout helper */
+.foot-flex{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:20px 20px 0;
+}
+.foot-flex > p{ margin:0; }
 </style>
 
 <script>
@@ -571,6 +581,27 @@
     window.addEventListener('load', setHeaderOffset);
   });
 </script>
+  <!-- BEGIN: Footer (left text, right buttons; adds "Back to Calendar") -->
+<div class="foot-flex" aria-label="Site footer">
+  <p>©&nbsp; CVNet &nbsp;•&nbsp; This page is maintained by David Peterzell and Michaela Tedesco&nbsp; Last updated:</p>
+
+  <p class="cv-back-links" aria-label="Footer navigation">
+    <a class="cv-btn" href="#top">Back to top ↑</a>
+    <a class="cv-btn" href="https://calendar.cvnet.org/">Back to Calendar</a>
+    <a class="cv-btn" href="https://info.cvnet.org/">Back to CVNet</a>
+    <a class="cv-btn" href="/online-resources.html">Online Resources</a>
+    <a class="cv-btn" href="https://cvnet.org/">CVNet Archive</a>
+    <a class="cv-btn" href="https://visionscience.com/">VisionList Archive</a>
+  </p>
+</div>
+
+<p>
+  This calendar is community-curated. Send additions or corrections to
+  <a href="mailto:davidpeterzell@mac.com">davidpeterzell@mac.com</a> &amp;
+  <a href="mailto:mtedesco12@gmail.com">mtedesco12@gmail.com</a>.
+</p>
+<!-- END: Footer -->
 </body>
 </html>
+
 
