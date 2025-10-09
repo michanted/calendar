@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>CVNet - Online Resources</title>
+<meta name="theme-color" content="#FFD12D"/>
+<style>
+/* —— carryover from calendar (aligned 1:1) —— */
+.section-desc { margin: 6px 0 8px; color: #2f3a56; font-size: 0.95rem; }
+.section-desc + * { margin-top: 8px; }
+*, *::before, *::after { box-sizing: border-box; }
+:root{
+  --brand-yellow:#FFD12D;
+  --brand-blue:#000066;
+  --text:#000;
+  --muted:#f5f7fb;
+  --border:#dfe3ea;
+  --card-bg:#ffffff;
+  --card-shadow: 0 6px 18px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.06);
+  --card-shadow-hover: 0 10px 26px rgba(0,0,0,.10), 0 6px 14px rgba(0,0,0,.08);
+  scroll-padding-top: 90px;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: Arial, sans-serif;
+  color: var(--text);
+  background-color: var(--muted);
+  margin: 0;
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+.page { margin: 20px; }
+
+.header-fixed {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: #fff; box-shadow: 0 1px 0 rgba(0,0,0,.05);
+}
+.site-header { margin: 0 20px; padding-top: 16px; }
+
+.title-banner{
+  background: var(--brand-yellow);
+  border-radius: 10px;
+  padding: 16px 20px;
+  text-align:center;
+}
+.title-banner h2{ margin: 0; overflow-wrap:anywhere; word-break: break-word; }
+.title-banner .subtitle{ margin-top: 6px; font-size: 14px; }
+
+.topbar{
+  display:flex; flex-direction: column; align-items:flex-start;
+  gap: 8px; margin: 14px 0 16px 0;
+}
+.topbar-row{
+  display:flex; width: 100%; justify-content: space-between; align-items: center;
+  gap: 12px; flex-wrap: wrap;
+}
+.quick-links{ display:flex; gap:14px; flex-wrap: wrap; }
+.quick-links a{
+  color: var(--brand-blue); text-decoration:none; font-weight: bold;
+  background: rgba(0,0,102,.06);
+  padding: 6px 10px; border-radius: 999px;
+  border: 1px solid rgba(0,0,102,.12);
+  white-space: nowrap;
+}
+.quick-links a:hover{ text-decoration: underline; }
+
+.topbar .back-link{ margin: 0; }
+
+.search-wrap{ margin-left:auto; display:flex; align-items:center; gap:8px; }
+.search-wrap .icon{ font-size:18px; line-height:1; }
+#search-input{
+  width: 280px; max-width: 50vw; padding: 10px 12px;
+  border:1px solid #cfd6e4; border-radius:999px; background:#fff;
+}
+
+h3 {
+  color: var(--brand-blue);
+  border-bottom: 3px solid var(--brand-yellow);
+  padding-bottom: 6px;
+  margin: 28px 0 14px;
+}
+h4 { margin: 18px 0 8px; color: var(--brand-blue); }
+
+a { color: #003366; text-decoration: none; overflow-wrap:anywhere; word-break: break-word; }
+a:hover { text-decoration: underline; }
+
+mark.cvnet-highlight { background-color: yellow; color: black; }
+
+/* Cards grid — identical */
+.cards {
+  display: grid; grid-template-columns: repeat(12, 1fr);
+  gap: 14px; margin-bottom: 24px;
+}
+.card {
+  grid-column: span 12;
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 12px; box-shadow: var(--card-shadow);
+  padding: 14px; transition: box-shadow .2s ease, transform .2s ease;
+  overflow-wrap: anywhere; word-break: break-word;
+}
+.card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-1px); }
+.card .title {
+  font-weight: 700; color: #001652; margin-bottom: 6px; line-height: 1.35;
+  overflow-wrap: anywhere; word-break: break-word;
+}
+.meta { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.meta-row { display: grid; grid-template-columns: 160px minmax(0,1fr); gap: 10px; align-items: start; }
+.meta-label { font-weight: 700; color: var(--brand-blue); }
+.notes-list { margin: 0; padding-left: 1.1em; }
+.notes-list li { margin: 2px 0; }
+.meta-row > :last-child { min-width: 0; overflow-wrap: anywhere; word-break: break-word; }
+
+/* Section intro card (reuse) */
+.intro { background: #fffaf0; border: 1px solid #ffe3a3; color: #3a2a00; }
+
+/* Responsive columns */
+@media (min-width: 720px) {
+  .card.sm-6 { grid-column: span 6; }
+  .card.sm-4 { grid-column: span 4; }
+  .card.md-6 { grid-column: span 6; }
+}
+
+/* Mobile niceties & quick-links scroll */
+@media (max-width: 700px) {
+  .site-header { margin: 0 12px; padding-top: 12px; }
+  .topbar-row { gap: 8px; }
+  .quick-links {
+    flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    gap: 10px; scroll-snap-type: x mandatory; padding-bottom: 6px;
+  }
+  .quick-links a { scroll-snap-align: start; }
+  .search-wrap { width: 100%; margin-left: 0; }
+  #search-input { width: 100%; max-width: 100%; }
+  .meta-row { grid-template-columns: minmax(90px,140px) minmax(0,1fr); }
+  .meta-label { overflow-wrap:anywhere; }
+}
+
+/* Focus outlines */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--brand-yellow);
+  outline-offset: 2px; border-radius: 6px;
+}
+
+/* Search UX */
+input[type="search"]{ -webkit-appearance: textfield; accent-color: var(--brand-blue); padding-right: 2.2em; }
+input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
+
+/* Skip link */
+.sr-skip { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+.sr-skip:focus {
+  position:fixed; left:16px; top:16px; width:auto; height:auto; padding:8px 12px;
+  background:#fff; border:2px solid var(--brand-yellow); border-radius:8px; z-index:1001;
+}
+
+/* Footer (matches calendar look & spacing) */
+.site-footer{
+  background:#fff;
+  border-top:1px solid var(--border);
+  margin-top:32px;
+}
+.footer-inner{
+  margin:0 20px;
+  padding:18px 0;
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  justify-content:space-between;
+  align-items:center;
+}
+.footer-left small{ color:#2f3a56; }
+.footer-nav{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.footer-nav a{
+  color:var(--brand-blue);
+  text-decoration:none;
+  font-weight:bold;
+  border:1px solid rgba(0,0,102,.12);
+  background:rgba(0,0,102,.06);
+  padding:6px 10px;
+  border-radius:999px;
+}
+.footer-nav a:hover{ text-decoration: underline; }
+
+/* Dynamic spacer (JS sets height via --header-h) */
+#header-spacer { height: var(--header-h, 160px); }
+
+/* Reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .card { transition: none; }
+  .card:hover { transform: none; }
+}
+</style>
+
+<!-- Open external links safely -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const { host } = location;
+  document.querySelectorAll('a[href]').forEach(a => {
+    try {
+      const url = new URL(a.getAttribute('href'), location.origin);
+      const isHttp = url.protocol === 'http:' || url.protocol === 'https:';
+      const external = isHttp && url.host !== host;
+      if (external) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
+    } catch (e) {}
+  });
+  /* Footer year injection */
+  const y = document.getElementById('year');
+  if (y) y.textContent = new Date().getFullYear();
+});
+</script>
+</head>
+<body>
+<a href="#top" class="sr-skip">Skip to main content</a>
+
+<!-- Fixed header -->
+<div class="header-fixed">
+  <header class="site-header">
+    <div class="title-banner">
+      <h2>CVNet Online Resources</h2>
+      <div class="subtitle">Last updated: 9 October, 2025</div>
+    </div>
+
+    <div class="topbar">
+      <div class="topbar-row">
+        <!-- NAV: Alphabetical order -->
+        <nav class="quick-links" aria-label="Resource sections">
+          <a href="#community">Community & Outreach</a>
+          <a href="#tools">Databases & Tools</a>
+          <a href="#illusions">Illusions & Demos</a>
+          <a href="#individual">Individual Differences</a>
+          <a href="#journals">Journals</a>
+          <a href="#teaching">Research & Teaching</a>
+          <a href="#wikipedia">Wikipedia</a>
+        </nav>
+        <div class="search-wrap" role="search">
+          <span class="icon" aria-hidden="true">🔍</span>
+          <input id="search-input" type="search" placeholder="Search resources…" aria-label="Search resources"/>
+        </div>
+      </div>
+      <p class="back-link">
+        <a href="index.html">← Back to Calendar</a>
+      </p>
+    </div>
+  </header>
+</div>
+
+<!-- Spacer so content never hides under fixed header -->
+<div id="header-spacer" aria-hidden="true"></div>
+
+<!-- Content -->
+<div class="page" id="top">
+  <div class="card intro">
+    This page lists <strong>online resources</strong> for the color &amp; vision community. Send additions or corrections to
+    <a href="mailto:davidpeterzell@mac.com">davidpeterzell@mac.com</a> and
+    <a href="mailto:mtedesco12@gmail.com">mtedesco12@gmail.com</a>.
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- A) Community & Outreach -->
+  <h3 id="community">Community & Outreach</h3>
+  <div class="cards">
+    <div class="card md-6" data-tags="contest illusions outreach">
+      <div class="title"><b>Illusion of the Year Contest</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://illusionoftheyear.com/">illusionoftheyear.com</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Annual competition showcasing novel visual illusions.</div></div>
+      </div>
+    </div>
+
+    <div class="card md-6" data-tags="society conferences talks vss">
+      <div class="title"><b>Vision Sciences Society (VSS)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.visionsciences.org/">visionsciences.org</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Conferences, talks, awards, and community links.</div></div>
+      </div>
+    </div>
+
+    <div class="card md-6" data-tags="society color summer school icvs">
+      <div class="title"><b>International Colour Vision Society (ICVS)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.icvs.info/">icvs.info</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>News, resources, and biennial meetings.</div></div>
+      </div>
+    </div>
+
+    <div class="card md-6" data-tags="color blindness outreach">
+      <div class="title"><b>Colour Blind Awareness</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.colourblindawareness.org/">colourblindawareness.org</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Resources and advocacy on color vision deficiency.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B) Databases & Tools -->
+  <h3 id="tools">Databases & Tools</h3>
+  <div class="cards">
+    <div class="card md-6" data-tags="color appearance research colourlab ntnu">
+      <div class="title"><b>NTNU Colourlab</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.ntnu.edu/colourlab">ntnu.edu/colourlab</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Research group with software/data links across color science.</div></div>
+      </div>
+    </div>
+
+    <div class="card md-6" data-tags="database spectral sensitivities cvrl">
+      <div class="title"><b>CVRL — Colour &amp; Vision Research Laboratory Database</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.cvrl.org/">cvrl.org</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Standard data sets (e.g., cone fundamentals, color matching).</div></div>
+      </div>
+    </div>
+
+    <div class="card md-6" data-tags="psychophysics toolbox matlab octave timing">
+      <div class="title"><b>Psychtoolbox</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://psychtoolbox.org/">psychtoolbox.org</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Timing-critical stimuli for vision research (Matlab/Octave).</div></div>
+      </div>
+    </div>
+
+    <div class="card md-6" data-tags="psychophysics python builder online">
+      <div class="title"><b>PsychoPy</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.psychopy.org/">psychopy.org</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Open-source experiment builder/coder; can run tasks online.</div></div>
+      </div>
+    </div>
+
+    <div class="card md-6" data-tags="python library colour science">
+      <div class="title"><b>Colour-Science (Python)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.colour-science.org/">colour-science.org</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Algorithms & datasets for colorimetry and appearance models.</div></div>
+      </div>
+    </div>
+
+    <div class="card md-6" data-tags="palettes colorblind safe cartography">
+      <div class="title"><b>ColorBrewer</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://colorbrewer2.org/">colorbrewer2.org</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Widely used palette tool with color-blind-safe options.</div></div>
+      </div>
+    </div>
+
+    <div class="card md-6" data-tags="open science prereg datasets osf">
+      <div class="title"><b>Open Science Framework (OSF)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://osf.io/">osf.io</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Preregistration, data sharing, and project organization.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- C) Illusions & Visual Demonstrations -->
+  <h3 id="illusions">Illusions & Demos</h3>
+  <div class="cards">
+    <div class="card md-6" data-tags="illusions teaching demos michael bach optical">
+      <div class="title"><b>Michael Bach — Visual Phenomena &amp; Optical Illusions</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://michaelbach.de/ot/">michaelbach.de/ot</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Classic + modern illusions with explanations and interactives.</div></div>
+      </div>
+    </div>
+
+    <div class="card md-6" data-tags="motion perception demos george mather">
+      <div class="title"><b>George Mather — Motion Demos</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.georgemather.com/MotionMP4.html">georgemather.com/MotionDemos</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Interactive motion demos with brief references.</div></div>
+      </div>
+    </div>
+
+    <div class="card md-6" data-tags="color geometrical illusions akiyoshi kitaoka">
+      <div class="title"><b>Akiyoshi Kitaoka — Illusion Works</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.ritsumei.ac.jp/~akitaoka/index-e.html">akitaoka (Ritsumeikan)</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Color & geometrical illusions; check usage/citation guidance.</div></div>
+      </div>
+    </div>
+
+    <div class="card md-6" data-tags="stereograms 3d art christopher tyler">
+      <div class="title"><b>Christopher Tyler — Illusions &amp; Autostereograms</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://christophertyler.org/illusions/">christophertyler.org/illusions</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Stereograms, art &amp; vision, depth perception.</div></div>
+      </div>
+    </div>
+
+    <div class="card md-6" data-tags="illusions brightness lightness context mit adelson">
+      <div class="title"><b>Edward Adelson — Perceptual Science (MIT) Gallery</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://persci.mit.edu/gallery/">persci.mit.edu/gallery</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Lightness, shadow, and context illusions (e.g., Checker Shadow).</div></div>
+      </div>
+    </div>
+
+    <div class="card md-6" data-tags="illusions archive classic richard gregory">
+      <div class="title"><b>Richard Gregory — Experiments &amp; Demos</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.richardgregory.org/experiments/">richardgregory.org/experiments</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Archive of classic illusions and perceptual curiosities.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D) Individual Differences & Online Testing -->
+  <h3 id="individual">Individual Differences</h3>
+  <div class="cards">
+    <div class="card md-6" data-tags="testing online cognition perception tmb">
+      <div class="title"><b>TestMyBrain.org</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://testmybrain.org/">testmybrain.org</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Large-scale online testing for perception and cognition.</div></div>
+      </div>
+    </div>
+
+    <div class="card md-6" data-tags="visualization data plots variability showmydata">
+      <div class="title"><b>ShowMyData.org</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.showmydata.org/">showmydata.org</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Web apps for plotting individual data, error bars, CIs, etc.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- E) Journals -->
+  <h3 id="journals">Journals</h3>
+  <p class="section-desc">
+    View the complete list of relevant journals: <a href="journals%20list.html">Open journals list</a>.
+  </p>
+  <div class="cards">
+    <div class="card md-6" data-tags="journal vision psychonomics">
+      <div class="title"><b>Attention, Perception, &amp; Psychophysics</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div>
+          <a href="https://link.springer.com/journal/13414">Springer journal site</a> ·
+          <a href="https://www.psychonomic.org/page/app">Psychonomic Society page</a>
+        </div></div>
+      </div>
+    </div>
+    <div class="card md-6" data-tags="journal color wiley">
+      <div class="title"><b>Color Research &amp; Application</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div>
+          <a href="https://onlinelibrary.wiley.com/journal/15206378">Wiley journal site</a>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- F) Research, Teaching & Learning Resources -->
+  <h3 id="teaching">Research & Teaching</h3>
+  <div class="cards">
+    <div class="card md-6" data-tags="optics light imaging teaching project lite">
+      <div class="title"><b>Project LITE — Light, Imaging &amp; the Eye (BU)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.bu.edu/lite/">bu.edu/lite</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Curricula and visualizations for optics and vision.</div></div>
+      </div>
+    </div>
+
+    <div class="card md-6" data-tags="color fundamentals cvrl stockman">
+      <div class="title"><b>CVRL — Teaching/Reference</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.cvrl.org/">cvrl.org</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Spectral sensitivities, color matching data, and reference material.</div></div>
+      </div>
+    </div>
+
+    <div class="card md-6" data-tags="color teaching datasets brainard penn">
+      <div class="title"><b>David Brainard — Color Research &amp; Teaching (Penn)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://color.psych.upenn.edu/">color.psych.upenn.edu</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Course materials, software, and links for color vision.</div></div>
+      </div>
+    </div>
+
+    <div class="card md-6" data-tags="perception cognition course palmer berkeley">
+      <div class="title"><b>Stephen Palmer — Perception &amp; Cognition (Berkeley)</b></div>
+      <div class="meta">
+        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://palmerlab.berkeley.edu/">palmerlab.berkeley.edu</a></div></div>
+        <div class="meta-row"><div class="meta-label">Notes</div><div>Course resources and publications archive.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- G) Wikipedia -->
+  <h3 id="wikipedia">Wikipedia</h3>
+  <div class="cards">
+    <div class="card md-6" data-tags="reference wikipedia">
+      <div class="title"><b>Coming soon</b></div>
+          </div>
+  </div>
+
+</div> <!-- /.page -->
+
+<!-- Footer -->
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-left">
+      <small>
+        © <span id="year"></span> CVNet &nbsp;•&nbsp; Maintained by
+        <a href="mailto:davidpeterzell@mac.com">davidpeterzell@mac.com</a> &
+        <a href="mailto:mtedesco12@gmail.com">mtedesco12@gmail.com</a>.
+        &nbsp;Last updated: 9 October, 2025.
+      </small>
+    </div>
+    <nav class="footer-nav" aria-label="Footer">
+      <a href="#top" aria-label="Back to top">Back to top ↑</a>
+      <a href="index.html">Calendar</a>
+      <a href="journals%20list.html">Journals</a>
+      <a href="https://cvnet.org/mailman/listinfo/cvnet">CVNet Archive</a>
+      <a href="http://visionscience.com/pipermail/visionlist_visionscience.com">VisionList Archive</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+/* Dynamic spacer so fixed header never overlaps content */
+(function(){
+  function setHeaderSpacer(){
+    const hdr = document.querySelector('.header-fixed');
+    const sp  = document.getElementById('header-spacer');
+    if (!hdr || !sp) return;
+    const h = hdr.offsetHeight || 0;
+    document.documentElement.style.setProperty('--header-h', h + 'px');
+    sp.style.height = h + 'px';
+  }
+  window.addEventListener('load', setHeaderSpacer);
+  window.addEventListener('resize', setHeaderSpacer);
+})();
+
+/* Lightweight search across card titles + notes */
+(function(){
+  const input = document.getElementById('search-input');
+  if(!input) return;
+  const cards = Array.from(document.querySelectorAll('.card'));
+  const index = cards.map(c => ({
+    el: c,
+    text: (c.querySelector('.title')?.textContent + ' ' +
+           Array.from(c.querySelectorAll('.meta-row div:last-child')).map(d=>d.textContent).join(' ') + ' ' +
+           (c.getAttribute('data-tags')||'')).toLowerCase()
+  }));
+  function apply(){
+    const q = (input.value || '').toLowerCase().trim();
+    index.forEach(({el, text}) => {
+      const show = !q || text.includes(q);
+      el.style.display = show ? '' : 'none';
+    });
+  }
+  input.addEventListener('input', apply);
+  apply();
+})();
+</script>
+</body>
+</html>
