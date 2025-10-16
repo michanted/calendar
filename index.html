@@ -129,6 +129,13 @@
   }
   .quick-links a:hover{ text-decoration: underline; }
 
+.cv-conference-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.4rem;
+  margin-bottom:.8rem;
+}
+
   .topbar .back-link{
     margin: 0;
   }
@@ -433,6 +440,25 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 <p class="section-desc">
   Major academic and industry meetings in vision science, neuroscience, imaging, color, and related fields. Includes key dates for abstracts, registration, and workshops. Conferences are listed in chronological order by event date (not by submission deadlines).
 </p>
+<!-- Conference Quick Links -->
+<nav class="cv-conference-links quick-links" aria-label="Conference quick links">
+  <a href="#apa" class="cv-btn">APA</a>
+  <a href="#apcv" class="cv-btn">APCV</a>
+  <a href="#aps" class="cv-btn">APS</a>
+  <a href="#arvo" class="cv-btn">ARVO</a>
+  <a href="#ava" class="cv-btn">AVA</a>
+  <a href="#bavrd" class="cv-btn">BAVRD</a>
+  <a href="#ecvp" class="cv-btn">ECVP</a>
+  <a href="#gruppo-del-colore" class="cv-btn">Gruppo del Colore</a>
+  <a href="#hvei" class="cv-btn">HVEI</a>
+  <a href="#icvs" class="cv-btn">ICVS</a>
+  <a href="#modvis" class="cv-btn">MODVIS</a>
+  <a href="#optica-fall-vision" class="cv-btn">Optica Fall Vision</a>
+  <a href="#psychonomics" class="cv-btn">Psychonomics</a>
+  <a href="#sfn" class="cv-btn">SfN</a>
+  <a href="#vsac" class="cv-btn">VSAC</a>
+  <a href="#vss" class="cv-btn">VSS</a>
+</nav>
 <div class="cards">
 
 
@@ -468,7 +494,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
       </div>
     </div>
 
-    <div class="card md-6">
+    <div class="card md-6" id="aps-virtual-2025">
       <div class="title"><b>Association for Psychological Science (APS)</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
@@ -630,7 +656,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 </div>
 
 
-    <div class="card md-6">
+<div class="card md-6" id="psychonomics">
       <div class="title"><b>Psychonomic Society Annual Meeting</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
@@ -664,7 +690,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 </div>
 
     <!-- 2026 -->
-    <div class="card md-6">
+<div class="card md-6" id="hvei">
       <div class="title"><b>Human Vision and Electronic Imaging (HVEI)</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
@@ -861,7 +887,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
       </div>
     </div>
 
-    <div class="card md-6">
+<div class="card md-6" id="aps">
       <div class="title"><b>Association for Psychological Science (APS)</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
@@ -879,7 +905,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
       </div>
     </div>
 
-    <div class="card md-6">
+<div class="card md-6" id="modvis">
       <div class="title"><b>Models in Vision Science (MODVIS) Conference</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
@@ -890,7 +916,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
       </div>
     </div>
 
-    <div class="card md-6">
+<div class="card md-6" id="arvo">
       <div class="title"><b>Association for Research in Vision and Ophthalmology (ARVO)</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
@@ -957,7 +983,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
   </div>
 </div>
 
-    <div class="card md-6">
+<div class="card md-6" id="vss">
       <div class="title"><b>Vision Sciences Society (VSS) Annual Meeting</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
@@ -1084,7 +1110,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
       </div>
     </div>
 
-    <div class="card md-6">
+    <div class="card md-6" id="apa">
       <div class="title"><b>American Psychological Association (APA)</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
@@ -1095,7 +1121,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
       </div>
     </div>
 
-   <div class="card md-6">
+<div class="card md-6" id="icvs">
       <div class="title"><b>International Colour Vision Society (ICVS) Conference</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Biennial</div></div>
@@ -1166,7 +1192,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
   </div>
 </div>
 
-<div class="card md-6">
+<div class="card md-6" id="optica-fall-vision">
       <div class="title"><b>Optica Fall Vision Meeting</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
@@ -1188,7 +1214,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
       </div>
     </div>
 
-    <div class="card md-6">
+<div class="card md-6" id="ava">
       <div class="title"><b>Applied Vision Association (AVA)</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Various</div></div>
@@ -1210,7 +1236,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
       </div>
     </div>
 
-    <div class="card md-6">
+<div class="card md-6" id="sfn">
       <div class="title"><b>Society for Neuroscience (SfN)</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
@@ -1232,7 +1258,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
       </div>
     </div>
 
-    <div class="card md-6">
+<div class="card md-6" id="apcv">
       <div class="title"><b>Asia-Pacific Conference on Vision (APCV)</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
@@ -1243,7 +1269,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
       </div>
     </div>
 
-    <div class="card md-6">
+<div class="card md-6" id="vsac">
       <div class="title"><b>Visual Science Art Conference (VSAC)</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
@@ -1254,7 +1280,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
       </div>
     </div>
 
-    <div class="card md-6">
+<div class="card md-6" id="ecvp">
       <div class="title"><b>European Conference on Visual Perception (ECVP)</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
@@ -1287,7 +1313,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
       </div>
     </div>
 
-    <div class="card md-6">
+<div class="card md-6" id="gruppo-del-colore">
       <div class="title"><b>Gruppo del Colore (Associazione Italiana Colore)</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
@@ -1297,7 +1323,8 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
         <div class="meta-row"><div class="meta-label">Notes</div><div><ul class="notes-list"><li>TBD</li></ul></div></div>
       </div>
     </div>
-    <div class="card md-6">
+
+<div class="card md-6" id="bavrd">
       <div class="title"><b>Bay Area Vision Research Day (BAVRD)</b></div>
       <div class="meta">
         <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
@@ -2838,7 +2865,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
   Travel awards, fellowships, and research support opportunities with typical timelines and eligibility notes.
 </p>
 
-<div class="cards">
+
   <div class="card md-6">
     <div class="title"><b>Females of Vision et al. Travel and Networking Award</b></div>
     <div class="meta">
@@ -3126,7 +3153,5 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
   });
 })();
 </script>
-
-
 </body>
 </html>
