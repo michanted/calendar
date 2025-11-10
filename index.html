@@ -15,6 +15,11 @@
 <meta name="theme-color" content="#FFD12D"/>
 <style>
 
+/* Search filtering + highlight */
+.is-filtered-out { display: none !important; }
+mark.search-hit { background: #fff3b0; padding: 0 .05em; border-radius: 2px; }
+
+
 .section-desc {
   margin: 6px 0 8px;        /* lowered bottom so the +* can matter */
   color: #2f3a56;
@@ -392,7 +397,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
   <header class="site-header">
     <div class="title-banner">
       <h2>CVNet Community Calendar</h2>
-      <div class="subtitle">Last updated: 4 November, 2025</div> 
+      <div class="subtitle">Last updated: 10 November, 2025</div> 
     </div>
 
     <div class="topbar">
@@ -407,10 +412,13 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
   <a href="#funding">Funding</a>
   <a href="#competitions">Competitions</a>
 </nav>
-        <div class="search-wrap" role="search">
-          <span class="icon" aria-hidden="true">🔍</span>
-          <input id="search-input" type="search" placeholder="Search this page…" aria-label="Search this page"/>
-        </div>
+        <div class="search">
+  <input id="search-input" type="search" placeholder="Search..." />
+</div>
+
+<!-- Search result counter (for accessibility + user feedback) -->
+<div id="search-status" class="visually-hidden" aria-live="polite"></div>
+
       </div>
       <!-- Back link under main nav buttons -->
       <p class="back-link">
@@ -939,29 +947,19 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
   </div>
 </div>
 
-<div class="card md-6" id="vss">
-      <div class="title"><b>Vision Sciences Society (VSS) Annual Meeting</b></div>
-      <div class="meta">
-        <div class="meta-row"><div class="meta-label">Frequency</div><div>Annual</div></div>
-        <div class="meta-row"><div class="meta-label">Dates</div><div>May 15–19, 2026</div></div>
-        <div class="meta-row"><div class="meta-label">Location</div><div>TradeWinds Islands Resort, St. Pete Beach, Florida</div></div>
-        <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.visionsciences.org/">https://www.visionsciences.org/</a></div></div>
-        <div class="meta-row"><div class="meta-label">Notes</div>
-          <div>
-            <ul class="notes-list">
-  <li>Banner Competition: CLOSED</li>
-<li><b>Symposium proposals due:</b> November 14, 2025</li>
-  <li><b>Abstract submissions due:</b> December 4, 2025</li>
-  <li>Membership required to submit (one regular abstract; may also be part of a symposium)</li>
-  <li>Limited remote presentation slots (talks &amp; posters)</li>
-  <li><b>New:</b> One-day <em>Applied Vision Science</em> meeting on the Wednesday following VSS (organizers: Andrew Watson &amp; Laurie Wilcox)</li>
-  <li>Key dates: Nov 13 T-shirt competition opens · Nov 20 Satellite event apps open</li>
-  <li>UJIT Posters: Opens March 3, 2026 • Due March 31, 2026 • Notification by April 10, 2026</li>
-</ul>
-          </div>
-        </div>
-      </div>
+<!-- CONFERENCE UPDATE: VSS 2026 — Vision Sciences Society -->
+<div class="card md-6" id="vss2026" data-tags="conference vision-science vss symposia florida virtual 2026">
+  <div class="title"><b>VSS 2026 — Vision Sciences Society Annual Meeting</b></div>
+  <div class="meta">
+    <div class="meta-row"><div class="meta-label">Dates</div><div>May 15 – 19 2026</div></div>
+    <div class="meta-row"><div class="meta-label">Location</div><div>TradeWinds Island Resorts, St. Pete Beach, Florida · and Online</div></div>
+    <div class="meta-row"><div class="meta-label">Symposia Deadline</div><div>November 14 2025</div></div>
+    <div class="meta-row"><div class="meta-label">New Feature</div>
+      <div>Expanded online symposium series for members throughout the year, recorded and published in the <i>Journal of Vision</i>.</div>
     </div>
+    <div class="meta-row"><div class="meta-label">More Info</div><div><a href="http://visionsciences.org/">visionsciences.org</a></div></div>
+  </div>
+</div>
 
 <!-- Conference: Applied Vision Science (AVS) Meeting -->
 <div class="card md-6" data-tags="conference applied-vision vision-sciences avs vss satellite">
@@ -1238,24 +1236,23 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
       </div>
     </div>
 
-    <div class="card md-6" id="ecem" data-tags="conference biennial eye-movements neuroscience psychology">
-  <div class="title"><b>European Conference on Eye Movements (ECEM) 2026</b></div>
+<!-- CONFERENCE: ECEM 2026 — European Conference on Eye Movements -->
+<div class="card md-6" id="ecem2026" data-tags="conference europe eye-movements vision cognition neuroscience ulm germany 2026">
+  <div class="title"><b>23rd European Conference on Eye Movements (ECEM 2026)</b></div>
   <div class="meta">
- <div class="meta-row"><div class="meta-label">Frequency</div><div>Biennial</div></div>
-    <div class="meta-row"><div class="meta-label">Dates</div><div>August 30 – September 3, 2026</div></div>
-    <div class="meta-row"><div class="meta-label">Location</div><div>Ulm University, Ulm, Germany</div></div>
-    <div class="meta-row"><div class="meta-label">Website</div><div><a href="https://www.uni-ulm.de/in/ecem2026/">ECEM 2026</a></div></div>
-    <div class="meta-row"><div class="meta-label">Submission Portal</div><div><a href="https://www.conftool.com/ecem2026/">ConfTool (ECEM 2026)</a></div></div>
-    <div class="meta-row"><div class="meta-label">Notes</div>
-      <div>
-        <ul class="notes-list">
-          <li><b>Symposia deadline:</b> January 31, 2026</li>
-          <li><b>Posters &amp; abstracts deadline:</b> March 31, 2026</li>
-        </ul>
-      </div>
+    <div class="meta-row"><div class="meta-label">Dates</div><div>August 30 – September 3 2026</div></div>
+    <div class="meta-row"><div class="meta-label">Location</div><div>Ulm University, Germany</div></div>
+    <div class="meta-row"><div class="meta-label">Symposia Deadline</div><div>January 31 2026</div></div>
+    <div class="meta-row"><div class="meta-label">Abstract / Poster Deadline</div><div>March 31 2026</div></div>
+    <div class="meta-row"><div class="meta-label">Website</div>
+      <div><a href="https://www.uni-ulm.de/in/ecem2026/">uni-ulm.de/in/ecem2026</a> • <a href="https://www.conftool.com/ecem2026/">Submit via Conftool</a></div>
+    </div>
+    <div class="meta-row"><div class="meta-label">Overview</div>
+      <div>World’s largest meeting devoted to eye-movement research, uniting neuroscience, psychology, linguistics, computer science, and applied domains such as XR, education, and clinical vision science.</div>
     </div>
   </div>
 </div>
+
 
 
     <div class="card md-6">
@@ -1607,29 +1604,18 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 
 
 
-<!-- JIVP Webinar — Deepfake Detection (Verdoliva) -->
-<div class="card md-6" id="jivp-verdoliva-2025-11-04" data-tags="online webinar deepfake forensics ai jivp cassyni">
+<!-- WEBINAR: JIVP — Deepfake Detection in the Era of Generative AI -->
+<div class="card md-6" id="jivp-deepfake-2025" data-tags="webinar online-seminar ai deepfake multimedia-forensics jivp eurasipe video">
   <div class="title"><b>JIVP Webinar — Deepfake Detection in the Era of Generative AI</b></div>
   <div class="meta">
-    <div class="meta-row"><div class="meta-label">Series</div><div>JIVP (EURASIP Journal on Image &amp; Video Processing)</div></div>
+    <div class="meta-row"><div class="meta-label">Date</div><div>November 4 2025 · 2 PM CET</div></div>
     <div class="meta-row"><div class="meta-label">Speaker</div><div>Prof. Luisa Verdoliva (University of Naples Federico II)</div></div>
-    <div class="meta-row"><div class="meta-label">Date &amp; Time</div><div>November 4, 2025 • 14:00 CET (05:00 PT)</div></div>
-    <div class="meta-row"><div class="meta-label">Location</div><div>Online</div></div>
-    <div class="meta-row"><div class="meta-label">RSVP / Stream</div><div><a href="https://cassyni.com/events/WLN6z1d6w9gaq3HVbVeBgy">Cassyni event page</a></div></div>
-<div class="meta-row"><div class="meta-label">Status</div><div>Concluded — November 4, 2025</div></div>    
-<div class="meta-row"><div class="meta-label">Title</div><div>Deepfake Detection in the Era of Generative AI</div></div>
-    <div class="meta-row">
-      <div class="meta-label">Abstract</div>
-      <div>Survey of modern data-driven multimedia forensics for detecting AI-generated/edited content; limits of current tools, key issues, and near-term research directions.</div>
+    <div class="meta-row"><div class="meta-label">Host</div><div>EURASIP Journal on Image and Video Processing (JIVP)</div></div>
+    <div class="meta-row"><div class="meta-label">Overview</div>
+      <div>Explores AI-generated multimedia, forensic detection of synthetic imagery and video, and current limitations & future directions in deepfake detection.</div>
     </div>
-    <div class="meta-row">
-      <div class="meta-label">Notes</div>
-      <div>
-        <ul class="notes-list">
-          <li>Host: Giuseppe Valenzise (CNRS, L2S, Université Paris-Saclay)</li>
-          <li>Bio highlights: IEEE Fellow; Editor-in-Chief, IEEE T-IFS (2025–2027); General Chair, WACV 2024.</li>
-        </ul>
-      </div>
+    <div class="meta-row"><div class="meta-label">Register</div>
+      <div><a href="https://cassyni.com/events/WLN6z1d6w9gaq3HVbVeBgy">Cassyni Event Page</a></div>
     </div>
   </div>
 </div>
@@ -2297,6 +2283,93 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
   Doctoral and Masters opportunities. Includes dedicated PhD and MSc programs submitted by members.
 </p>
 <div class="cards">
+
+<!-- PHD: Lingnan University — Eye Movements to Faces -->
+<div class="card md-6" id="lingnan-hayward-phd-2026" data-tags="gradprograms phd vision eye-movements faces cognitive-science hong-kong">
+  <div class="title"><b>PhD — Eye Movements to Faces (Lingnan University, Hong Kong)</b></div>
+  <div class="meta">
+    <div class="meta-row"><div class="meta-label">PI</div><div>Prof. Will Hayward — Chair Professor of Psychology & Dean of Social Sciences</div></div>
+    <div class="meta-row"><div class="meta-label">Lab</div><div>Lingnan Visual Cognition Lab · LU Cognitive Science Research Centre</div></div>
+    <div class="meta-row"><div class="meta-label">Project</div>
+      <div>Funded doctoral project on <b>idiosyncratic eye-movement patterns to faces</b>.  Uses eye-tracking and data-analytic methods to understand individual differences in face scanning.</div>
+    </div>
+    <div class="meta-row"><div class="meta-label">Preferred Skills</div>
+      <div>Eye-tracking (Eyelink 1000, Tobii Pro Fusion, Pupil Labs Neon); PsychoPy / PsychToolbox; strong quantitative analysis skills.</div>
+    </div>
+    <div class="meta-row"><div class="meta-label">Deadline</div><div>December 1 2025 (Hong Kong time)</div></div>
+    <div class="meta-row"><div class="meta-label">Start</div><div>September 2026</div></div>
+    <div class="meta-row"><div class="meta-label">Funding</div>
+      <div>Hong Kong PhD Fellowship Scheme (<a href="https://www.ln.edu.hk/rpg/hong-kong-phd-fellowship-scheme-hkpfs">HKPFS</a>) — administered by the Hong Kong Research Grants Council and available for outstanding applicants.</div>
+    </div>
+    <div class="meta-row"><div class="meta-label">Facilities</div>
+      <div>Tobii Pro Fusion & Pupil Labs Neon eye-trackers · Neuroscan Okti 128 Ch EEG system · newly refurbished lab space with conference and travel support.</div>
+    </div>
+    <div class="meta-row"><div class="meta-label">Example Study</div>
+      <div><a href="https://doi.org/10.1080/13506285.2024.2315783">Zhong et al., Visual Cognition (2023)</a> — association of idiosyncratic eye-movements with holistic face processing.</div>
+    </div>
+    <div class="meta-row"><div class="meta-label">Contact</div>
+      <div><a href="mailto:willhayward@ln.edu.hk">willhayward@ln.edu.hk</a> · <a href="https://www.ln.edu.hk/psy/about-us/people/academic-staff/professor-hayward-william">Faculty Profile</a></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PHD: JLU Giessen × MPI CBS — Computational Cognitive Neuroscience -->
+<div class="card md-6" id="jlu-giessen-phd-hebart-2025" data-tags="gradprograms phd computational-neuroscience cognitive-neuroscience vision python germany giessen leipzig adaptive-mind">
+  <div class="title"><b>PhD (4 years) — Computational Cognitive Neuroscience</b></div>
+  <div class="meta">
+    <div class="meta-row"><div class="meta-label">Institution</div><div>Justus Liebig University Giessen (JLU) — Hebart Lab, with collaboration at Max Planck Institute for Human Cognitive & Brain Sciences (Leipzig)</div></div>
+    <div class="meta-row"><div class="meta-label">Cluster</div><div>Excellence Cluster “The Adaptive Mind”</div></div>
+    <div class="meta-row"><div class="meta-label">Deadline</div><div><b>November 25, 2025</b> (reference no. <b>531/11</b>)</div></div>
+    <div class="meta-row"><div class="meta-label">Start</div><div>January 2026 or as soon as interviews complete</div></div>
+    <div class="meta-row"><div class="meta-label">Location</div><div>Giessen (primary) · Leipzig (collaborations)</div></div>
+    <div class="meta-row"><div class="meta-label">Overview</div>
+      <div>Project to characterize the dimensions underlying human mental object representations across a broader range of visual content, with options to explore cross-cultural comparisons, VR scene interactions, and links to AI systems.</div>
+    </div>
+    <div class="meta-row"><div class="meta-label">Requirements</div>
+      <div>Strong interest in visual/cognitive computational neuroscience; very good to excellent <b>Python</b> programming skills.</div>
+    </div>
+    <div class="meta-row"><div class="meta-label">Apply</div>
+      <div>
+        Official ad: <a href="https://www.uni-giessen.de/de/ueber-uns/karriere/stellenangebote/wissenschaftliche-mitarbeiter/531-11-e">uni-giessen.de — Posting 531/11</a><br/>
+        Application portal: <a href="https://www.uni-giessen.de/de/ueber-uns/karriere/application">uni-giessen.de/…/application</a> (use ref. <b>531/11</b>)
+      </div>
+    </div>
+    <div class="meta-row"><div class="meta-label">PI / Contact</div><div>Dr. Martin Hebart — <a href="mailto:martin.hebart@gmail.com">martin.hebart@gmail.com</a></div></div>
+    <div class="meta-row"><div class="meta-label">Background</div>
+      <div>Related prior work: <a href="https://www.nature.com/articles/s41562-020-00951-3">Nature Human Behaviour (2020)</a>.</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- GRAD PROGRAM: NYU Visual Sciences PhD -->
+<div class="card md-6" id="nyu-visual-sciences-phd" data-tags="gradprograms phd visual-science nyu neuroscience psychology data-science computational-vision">
+  <div class="title"><b>Doctoral Studies in Visual Sciences — New York University</b></div>
+  <div class="meta">
+    <div class="meta-row"><div class="meta-label">Overview</div>
+      <div>NYU hosts a large interdisciplinary community in the Visual Sciences spanning neuroscience, psychology, computer science, data science, mathematics, and philosophy.  Students may pursue cross-departmental research under faculty across these programs.</div>
+    </div>
+    <div class="meta-row"><div class="meta-label">Participating Departments</div>
+      <div>
+        <ul class="notes-list">
+          <li><b>Center for Neural Science (CNS)</b> — deadline: <b>Dec 1 2025</b> — <a href="https://as.nyu.edu/cns/DoctoralProgram.html">CNS Doctoral Program</a></li>
+          <li><b>Psychology (Cognition & Perception)</b> — deadline: <b>Dec 1 2025</b> — <a href="http://as.nyu.edu/psychology/graduate/phd-cognition-perception.html">Psychology PhD</a></li>
+          <li><b>Data Science</b> — deadline: <b>Dec 4 2025</b> — <a href="https://cds.nyu.edu/phd-program/">CDS PhD</a></li>
+          <li><b>Computer Science</b> — deadline: <b>Dec 12 2025</b> — <a href="http://www.cs.nyu.edu/home/phd/">CS PhD</a></li>
+          <li><b>Mathematics</b> — deadline: <b>Dec 18 2025</b> — <a href="https://gsas.nyu.edu/admissions/arc/programs/mathematics.html">Mathematics PhD</a></li>
+          <li><b>Biology</b> — deadline: <b>Dec 1 2025</b> — <a href="https://as.nyu.edu/biology/academics/phd.html">Biology PhD</a></li>
+          <li><b>Philosophy</b> — deadline: <b>Jan 7 2026</b> — <a href="https://as.nyu.edu/departments/philosophy/graduate.html">Philosophy PhD</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="meta-row"><div class="meta-label">Faculty Highlights</div>
+      <div>Includes Eero Simoncelli, Marisa Carrasco, Michael Landy, David Heeger, Rob Fergus, Yann LeCun, Grace Lindsay, Claude Desplan, Ned Block, David Chalmers, and others across NYU CNS, Psychology, Data Science, and related departments.</div>
+    </div>
+    <div class="meta-row"><div class="meta-label">Contact</div><div><a href="mailto:eero.simoncelli@nyu.edu">eero.simoncelli@nyu.edu</a></div></div>
+  </div>
+</div>
+
 
 <!-- PhD: University of Hertfordshire — Continual & Open-ended Reinforcement Learning -->
 <div class="card md-6" data-tags="phd program reinforcement-learning continual-learning open-ended-learning robotics computer-vision hertfordshire uk">
@@ -3032,6 +3105,23 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 
   <h4>Postdoctoral Career Opportunities</h4>
   <div class="cards">
+
+<!-- JOBS/GRAD: Denison Lab — Boston University -->
+<div class="card md-6" id="denisonlab-bu-2025" data-tags="jobs postdoc phd perception attention decision-making neuroimaging bu boston-university">
+  <div class="title"><b>Postdoc & PhD Positions — Denison Lab (Boston University)</b></div>
+  <div class="meta">
+    <div class="meta-row"><div class="meta-label">PI</div><div>Rachel Denison, Assistant Professor of Psychological & Brain Sciences</div></div>
+    <div class="meta-row"><div class="meta-label">Focus</div><div>Visual perception, attention, decision-making, and temporal dynamics via neuroimaging (fMRI/EEG/MEG), computational modeling, and behavioral methods.</div></div>
+    <div class="meta-row"><div class="meta-label">Postdoc Application</div>
+      <div>Email CV + cover letter to <a href="mailto:rdenison@bu.edu">rdenison@bu.edu</a></div>
+    </div>
+    <div class="meta-row"><div class="meta-label">PhD Programs</div>
+      <div><a href="https://www.bu.edu/psych/academics/phd/bbc/">Brain, Behavior & Cognition PhD</a> • <a href="https://www.bu.edu/neuro/academics/graduate/">Graduate Program in Neuroscience</a></div>
+    </div>
+    <div class="meta-row"><div class="meta-label">Lab Website</div><div><a href="https://sites.bu.edu/denisonlab/">sites.bu.edu/denisonlab</a></div></div>
+  </div>
+</div>
+
 
 <!-- Postdoc: University of York × Google DeepMind — ML & Computer Vision -->
 <div class="card md-6" data-tags="jobs postdoc computer-vision machine-learning deepmind york uk developmental-psychology">
@@ -3809,6 +3899,23 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 
 <div class="cards">
 
+<!-- AWARD: ICVS 2026 Early Career Investigator Award -->
+<div class="card md-6" id="icvs-earlycareer-2026" data-tags="award competition icvs colour-vision early-career 2026">
+  <div class="title"><b>ICVS 2026 Early Career Investigator Award</b></div>
+  <div class="meta">
+    <div class="meta-row"><div class="meta-label">Deadline</div><div>January 16 2026</div></div>
+    <div class="meta-row"><div class="meta-label">Presented At</div><div>ICVS Symposium 2026 · Brighton, UK</div></div>
+    <div class="meta-row"><div class="meta-label">Eligibility</div>
+      <div>Researchers ≤ 10 years post-PhD (extensions possible with justification). Recognizes exceptional achievement in colour vision research.</div>
+    </div>
+    <div class="meta-row"><div class="meta-label">Nomination Materials</div>
+      <div>Letter of nomination + candidate CV to <a href="mailto:anya.hurlbert@newcastle.ac.uk">anya.hurlbert@newcastle.ac.uk</a></div>
+    </div>
+    <div class="meta-row"><div class="meta-label">More Info</div><div><a href="https://www.icvs.info/">icvs.info</a></div></div>
+  </div>
+</div>
+
+
   <div class="card md-6" id="ludwig-von-sallmann-prize-2026" data-tags="award prize ophthalmology vision-research iser arvo nomination">
     <div class="title"><b>2026 Ludwig von Sallmann Prize — Call for Nominations</b></div>
     <div class="meta">
@@ -4054,6 +4161,103 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
       }
     }
   });
+})();
+</script>
+<script>
+(function () {
+  const $input = document.getElementById('search-input');
+  if (!$input) return;
+
+  const $status = document.getElementById('search-status');
+  const cards = Array.from(document.querySelectorAll('.cards .card'))
+    .filter(el => !el.classList.contains('intro')); // keep the intro card untouched
+
+  // Precompute searchable text for speed
+  const haystacks = new Map();
+  const norm = s => (s || '').normalize('NFKD').toLowerCase();
+  const clean = s => s.replace(/\s+/g, ' ').trim();
+
+  function cardText(card) {
+    const title = card.querySelector('.title')?.textContent || '';
+    const meta = card.querySelector('.meta')?.textContent || '';
+    const tags = card.getAttribute('data-tags') || '';
+    const id   = card.id || '';
+    return norm([title, meta, tags.replace(/[-_]/g, ' '), id].join(' '));
+  }
+  function ensureHaystack(card) {
+    if (!haystacks.has(card)) haystacks.set(card, cardText(card));
+    return haystacks.get(card);
+  }
+
+  // Highlight utility (title only, for readability)
+  function unhighlight(card) {
+    const t = card.querySelector('.title');
+    if (!t) return;
+    // remove any previous <mark>
+    t.innerHTML = t.textContent;
+  }
+  function highlight(card, tokens) {
+    const t = card.querySelector('.title');
+    if (!t) return;
+    let text = t.textContent;
+    for (const tok of tokens) {
+      if (!tok) continue;
+      const esc = tok.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      text = text.replace(new RegExp(`(${esc})`, 'ig'), '<mark class="search-hit">$1</mark>');
+    }
+    t.innerHTML = text;
+  }
+
+  let debounceTimer = null;
+  function onSearch() {
+    const q = clean($input.value);
+    const tokens = q.split(' ').filter(Boolean).map(norm);
+
+    let visibleCount = 0;
+    for (const card of cards) {
+      unhighlight(card);
+      if (tokens.length === 0) {
+        card.classList.remove('is-filtered-out');
+        continue;
+      }
+      const hay = ensureHaystack(card);
+      const matchAll = tokens.every(tok => hay.includes(tok));
+      card.classList.toggle('is-filtered-out', !matchAll);
+      if (matchAll) {
+        highlight(card, tokens);
+        visibleCount++;
+      }
+    }
+    if ($status) {
+      $status.textContent = tokens.length
+        ? `${visibleCount} result${visibleCount === 1 ? '' : 's'}`
+        : `Showing all`;
+    }
+  }
+
+  function debounced() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(onSearch, 120);
+  }
+
+  // Clear on Escape
+  $input.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && $input.value) {
+      $input.value = '';
+      debounced();
+      $input.blur();
+    }
+  });
+
+  $input.addEventListener('input', debounced);
+
+  // If the page loads with a query param ?q=..., prefill and search
+  const params = new URLSearchParams(location.search);
+  const preset = params.get('q');
+  if (preset) {
+    $input.value = preset;
+    onSearch();
+  }
 })();
 </script>
 </body>
