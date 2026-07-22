@@ -83,7 +83,7 @@ html { scroll-behavior: smooth; }
   .title-banner{
     background: var(--brand-yellow);
     border-radius: 10px;
-    padding: 16px 20px;
+    padding: 12px 20px;
     text-align:center;
   }
   .title-banner h2{
@@ -93,197 +93,417 @@ html { scroll-behavior: smooth; }
     word-break: break-word;
   }
   .title-banner .subtitle{
-    margin-top: 6px;
-    font-size: 14px;
+    margin-top: 2px;
+    font-size: 13px;
   }
 
-  /* Search and nav links */
-  .topbar{
-    display:flex;
-    flex-direction: column;      /* stack main row + back link */
-    align-items:flex-start;
-    gap: 8px;
-    margin: 14px 0 16px 0;
-  }
-  .topbar-row{
-    display:flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .quick-links{
-    display:flex;
-    gap:14px;
-    flex-wrap: wrap;
-  }
-  .quick-links a{
-    color: var(--brand-blue);
-    text-decoration:none;
-    font-weight: bold;
-    background: rgba(0,0,102,.06);
-    padding: 6px 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(0,0,102,.12);
-    white-space: nowrap; /* keep single-line labels */
-  }
-  .quick-links a:hover{ text-decoration: underline; }
+/* =======================================================
+   Utility Navigation Bar
+======================================================= */
 
-.cv-conference-links{
-  display:flex;
-  flex-wrap:wrap;
-  gap:.4rem;
-  margin-bottom:.8rem;
+
+
+/* ---------- Top utility row ---------- */
+
+.topbar{
+    position:relative;
+    z-index:1001;
 }
 
-  .topbar .back-link{
-    margin: 0;
-  }
+.utility-bar{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    margin:8px 0 10px;
+}
 
-  .search-wrap{
+.back-home{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    color:var(--brand-blue);
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.back-home:hover{
+    text-decoration:underline;
+}
+
+.back-icon{
+    font-size:20px;
+    line-height:1;
+}
+
+.browse-menu{
+    position:relative;
     margin-left:auto;
+    align-self:center;
+}
+
+.menu-toggle{
+    margin-left:auto;
+
+    background:var(--brand-blue);
+    color:#fff;
+    border:none;
+    border-radius:8px;
+
+    padding:10px 18px;
+    font-size:15px;
+    cursor:pointer;
+}
+
+.menu-toggle:hover{
+    opacity:.9;
+}
+
+/* ---------- Search ---------- */
+
+.search-wrap{
     display:flex;
     align-items:center;
     gap:8px;
-  }
-  .search-wrap .icon{ font-size:18px; line-height:1; }
-  #search-input{
-    width: 280px;
-    max-width: 50vw;
-    padding: 10px 12px;
+}
+
+.search-toggle{
+    background:none;
+    border:none;
+    font-size:22px;
+    cursor:pointer;
+    padding:6px;
+    line-height:1;
+}
+
+#search-input{
+    width:280px;
+    max-width:50vw;
+
+    padding:10px 12px;
+
     border:1px solid #cfd6e4;
     border-radius:999px;
+
     background:#fff;
-  }
+}
 
-  h3 {
-    color: var(--brand-blue);
-    border-bottom: 3px solid var(--brand-yellow);
-    padding-bottom: 6px;
-    margin: 28px 0 14px;
-  }
-  h4 { margin: 18px 0 8px; color: var(--brand-blue); }
+/* ---------- Browse menu ---------- */
 
-  a {
-    color: #003366; text-decoration: none;
-    /* Added: ensure very long URLs or emails wrap instead of overflowing */
+.browse-menu{
+    position:relative;
+    margin-left:auto;
+}
+
+.main-menu{
+    display:none;
+
+    position:absolute;
+    top:calc(100% + 8px);
+    right:0;
+
+    width:320px;
+    max-width:95vw;
+
+    padding:10px;
+
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:10px;
+    box-shadow:var(--card-shadow);
+
+    box-sizing:border-box;
+
+    /* Keep the menu comfortably inside the viewport */
+    max-height:70vh;
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    /* Prevent the page from scrolling when you reach the end */
+    overscroll-behavior:contain;
+
+    /* Reserve space for the scrollbar */
+    scrollbar-gutter:stable;
+
+    z-index:2000;
+}
+
+.main-menu.is-open{
+    display:block;
+}
+
+.main-menu a{
+    display:block;
+
+    padding:8px 12px;
+    margin:2px 0;
+
+    border-radius:7px;
+
+    color:var(--brand-blue);
+    text-decoration:none;
+    font-weight:600;
+}
+
+.main-menu a:hover{
+    background:#f5f7fb;
+}
+/* ---------- Conference buttons ---------- */
+
+.quick-links{
+    display:flex;
+    flex-wrap:nowrap;
+
+    gap:6px;
+    margin:6px 0 8px;
+
+    overflow-x:auto;
+    overflow-y:hidden;
+
+    white-space:nowrap;
+
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+
+    padding-bottom:4px;
+}
+
+.cv-btn{
+    display:inline-block;
+
+    white-space:nowrap;
+
+    padding:6px 12px;
+
+    background:#f4f5f7;
+    border:1px solid #d9dfe8;
+    border-radius:999px;
+
+    color:var(--brand-blue);
+    text-decoration:none;
+
+    font-size:.88rem;
+    font-weight:600;
+
+    transition:
+        background .18s,
+        border-color .18s,
+        color .18s;
+}
+
+.cv-btn:hover,
+.cv-btn:focus-visible{
+    background:var(--brand-yellow);
+    border-color:#d2b400;
+}
+
+/* =======================================================
+   Mobile
+======================================================= */
+
+@media (max-width:700px){
+
+    .site-header{
+        margin:0 12px;
+        padding-top:12px;
+    }
+
+    .back-text{
+        display:none;
+    }
+
+    .menu-toggle{
+        margin-left:0;
+    }
+
+    .utility-bar{
+        justify-content:space-between;
+    }
+
+    /* Search collapsed */
+
+    #search-input{
+        display:none;
+    }
+
+    .search-wrap.open{
+        flex:1;
+    }
+
+    .search-wrap.open #search-input{
+        display:block;
+        flex:1;
+        width:100%;
+        max-width:none;
+    }
+
+    /* Hide other controls while searching */
+
+    .utility-bar.searching .back-home,
+    .utility-bar.searching .menu-toggle{
+        display:none;
+    }
+
+    .utility-bar.searching .search-wrap{
+        width:100%;
+    }
+
+    .main-menu{
+        grid-template-columns:1fr;
+    }
+
+    .meta-row{
+        grid-template-columns:minmax(90px,140px) minmax(0,1fr);
+    }
+
+    .meta-label{
+        overflow-wrap:anywhere;
+    }
+}
+
+/* =======================================================
+   General headings and links
+======================================================= */
+
+h3{
+    color:var(--brand-blue);
+    border-bottom:3px solid var(--brand-yellow);
+    padding-bottom:6px;
+    margin:28px 0 14px;
+}
+
+h4{
+    margin:18px 0 8px;
+    color:var(--brand-blue);
+}
+
+a{
+    color:#003366;
+    text-decoration:none;
     overflow-wrap:anywhere;
-    word-break: break-word;
-  }
-  a:hover { text-decoration: underline; }
-
-  mark.cvnet-highlight {
-    background-color: yellow;
-    color: black;
-  }
-
-/* ===== Card layout ===== */
-.cards {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 14px;
-  margin-bottom: 24px;
+    word-break:break-word;
 }
 
-.card {
-  grid-column: span 12; /* full width by default (mobile-first) */
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: var(--card-shadow);
-  padding: 14px;
-  transition: box-shadow .2s ease, transform .2s ease;
-  /* Added: make sure content inside cards can wrap and never overflow */
-  overflow-wrap: anywhere;
-  word-break: break-word;
+a:hover{
+    text-decoration:underline;
 }
 
-.card:hover {
-  box-shadow: var(--card-shadow-hover);
-  transform: translateY(-1px);
+mark.cvnet-highlight{
+    background-color:yellow;
+    color:black;
 }
 
-.card .title {
-  font-weight: 700;
-  color: #001652;
-  margin-bottom: 6px;
-  line-height: 1.35;
-  /* Added: prevent long titles from causing overflow */
-  overflow-wrap: anywhere;
-  word-break: break-word;
+
+/* =======================================================
+   Card layout
+======================================================= */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(12,1fr);
+    gap:14px;
+    margin-bottom:24px;
 }
 
-.meta {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
+.card{
+    grid-column:span 12;
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-radius:12px;
+    box-shadow:var(--card-shadow);
+    padding:14px;
+
+    transition:
+        box-shadow .2s ease,
+        transform .2s ease;
+
+    overflow-wrap:anywhere;
+    word-break:break-word;
 }
 
-.meta-row {
-  display: grid;
-  grid-template-columns: 160px minmax(0,1fr);
-  gap: 10px;
-  align-items: start;
+.card:hover{
+    box-shadow:var(--card-shadow-hover);
+    transform:translateY(-1px);
 }
 
-.meta-label {
-  font-weight: 700;
-  color: var(--brand-blue);
+.card .title{
+    font-weight:700;
+    color:#001652;
+    margin-bottom:6px;
+    line-height:1.35;
+    overflow-wrap:anywhere;
+    word-break:break-word;
 }
 
-.notes-list {
-  margin: 0;
-  padding-left: 1.1em;
+.meta{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:8px;
 }
 
-.notes-list li {
-  margin: 2px 0;
+.meta-row{
+    display:grid;
+    grid-template-columns:160px minmax(0,1fr);
+    gap:10px;
+    align-items:start;
 }
 
-/* Added: guarantee the value column actually shrinks and wraps on narrow screens */
-.meta-row > :last-child {
-  min-width: 0;
-  overflow-wrap: anywhere;
-  word-break: break-word;
+.meta-label{
+    font-weight:700;
+    color:var(--brand-blue);
 }
 
-/* Section intro paragraph card */
-.intro {
-  background: #fffaf0;
-  border: 1px solid #ffe3a3;
-  color: #3a2a00;
+.meta-row > :last-child{
+    min-width:0;
+    overflow-wrap:anywhere;
+    word-break:break-word;
 }
 
-/* Responsive columns */
-@media (min-width: 720px) {
-  .card.sm-6 { grid-column: span 6; }
-  .card.sm-4 { grid-column: span 4; }
-  .card.md-6 { grid-column: span 6; } /* ensure half width at medium+ */
+.notes-list{
+    margin:0;
+    padding-left:1.1em;
 }
 
-/* Mobile niceties & quick-links scroll */
-@media (max-width: 700px) {
-  .site-header { margin: 0 12px; padding-top: 12px; }
-  .topbar-row { gap: 8px; }
-  .quick-links {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    gap: 10px;
-    scroll-snap-type: x mandatory;
-    padding-bottom: 6px;
-  }
-  .quick-links a {
-    scroll-snap-align: start;
-  }
-  .search-wrap { width: 100%; margin-left: 0; }
-  #search-input { width: 100%; max-width: 100%; }
-
-  /* Slightly narrower label on phones; allow label wrapping */
-  .meta-row { grid-template-columns: minmax(90px,140px) minmax(0,1fr); }
-  .meta-label { overflow-wrap:anywhere; }
+.notes-list li{
+    margin:2px 0;
 }
+
+.intro{
+    background:#fffaf0;
+    border:1px solid #ffe3a3;
+    color:#3a2a00;
+}
+
+
+/* =======================================================
+   Responsive cards
+======================================================= */
+
+@media (min-width:720px){
+
+    .card.sm-6{
+        grid-column:span 6;
+    }
+
+    .card.sm-4{
+        grid-column:span 4;
+    }
+
+    .card.md-6{
+        grid-column:span 6;
+    }
+}
+
+@media (max-width:700px){
+
+    .meta-row{
+        grid-template-columns:minmax(90px,140px) minmax(0,1fr);
+    }
+
+    .meta-label{
+        overflow-wrap:anywhere;
+    }
+}
+
 
 /* ✅ Accessible focus outlines for keyboard users */
 a:focus-visible,
@@ -415,7 +635,8 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
       } catch (e) {}
     });
   });
-</script>
+
+});</script>
 
 
 </head>
@@ -429,54 +650,83 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
       <div class="subtitle">Last updated: 23 July, 2026</div> 
     </div>
 
-        <div class="topbar">
-      <div class="topbar-row">
-        <nav class="quick-links" aria-label="Quick section links">
-  <a href="#community">Community Events &amp; Honors</a>  
-  <a href="#conferences">Conferences</a>
-  <a href="#talks">Online Seminars/Clubs</a>
-  <a href="#calls">Special/Feature Issues</a>
-  <a href="#education">Education</a>
-  <a href="#gradprograms">Grad Programs</a>
-  <a href="#jobs">Jobs</a>
-  <a href="#funding">Funding</a>
-  <a href="#competitions">Competitions</a>
-  <a href="#Passings">Passings</a>      
-</nav>
+<div class="topbar">
 
-<!-- Conference Quick Links -->
-<nav class="cv-conference-links quick-links" aria-label="Conference quick links">
-  <a href="#apa" class="cv-btn">APA</a>
-  <a href="#apcv" class="cv-btn">APCV</a>
-  <a href="#aps" class="cv-btn">APS</a>
-  <a href="#arvo" class="cv-btn">ARVO</a>
-  <a href="#ava" class="cv-btn">AVA</a>
-  <a href="#bavrd" class="cv-btn">BAVRD</a>
-  <a href="#ecvp" class="cv-btn">ECVP</a>
-  <a href="#gruppo-del-colore" class="cv-btn">Gruppo del Colore</a>
-  <a href="#hvei" class="cv-btn">HVEI</a>
-  <a href="#icvs" class="cv-btn">ICVS</a>
-  <a href="#modvis" class="cv-btn">MODVIS</a>
-  <a href="#optica-fall-vision" class="cv-btn">Optica Fall Vision</a>
-  <a href="#psychonomic" class="cv-btn">Psychonomic</a>
-  <a href="#sfn" class="cv-btn">SfN</a>
-  <a href="#vsac" class="cv-btn">VSAC</a>
-  <a href="#vss" class="cv-btn">VSS</a>
-</nav>
+  <div class="utility-bar">
 
-        <div class="search">
-  <input id="search-input" type="search" placeholder="Search..." />
+  <a class="back-home" href="...">
+    <span class="back-icon">←</span>
+    <span class="back-text">Back to Main CVNet Info Page</span>
+</a>
+
+  <div class="search-wrap">
+
+    <button id="search-toggle" class="search-toggle" aria-label="Search">
+        🔍
+    </button>
+
+    <input
+        id="search-input"
+        type="search"
+        placeholder="Search the calendar..."
+    >
+
 </div>
 
-<!-- Search result counter (for accessibility + user feedback) -->
-<div id="search-status" class="visually-hidden" aria-live="polite"></div>
+<div class="browse-menu">
 
-      </div>
-      <!-- Back link under main nav buttons -->
-      <p class="back-link">
-        <a href="https://info.cvnet.org/?tab=calendarTab">← Back to main CVNet info page</a>
-      </p>
-    </div>
+    <button
+      id="menu-toggle"
+      class="menu-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="main-menu">
+      ▼ Browse
+    </button>
+
+    <nav id="main-menu" class="main-menu" aria-label="Main sections">
+        <a href="#community">Community Events &amp; Honors</a>
+        <a href="#conferences">Conferences</a>
+        <a href="#talks">Online Seminars/Clubs</a>
+        <a href="#calls">Special/Feature Issues</a>
+        <a href="#education">Education</a>
+        <a href="#gradprograms">Grad Programs</a>
+        <a href="#jobs">Jobs</a>
+        <a href="#funding">Funding</a>
+        <a href="#competitions">Competitions</a>
+        <a href="#Passings">Passings</a>
+    </nav>
+
+</div>
+
+</div>
+
+  <nav class="cv-conference-links quick-links"
+       aria-label="Conference quick links">
+    <a href="#apa" class="cv-btn">APA</a>
+    <a href="#apcv" class="cv-btn">APCV</a>
+    <a href="#aps" class="cv-btn">APS</a>
+    <a href="#arvo" class="cv-btn">ARVO</a>
+    <a href="#ava" class="cv-btn">AVA</a>
+    <a href="#bavrd" class="cv-btn">BAVRD</a>
+    <a href="#ecvp" class="cv-btn">ECVP</a>
+    <a href="#gruppo-del-colore" class="cv-btn">Gruppo del Colore</a>
+    <a href="#hvei" class="cv-btn">HVEI</a>
+    <a href="#icvs" class="cv-btn">ICVS</a>
+    <a href="#modvis" class="cv-btn">MODVIS</a>
+    <a href="#optica-fall-vision" class="cv-btn">Optica Fall Vision</a>
+    <a href="#psychonomic" class="cv-btn">Psychonomic</a>
+    <a href="#sfn" class="cv-btn">SfN</a>
+    <a href="#vsac" class="cv-btn">VSAC</a>
+    <a href="#vss" class="cv-btn">VSS</a>
+  </nav>
+
+  <div id="search-status"
+       class="visually-hidden"
+       aria-live="polite"></div>
+
+</div>
+
   </header>
 </div>
 
@@ -7890,6 +8140,42 @@ function debounce(fn, ms) {
   window.addEventListener('resize', debounce(setHeaderOffset, 100));
   // Also recalc after full assets load to avoid initial anchor "peek"
   window.addEventListener('load', setHeaderOffset);
+
+const utilityBar = document.querySelector(".utility-bar");
+const searchWrap = document.querySelector(".search-wrap");
+const searchButton = document.getElementById("search-toggle");
+const searchInput = document.getElementById("search-input");
+
+searchButton.addEventListener("click", function () {
+
+    if (window.innerWidth > 700) return;
+
+    const open = searchWrap.classList.toggle("open");
+
+    utilityBar.classList.toggle("searching", open);
+
+    if (open) {
+        searchInput.focus();
+    } else {
+        searchInput.value = "";
+        clearSearch();
+    }
+
+});
+
+searchInput.addEventListener("input", function () {
+
+    if (this.value.trim() === "") {
+        clearSearch();
+    }
+
+});
+
+searchInput.addEventListener("search", function () {
+
+    clearSearch();
+
+});
 </script>
 
 
@@ -8018,6 +8304,45 @@ function debounce(fn, ms) {
     onSearch();
   }
 })();
+document.addEventListener("DOMContentLoaded", function () {
+
+    const button = document.getElementById("menu-toggle");
+    const menu = document.getElementById("main-menu");
+
+    button.addEventListener("click", function(e){
+
+        e.stopPropagation();   // prevents the document click from immediately closing it
+
+        menu.classList.toggle("is-open");
+
+        button.setAttribute(
+            "aria-expanded",
+            menu.classList.contains("is-open")
+        );
+
+    });
+
+    menu.addEventListener("click", function(e){
+        e.stopPropagation();
+    });
+
+    document.addEventListener("click", function(){
+
+        menu.classList.remove("is-open");
+        button.setAttribute("aria-expanded","false");
+
+    document.addEventListener("keydown", function(e){
+
+        if(e.key==="Escape"){
+        menu.classList.remove("is-open");
+        menuToggle.setAttribute("aria-expanded","false");
+    }
+
+});
+
+    });
+
+});
 </script>
 </body>
 </html>
