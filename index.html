@@ -420,6 +420,11 @@ mark.cvnet-highlight{
     word-break:break-word;
 }
 
+/* Keep hot-link targets below the fixed header */
+.card[id] {
+    scroll-margin-top: 180px;
+}
+
 .card:hover{
     box-shadow:var(--card-shadow-hover);
     transform:translateY(-1px);
@@ -647,7 +652,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
   <header class="site-header">
     <div class="title-banner">
       <h2>CVNet Community Calendar</h2>
-      <div class="subtitle">Last updated: 19 September, 2026</div> 
+      <div class="subtitle">Last updated: 23 September, 2026</div> 
     </div>
 
 <div class="topbar">
@@ -715,7 +720,8 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
     <a href="#icvs" class="cv-btn">ICVS</a>
     <a href="#modvis" class="cv-btn">MODVIS</a>
     <a href="#optica-fall-vision" class="cv-btn">Optica Fall Vision</a>
-    <a href="#psychonomic" class="cv-btn">Psychonomic</a>
+<a href="#pics" class="cv-btn">PICS</a>
+<a href="#psychonomic" class="cv-btn">Psychonomic</a>
     <a href="#sfn" class="cv-btn">SfN</a>
     <a href="#vsac" class="cv-btn">VSAC</a>
     <a href="#vss" class="cv-btn">VSS</a>
@@ -850,88 +856,6 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 
     <!-- Each conference as a card -->   
     <!-- 2026 -->
-
-<div class="card md-6"
-     data-tags="conference computer-vision ai machine-learning europe">
-
-  <div class="title">
-    <b>European Conference on Computer Vision (ECCV 2026)</b>
-  </div>
-
-  <div class="meta">
-
-    <div class="meta-row">
-      <div class="meta-label">Frequency</div>
-      <div>Biennial</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>September 8–12, 2026</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>Malmö, Sweden</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Submission Deadlines</div>
-      <div>CLOSED</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://eccv.ecva.net/"
-           target="_blank" rel="noopener">
-          eccv.ecva.net
-        </a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-
-
-<div class="card md-6" id="pics2026"
-     data-tags="conference colour-studies interdisciplinary linguistics poland">
-  <div class="title"><b>Progress in Colour Studies (PICS 2026)</b></div>
-
-  <div class="meta">
-    <div class="meta-row">
-      <div class="meta-label">Frequency</div>
-      <div>Quadrennial</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>September 10–12, 2026</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>Wrocław, Poland</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Submission Deadlines</div>
-      <div>CLOSED</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://phc.uni.wroc.pl/PICS2026/"
-           target="_blank" rel="noopener">
-          phc.uni.wroc.pl/PICS2026
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-
 
 <div class="card md-6" id="ais-2026"
      data-tags="conference ai machine-learning interdisciplinary italy">
@@ -1625,6 +1549,50 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 
 
 
+<div class="card md-6"
+     data-tags="conference workshop computer-vision machine-learning responsible-ai robustness bmvc united-kingdom">
+
+  <div class="title">
+    <b>WILD VISION — Reliable and Responsible Computer Vision in the Wild</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Workshop</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>November 26, 2026</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Lancaster, United Kingdom — BMVC 2026</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>September 27, 2026</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://lnkd.in/eFNyuy3D"
+           target="_blank" rel="noopener">
+          WILD VISION Workshop
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
 <div class="card md-6" id="accv-2026"
      data-tags="conference computer-vision accv asia">
   <div class="title"><b>Asian Conference on Computer Vision (ACCV) 2026</b></div>
@@ -1797,6 +1765,49 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 </div>
 
 
+<div class="card md-6"
+     data-tags="conference workshop computer-vision waste-monitoring environmental-monitoring artificial-intelligence wacv">
+
+  <div class="title">
+    <b>WasteVision 2027 — International Workshop on Smart Waste Monitoring</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Workshop</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>January 2027 — WACV 2027</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Tucson, Arizona, USA</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>Regular Papers: October 10, 2026</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://mivia.unisa.it/wastevision2027/"
+           target="_blank" rel="noopener">
+          WasteVision 2027
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
 <div class="card md-6" id="praw-wacv2026"
      data-tags="conference workshop wacv retail-ai computer-vision physical-retail artificial-intelligence florida">
 
@@ -1933,6 +1944,50 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 </div>
 
 
+<div class="card md-6"
+     data-tags="conference lighting vision colour color cie photometry imaging australia hybrid">
+
+  <div class="title">
+    <b>CALReCo 2027 — CIE Australia Lighting Research Conference</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Annual</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>February 4–5, 2027</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>RMIT University City Campus, Melbourne, Australia &amp; Online (Hybrid)</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>Abstracts: October 30, 2026</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://cie.org.au/whats_on/calreco2027/"
+           target="_blank" rel="noopener">
+          CALReCo 2027
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
 <div class="card md-6" id="cosyne"
      data-tags="conference neuroscience computational-neuroscience systems-neuroscience">
 
@@ -2019,6 +2074,53 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 
   </div>
 </div>
+
+
+<div class="card md-6"
+     data-tags="conference image-analysis computer-vision pattern-recognition colour-imaging machine-learning medical-imaging norway">
+
+  <div class="title">
+    <b>Scandinavian Conference on Image Analysis (SCIA 2027)</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Biennial</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>June 8–11, 2027</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Norwegian University of Science and Technology (NTNU), Gjøvik, Norway</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>
+        Full Papers: January 26, 2027<br>
+        Abstracts: February 28, 2027
+      </div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://scia2027.org/"
+           target="_blank" rel="noopener">
+          scia2027.org
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 
 
 <div class="card md-6" id="pangborn">
@@ -3850,6 +3952,91 @@ TBD
   </div>
 </div>
 
+<div class="card md-6"
+     data-tags="conference computer-vision ai machine-learning europe">
+
+  <div class="title">
+    <b>European Conference on Computer Vision</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Biennial</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>TBD 2028</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>TBD</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>TBD</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://eccv.ecva.net/"
+           target="_blank" rel="noopener">
+          eccv.ecva.net
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="card md-6" id="pics"
+     data-tags="conference colour-studies interdisciplinary linguistics poland">
+
+  <div class="title">
+    <b>Progress in Colour Studies (PICS)</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Quadrennial</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>TBD 2030</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>TBD</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>TBD</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://phc.uni.wroc.pl/PICS2026/"
+           target="_blank" rel="noopener">
+          phc.uni.wroc.pl/PICS2026
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 
   </div>
 </details>
@@ -3871,45 +4058,12 @@ TBD
 
   <div class="cards">
 
-<div class="card md-6"
-     data-tags="webinar talk jivp 3d geometry compression visual-computing city-university-hong-kong">
+<!-- insert cards here -->
 
-  <div class="title">
-    <b>JIVP Webinar — Rethinking 3D Geometry Compression Through the Lens of Structural Representation</b>
-  </div>
-
-  <div class="meta">
-
-    <div class="meta-row">
-      <div class="meta-label">Speaker</div>
-      <div>Junhui Hou — City University of Hong Kong</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Date</div>
-      <div>September 10, 2026 — 1:30 PM CEST</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>Online</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://cassyni.com/events/HrprsySnSB9PKUJihT3QQV"
-           target="_blank" rel="noopener">
-          Webinar / RSVP
-        </a>
-      </div>
-    </div>
-
-  </div>
-</div>
 
   </div>
 </details>
+
 
 
 <!-- RECURRING SERIES / CLUBS -->
@@ -4123,6 +4277,49 @@ TBD
   <summary> Active Calls for Papers</summary>
 
   <div class="cards">
+
+
+<div class="card md-6"
+     data-tags="special-issue computer-vision artificial-intelligence waste-monitoring environmental-surveillance remote-sensing">
+
+  <div class="title">
+    <b>Emerging Trends in Smart Waste Monitoring and Environmental Surveillance</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Journal Name</div>
+      <div>Neural Computing and Applications</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Journal Type</div>
+      <div>Topical Collection — Computer Vision / Artificial Intelligence</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadline</div>
+      <div>September 30, 2026</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Open Access Status</div>
+      <div>Hybrid</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Link to Issue(s)</div>
+      <div>
+        <a href="https://link.springer.com/journal/521/updates/27851508"
+           target="_blank" rel="noopener">
+          Springer — Topical Collection
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 
     <div class="card md-6"
@@ -4342,6 +4539,49 @@ TBD
 </div>
 
 
+<div class="card md-6"
+     data-tags="special-issue computer-vision autonomous-navigation visual-perception robotics artificial-intelligence">
+
+  <div class="title">
+    <b>Visual Perception enabling Autonomous Navigation (VP-NAV)</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Journal Name</div>
+      <div>Image and Vision Computing</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Journal Type</div>
+      <div>Special Issue — Computer Vision / Autonomous Navigation</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadline</div>
+      <div>December 31, 2026</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Open Access Status</div>
+      <div>Hybrid</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Link to Issue(s)</div>
+      <div>
+        <a href="https://www.sciencedirect.com/browse/calls-for-papers"
+           target="_blank" rel="noopener">
+          ScienceDirect — Calls for Papers
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
 
 <div class="card md-6"
      data-tags="call-for-papers journal image-quality visual-perception psychophysics image-science open-access">
@@ -4421,6 +4661,52 @@ TBD
 
   </div>
 </div>
+
+
+<div class="card md-6"
+     data-tags="special-issue neuroscience visual-neuroscience retinal-disease cortical-plasticity vision-loss low-vision prf retinotopy">
+
+  <div class="title">
+    <b>Cortical Plasticity in Retinal Disease: Mechanisms of Reorganization following Vision Loss</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Journal Name</div>
+      <div>Frontiers in Neuroscience</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Journal Type</div>
+      <div>Research Topic — Visual Neuroscience / Perception Science</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadline</div>
+      <div>March 9, 2027</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Open Access Status</div>
+      <div>Open Access</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Link to Issue(s)</div>
+      <div>
+        <a href="https://www.frontiersin.org/research-topics/84223/cortical-plasticity-in-retinal-disease-mechanisms-of-reorganization-following-vision-loss"
+           target="_blank" rel="noopener">
+          Frontiers Research Topic
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
 
 <div class="card md-6"
      data-tags="special-issue journal jov perceptual-learning vision plasticity psychophysics neuroscience">
@@ -5203,90 +5489,6 @@ TBD
 
   <div class="cards">
 
-<div class="card md-6"
-     data-tags="education summer-school artificial-intelligence generative-ai machine-learning italy iaiss">
-
-  <div class="title">
-    <b>International Artificial Intelligence Summer School (IAISS 2026)</b>
-  </div>
-
-  <div class="meta">
-
-    <div class="meta-row">
-      <div class="meta-label">Type</div>
-      <div>Summer School</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>September 20–24, 2026</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Application Deadline</div>
-      <div>CLOSED</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>Riva del Sole Resort &amp; SPA, Castiglione della Pescaia, Tuscany, Italy</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://2026.iaiss.cc/"
-           target="_blank" rel="noopener">
-          IAISS 2026
-        </a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<div class="card md-6"
-     data-tags="education summer-school neuroscience germany computational-neuroscience">
-
-  <div class="title">
-    <b>Summer School: Visual Neuroscience — From Spikes to Awareness</b>
-  </div>
-
-  <div class="meta">
-
-    <div class="meta-row">
-      <div class="meta-label">Type</div>
-      <div>Summer School</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>August 30–September 11, 2026</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Application Deadline</div>
-      <div>CLOSED</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>Rauischholzhausen Castle, Germany</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://www.allpsych.uni-giessen.de/rauisch/"
-           target="_blank" rel="noopener">
-          Visual Neuroscience Summer School
-        </a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 
 <div class="card md-6"
      data-tags="education summer-school vision-science neuroscience systems-vision germany tubingen">
@@ -5307,10 +5509,10 @@ TBD
       <div>August 16–27, 2027</div>
     </div>
 
-    <div class="meta-row">
-      <div class="meta-label">Application Deadline</div>
-      <div>TBD</div>
-    </div>
+  <div class="meta-row">
+  <div class="meta-label">Application Deadline</div>
+  <div>March 31, 2027</div>
+</div>
 
     <div class="meta-row">
       <div class="meta-label">Location</div>
@@ -5340,6 +5542,89 @@ TBD
   <summary> Summer Schools 2027-2028</summary>
 
   <div class="cards">
+
+<div class="card md-6"
+     data-tags="education summer-school artificial-intelligence generative-ai machine-learning italy iaiss">
+
+  <div class="title">
+    <b>International Artificial Intelligence Summer School (IAISS 2027)</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Type</div>
+      <div>Summer School</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>TBD 2027</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Application Deadline</div>
+      <div>TBD</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>TBD</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>TBD</div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<div class="card md-6"
+     data-tags="education summer-school neuroscience germany computational-neuroscience">
+
+  <div class="title">
+    <b>Summer School: Visual Neuroscience — From Spikes to Awareness (2028)</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Type</div>
+      <div>Summer School</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>TBD 2028</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Application Deadline</div>
+      <div>TBD</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Rauischholzhausen Castle, Germany</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://www.allpsych.uni-giessen.de/rauisch/"
+           target="_blank" rel="noopener">
+          Visual Neuroscience Summer School
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
 
 <div class="card md-6"
      data-tags="education summer-school vision-science undergraduate york-university canada">
@@ -5877,6 +6162,51 @@ TBD
 </div>
 
 
+<div class="card md-6"
+     data-tags="jobs graduate fellowship dissertation post-mfa teaching williams-college massachusetts">
+
+  <div class="title">
+    <b>Gaius Charles Bolin Dissertation &amp; Post-MFA Fellowship 2027</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Degree Type</div>
+      <div>Dissertation / Post-MFA Fellowship</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Institution</div>
+      <div>Williams College</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Williamstown, Massachusetts, USA</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Application Deadline</div>
+      <div>November 15, 2026</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://faculty.williams.edu/hiring/graduate-fellowships/bolin-fellowships/"
+           target="_blank" rel="noopener">
+          Williams College — Bolin Fellowships
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
     <div class="card md-6"
          data-tags="job phd computer-vision artificial-intelligence healthcare medical-imaging france">
 
@@ -5933,6 +6263,50 @@ TBD
   <div class="cards">
 
 
+<div class="card md-6"
+     data-tags="jobs postdoc vision-science myopia pediatric-vision optometry psychophysics eye-tracking optics boston">
+
+  <div class="title">
+    <b>Postdoctoral Research Position — Pediatric Myopia &amp; Vision Science</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Role Type</div>
+      <div>Postdoctoral Researcher</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Institution / Organization</div>
+      <div>New England College of Optometry — Children's Vision Lab</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Boston, Massachusetts, USA</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Application Deadline</div>
+      <div>Open — no deadline stated</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://www.neco.edu/research-innovation/research/dr-fuensanta-vera-diazs-lab/"
+           target="_blank" rel="noopener">
+          NECO Children's Vision Lab
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
 
 <div class="card md-6"
      data-tags="jobs postdoc research-scientist stanford digital-brain neuroscience fmri meg-opm perception attention eye-tracking computational-modeling">
@@ -5977,132 +6351,6 @@ TBD
 </div>
 
 
-<div class="card md-6"
-     data-tags="job postdoc neurotechnology cognitive-neuroscience neuroimaging neuromodulation brain-plasticity adaptive-behavior cambridge uk">
-
-  <div class="title">
-    <b>Post-doctoral Research Associate in Neurotechnology</b>
-  </div>
-
-  <div class="meta">
-
-    <div class="meta-row">
-      <div class="meta-label">Role Type</div>
-      <div>Post-doctoral Research Associate</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Institution / Organization</div>
-      <div>University of Cambridge — Adaptive Brain Lab</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>Cambridge, United Kingdom</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Application Deadline</div>
-      <div>September 1, 2026</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://www.cam.ac.uk/jobs/research-assistantassociate-pj50742"
-           target="_blank" rel="noopener">
-          University of Cambridge — Official Job Posting
-        </a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<div class="card md-6"
-     data-tags="job postdoc research-associate face-perception artificial-intelligence machine-learning deep-learning psychology unsw australia">
-
-  <div class="title">
-    <b>Research Associate — AI Face Perception</b>
-  </div>
-
-  <div class="meta">
-
-    <div class="meta-row">
-      <div class="meta-label">Role Type</div>
-      <div>Research Associate</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Institution / Organization</div>
-      <div>UNSW Sydney — Face Research Lab</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>Sydney, New South Wales, Australia</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Application Deadline</div>
-      <div>September 3, 2026</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://external-careers.jobs.unsw.edu.au/cw/en/job/541202/research-associate-unsw-face-research-lab"
-           target="_blank" rel="noopener">
-          UNSW — Official Job Posting
-        </a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-
-<div class="card md-6"
-     data-tags="jobs postdoc computational-neuroscience cognitive-neuroscience artificial-intelligence modeling neuroimaging brown-university t32">
-
-  <div class="title">
-    <b>Postdoctoral Fellowships — Computational Neuroscience NIH T32 Training Program</b>
-  </div>
-
-  <div class="meta">
-
-    <div class="meta-row">
-      <div class="meta-label">Position Type</div>
-      <div>Postdoctoral Fellowship</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Institution</div>
-      <div>Brown University — Nancy G. Zimmerman Center for Computational Brain Science</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>Providence, Rhode Island, USA</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Application Deadline</div>
-      <div>Review Begins September 1, 2026</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://apply.interfolio.com/190111"
-           target="_blank" rel="noopener">
-          Official Advertisement / Apply
-        </a>
-      </div>
-    </div>
-
-  </div>
-</div>
 
 
 <div class="card md-6"
@@ -6740,94 +6988,6 @@ TBD
 
 
 <div class="card md-6"
-     data-tags="job faculty professor artificial-intelligence computer-vision multimodal machine-learning cvssp surrey uk">
-
-  <div class="title">
-    <b>Professor in Artificial Intelligence — Centre for Vision, Speech and Signal Processing</b>
-  </div>
-
-  <div class="meta">
-
-    <div class="meta-row">
-      <div class="meta-label">Role Type</div>
-      <div>Professor</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Institution / Organization</div>
-      <div>University of Surrey — Centre for Vision, Speech and Signal Processing</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>Guildford, United Kingdom</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Application Deadline</div>
-      <div>September 13, 2026</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://jobs.surrey.ac.uk/Vacancy.aspx?ref=037626"
-           target="_blank" rel="noopener">
-          University of Surrey — Official Job Posting
-        </a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-
-<div class="card md-6"
-     data-tags="jobs faculty tenure-track cognitive-science psychology artificial-intelligence cognition neuroscience brown-university">
-
-  <div class="title">
-    <b>Assistant Professor — Cognitive and Psychological Sciences</b>
-  </div>
-
-  <div class="meta">
-
-    <div class="meta-row">
-      <div class="meta-label">Position Type</div>
-      <div>Tenure-Track Assistant Professor</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Institution</div>
-      <div>Brown University — Department of Cognitive and Psychological Sciences</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>Providence, Rhode Island, USA</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Application Deadline</div>
-      <div>September 15, 2026</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://apply.interfolio.com/190677"
-           target="_blank" rel="noopener">
-          Official Advertisement / Apply
-        </a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-
-
-
-<div class="card md-6"
      data-tags="job faculty assistant-professor tenure-track psychology cognitive-psychology language memory hamilton-college new-york">
 
   <div class="title">
@@ -6940,7 +7100,7 @@ TBD
 
     <div class="meta-row">
       <div class="meta-label">Application Deadline</div>
-      <div>October 1, 2026 (review deadline)</div>
+      <div>October 1, 2026</div>
     </div>
 
     <div class="meta-row">
@@ -7027,7 +7187,7 @@ TBD
 
     <div class="meta-row">
       <div class="meta-label">Application Deadline</div>
-      <div>Review Begins October 1, 2026 (Open Until Filled)</div>
+      <div>Review Begins October 1, 2026</div>
     </div>
 
     <div class="meta-row">
@@ -7070,7 +7230,7 @@ TBD
 
     <div class="meta-row">
       <div class="meta-label">Application Deadline</div>
-      <div>Review begins October 1, 2026; open until filled</div>
+      <div>Review begins October 1, 2026</div>
     </div>
 
     <div class="meta-row">
@@ -7156,7 +7316,7 @@ TBD
 
     <div class="meta-row">
       <div class="meta-label">Application Deadline</div>
-      <div>Review Begins October 1, 2026 (Open Until Filled)</div>
+      <div>Review Begins October 1, 2026</div>
     </div>
 
     <div class="meta-row">
@@ -7306,6 +7466,92 @@ TBD
 </div>
 
 
+<div class="card md-6"
+     data-tags="jobs faculty neuroscience learning memory cognitive-neuroscience computational-neuroscience barnard columbia new-york">
+
+  <div class="title">
+    <b>Assistant Professor — Neuroscience &amp; Behavior</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Role Type</div>
+      <div>Tenure-Track Assistant Professor</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Institution / Organization</div>
+      <div>Barnard College, Columbia University — Department of Neuroscience and Behavior</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>New York, New York, USA</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Application Deadline</div>
+      <div>Review begins November 15, 2026</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://barnard.wd1.myworkdayjobs.com/en-US/Faculty/details/Assistant-Professor-of-Neuroscience---Behavior_JR2026184"
+           target="_blank" rel="noopener">
+          Apply Here
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="card md-6"
+     data-tags="jobs faculty teaching neuroscience psychology unr nevada reno">
+
+  <div class="title">
+    <b>Teaching Assistant Professor — Neuroscience</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Role Type</div>
+      <div>Teaching Assistant Professor (Continuing, Non-Tenure-Track)</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Institution / Organization</div>
+      <div>University of Nevada, Reno — Department of Psychology</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Reno, Nevada, USA</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Application Deadline</div>
+      <div>December 15, 2026</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://nshe.wd1.myworkdayjobs.com/UNR-external/job/University-of-Nevada-Reno---Main-Campus/Teaching-Assistant-Professor--Psychology_R0153563"
+           target="_blank" rel="noopener">
+          Official UNR Vacancy
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
 
 <div class="card md-6"
      data-tags="jobs faculty tenure-track cognitive-neuroscience computational-neuroscience perception cuny flatiron">
@@ -7368,47 +7614,7 @@ TBD
   <div class="cards">
 
 
-    <div class="card md-6"
-         data-tags="job collaborative-research replication fmri neuroscience vision">
 
-      <div class="title">
-        <b>re:vision — Community Replication Initiative for Image-Related Neuroscience</b>
-      </div>
-
-      <div class="meta">
-
-        <div class="meta-row">
-          <div class="meta-label">Opportunity Type</div>
-          <div>Collaborative Research Opportunity</div>
-        </div>
-
-        <div class="meta-row">
-          <div class="meta-label">Organization</div>
-          <div>re:vision Initiative</div>
-        </div>
-
-        <div class="meta-row">
-          <div class="meta-label">Location</div>
-          <div>Remote / International</div>
-        </div>
-
-        <div class="meta-row">
-          <div class="meta-label">Application Deadline</div>
-          <div>September 15, 2026 (or when sign-up capacity is reached)</div>
-        </div>
-
-        <div class="meta-row">
-          <div class="meta-label">Website</div>
-          <div>
-            <a href="https://re-vision-initiative.org/participate"
-               target="_blank" rel="noopener">
-              re:vision — Participate
-            </a>
-          </div>
-        </div>
-
-      </div>
-    </div>
 
 
   </div>
@@ -7422,8 +7628,47 @@ TBD
 
 <div class="cards">
 
-  <!-- Active funding cards go here -->
+<div class="card md-6"
+     data-tags="funding fellowship postdoctoral stem research uk united-kingdom marshall-sherfield">
 
+  <div class="title">
+    <b>Marshall Sherfield Fellowship 2027</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Opportunity Type</div>
+      <div>Postdoctoral Research Fellowship</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Organization</div>
+      <div>Marshall Aid Commemoration Commission</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>United Kingdom</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Application Deadline</div>
+      <div>November 2, 2026</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://www.marshallscholarship.org/apply/marshall-sherfield/"
+           target="_blank" rel="noopener">
+          Marshall Sherfield Fellowships
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
   
 </div> <!-- end cards: Funding -->
 
@@ -7438,8 +7683,45 @@ TBD
 
 <div class="cards">
 
-  <!-- Active competition and prize cards go here -->
+<div class="card md-6"
+     data-tags="competition computer-vision waste-detection illegal-dumping dataset artificial-intelligence wacv">
 
+  <div class="title">
+    <b>IWDD Contest 2027 — Illegal Waste Dumping Detection</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Competition Type</div>
+      <div>Computer Vision Challenge / Contest</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Associated Event</div>
+      <div>WasteVision 2027 / WACV 2027</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadline</div>
+      <div>
+        Methods: October 10, 2026<br>
+        Contest Papers: October 15, 2026
+      </div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://mivia.unisa.it/iwddcontest2027/"
+           target="_blank" rel="noopener">
+          IWDD Contest 2027
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
 </div> <!-- end cards: Competitions and Prizes -->
 
 
