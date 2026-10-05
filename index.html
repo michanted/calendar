@@ -187,12 +187,6 @@ html { scroll-behavior: smooth; }
     background:#fff;
 }
 
-/* ---------- Browse menu ---------- */
-
-.browse-menu{
-    position:relative;
-    margin-left:auto;
-}
 
 .main-menu{
     display:none;
@@ -387,10 +381,6 @@ a:hover{
     text-decoration:underline;
 }
 
-mark.cvnet-highlight{
-    background-color:yellow;
-    color:black;
-}
 
 
 /* =======================================================
@@ -485,30 +475,10 @@ mark.cvnet-highlight{
 
 @media (min-width:720px){
 
-    .card.sm-6{
-        grid-column:span 6;
-    }
-
-    .card.sm-4{
-        grid-column:span 4;
-    }
-
     .card.md-6{
         grid-column:span 6;
     }
 }
-
-@media (max-width:700px){
-
-    .meta-row{
-        grid-template-columns:minmax(90px,140px) minmax(0,1fr);
-    }
-
-    .meta-label{
-        overflow-wrap:anywhere;
-    }
-}
-
 
 /* ✅ Accessible focus outlines for keyboard users */
 a:focus-visible,
@@ -615,10 +585,9 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 }
 
 .deadline-open{
-  font-weight: 600;
-  color: var(--brand-blue, #000066);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  font-weight: 700;
+  font-style: italic;
+  color: #000;
 }
 .visually-hidden{
   position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;
@@ -652,7 +621,7 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
   <header class="site-header">
     <div class="title-banner">
       <h2>CVNet Community Calendar</h2>
-      <div class="subtitle">Last updated: 2 October, 2026</div> 
+      <div class="subtitle">Last updated: 5 October, 2026</div> 
     </div>
 
 <div class="topbar">
@@ -846,7 +815,6 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 
 
   
- <!-- Conferences -->
 <h3 id="conferences">Conferences</h3>
 <p class="section-desc">
   Major academic and industry meetings in vision science, neuroscience, imaging, color, and related fields. Includes key dates for abstracts, registration, and workshops. Conferences are listed in chronological order by event date (not by submission deadlines).
@@ -856,50 +824,6 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 
     <!-- Each conference as a card -->   
     <!-- 2026 -->
-
-<div class="card md-6"
-     data-tags="conference workshop nordichi human-centered-ai immersive-data-sensemaking visualization xr hci finland">
-
-  <div class="title">
-    <b>HCAI4IDS Workshop @ NordiCHI 2026 — Human-Centered AI Support for Immersive Data Sensemaking</b>
-  </div>
-
-  <div class="meta">
-
-    <div class="meta-row">
-      <div class="meta-label">Frequency</div>
-      <div>Inaugural Workshop</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>October 3, 2026</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>Vaasa, Finland</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Submission Deadlines</div>
-      <div>CLOSED</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://hcai4ids.github.io/hcai4ids-workshop/"
-           target="_blank" rel="noopener">
-          HCAI4IDS Workshop
-        </a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-
 
 <div class="card md-6" id="fechner-day-2026">
 
@@ -1629,23 +1553,18 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 </div>
 
 
-<div class="card md-6" id="praw-wacv2026"
-     data-tags="conference workshop wacv retail-ai computer-vision physical-retail artificial-intelligence florida">
-
-  <div class="title">
-    <b>Physical Retail AI Workshop (PRAW 2027) @ WACV</b>
-  </div>
+<div class="card md-6" data-tags="conference computer-vision wacv">
+  <div class="title"><b>Winter Conference on Applications of Computer Vision (WACV 2027)</b></div>
 
   <div class="meta">
-
     <div class="meta-row">
       <div class="meta-label">Frequency</div>
-      <div>Annual Workshop</div>
+      <div>Annual</div>
     </div>
 
     <div class="meta-row">
       <div class="meta-label">Dates</div>
-      <div>January 2027</div>
+      <div>January 4–8, 2027</div>
     </div>
 
     <div class="meta-row">
@@ -1656,23 +1575,21 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
     <div class="meta-row">
       <div class="meta-label">Submission Deadlines</div>
       <div>
-        Paper submissions: October 15, 2026<br>
-        RetailAction Challenge: November 2, 2026
+        CLOSED
       </div>
     </div>
 
     <div class="meta-row">
       <div class="meta-label">Website</div>
       <div>
-        <a href="https://praw-workshop.github.io/"
-           target="_blank" rel="noopener">
-          praw-workshop.github.io
+        <a href="https://wacv.thecvf.com/" target="_blank" rel="noopener">
+          wacv.thecvf.com
         </a>
       </div>
     </div>
-
   </div>
 </div>
+
 
 
 <div class="card md-6"
@@ -1765,6 +1682,53 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 </div>
 
 
+<div class="card md-6" id="praw-wacv2026"
+     data-tags="conference workshop wacv retail-ai computer-vision physical-retail artificial-intelligence florida">
+
+  <div class="title">
+    <b>Physical Retail AI Workshop (PRAW 2027) @ WACV</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Annual Workshop</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>January 2027</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Disney Springs, Buena Vista, Florida, USA</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>
+        Paper submissions: October 15, 2026<br>
+        RetailAction Challenge: November 2, 2026
+      </div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://praw-workshop.github.io/"
+           target="_blank" rel="noopener">
+          praw-workshop.github.io
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
 <div class="card md-6"
      data-tags="conference lighting vision colour color cie photometry imaging australia hybrid">
 
@@ -1804,6 +1768,45 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
       </div>
     </div>
 
+  </div>
+</div>
+
+
+<div class="card md-6" id="ircdl"
+     data-tags="conference digital-libraries information-science italy">
+  <div class="title">
+    <b>IRCDL 2027 — Conference on Information &amp; Research Science Connecting to Digital and Library Science</b>
+  </div>
+
+  <div class="meta">
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Annual</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>February 25–26, 2027</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Pisa, Italy</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>TBD</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://ircdl.dei.unipd.it/" target="_blank" rel="noopener">
+          ircdl.dei.unipd.it
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1853,6 +1856,246 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 
   </div>
 </div>
+
+
+<div class="card md-6" data-tags="conference medical-imaging bvm germany">
+  <div class="title"><b>German Conference on Medical Image Computing</b></div>
+
+  <div class="meta">
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Annual</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>March 14–16, 2027</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>TBD</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>
+        Long papers/abstracts: October 9, 2026<br>
+        Print-ready long papers/abstracts: December 13, 2026<br>
+        BVM Award applications: January 21, 2027
+      </div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://www.bvm-conf.org/" target="_blank" rel="noopener">
+          bvm-conf.org
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="card md-6" id="e3s"
+     data-tags="conference sensory-science e3s europe">
+  <div class="title"><b>European Sensory Science Society (E3S)</b></div>
+
+  <div class="meta">
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Annual</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>April 22–23, 2027</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Madrid, Spain</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>TBD</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://e3sensory.eu/e3s-symposium/" target="_blank" rel="noopener">
+          e3sensory.eu/e3s-symposium
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="card md-6" id="arvo"
+     data-tags="conference vision ophthalmology arvo">
+  <div class="title"><b>Association for Research in Vision and Ophthalmology (ARVO)</b></div>
+
+  <div class="meta">
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Annual</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>May 2–6, 2027</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>San Diego Convention Center, San Diego, California, USA</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>Abstract submission deadline: December 4, 2026</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://www.arvo.org/annual-meeting/"
+           target="_blank" rel="noopener">
+          arvo.org/annual-meeting
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="card md-6" id="vss" data-tags="conference popular vss vision-science">
+  <div class="title"><b>VSS — Vision Sciences Society Annual Meeting</b></div>
+
+  <div class="meta">
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Annual</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>May 21–25, 2027</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Seattle, Washington, USA</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>TBD</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://www.visionsciences.org/" target="_blank" rel="noopener">
+          visionsciences.org
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="card md-6" data-tags="conference psychology atiner greece">
+  <div class="title"><b>21st Annual International Conference on Psychology (ATINER)</b></div>
+
+  <div class="meta">
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Annual</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>May 24–29, 2027</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Athens, Greece</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>
+        Abstracts: October 27, 2026<br>
+        Full papers: April 26, 2027
+      </div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://www.atiner.gr/psychology"
+           target="_blank" rel="noopener">
+          atiner.gr/psychology
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- APS Annual Convention 2027 -->
+<div class="card md-6" id="aps"
+     data-tags="conference popular aps psychology cognitive-neuroscience 2027">
+
+  <div class="title">
+    <b>APS - Annual</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Annual</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>May 27–30, 2027</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Hyatt Regency Seattle, Seattle, Washington, USA</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>December 1, 2026 at 5:00 PM ET</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://www.psychologicalscience.org/conventions/2027-aps-annual-convention"
+           target="_blank" rel="noopener">
+          psychologicalscience.org
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
 
 
 <div class="card md-6" id="etra"
@@ -1948,6 +2191,50 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 
 
 
+<div class="card md-6" id="imrf">
+
+  <div class="title">
+    <b>International Multisensory Research Forum (IMRF)</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Annual</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>June 21–24, 2027</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Piran, Slovenia</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>TBD</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://imrf2027.sciencesconf.org/"
+           target="_blank" rel="noopener">
+          imrf2027.sciencesconf.org
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
 <div class="card md-6" id="pangborn">
   <div class="title"><b>Pangborn Sensory Science Symposium</b></div>
 
@@ -1987,6 +2274,184 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 </div>
 
 
+
+<!-- Conference: Asia Pacific Conference on Vision (APCV) -->
+<div class="card md-6" id="apcv"
+     data-tags="conference vision apcv asia-pacific">
+
+  <div class="title">
+    <b>Asia Pacific Conference on Vision (APCV)</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Annual</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>July 2027 (exact dates TBD)</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Chulalongkorn Hospital, Bangkok, Thailand</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>TBD</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://sites.google.com/view/apcv-portal"
+           target="_blank" rel="noopener">
+          APCV Portal
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="card md-6" id="apa"
+     data-tags="conference psychology apa">
+
+  <div class="title">
+    <b>American Psychological Association (APA) 2027</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Annual</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>August 12–14, 2027</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>San Francisco, California, USA + Virtual</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>TBD</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://convention.apa.org/attend/future-conventions"
+           target="_blank" rel="noopener">
+          convention.apa.org
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<div class="card md-6" id="vsac"
+     data-tags="conference popular vsac visual-science-art 2027">
+
+  <div class="title">
+    <b>VSAC 2027 – Visual Science of Art Conference</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Annual</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>August 27–28, 2027</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Padova, Italy</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>TBD</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://vsac.eu/"
+           target="_blank" rel="noopener">
+          vsac.eu
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="card md-6" id="ecvp"
+     data-tags="conference popular ecvp vision europe">
+
+  <div class="title">
+    <b>European Conference on Visual Perception</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Annual</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>August 29–September 2, 2027</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Padova, Italy</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>TBD</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://ecvp.org/"
+           target="_blank" rel="noopener">
+          ecvp.org
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
 <div class="card md-6" id="escop"
      data-tags="conference cognitive-psychology attention memory perception europe">
 
@@ -2022,6 +2487,92 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
         <a href="https://www.escop.eu/events/conference/25th-escop-conference"
            target="_blank" rel="noopener">
           escop.eu
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<div class="card md-6" data-tags="conference ai healthcare medical-imaging uk">
+
+  <div class="title">
+    <b>AIiH 2027 — International Conference on Artificial Intelligence in Healthcare</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Annual</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>September 1–3, 2027</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Oxford, United Kingdom</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>TBD</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://aiih.cc"
+           target="_blank" rel="noopener">
+          aiih.cc
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<div class="card md-6" data-tags="conference vision ophthalmology ips">
+
+  <div class="title">
+    <b>Imaging and Perimetry Society (IPS) International Visual Field &amp; Imaging Symposium</b>
+  </div>
+
+  <div class="meta">
+
+    <div class="meta-row">
+      <div class="meta-label">Frequency</div>
+      <div>Biennial</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Dates</div>
+      <div>March 9–11, 2028</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Location</div>
+      <div>Tokyo, Japan</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Submission Deadlines</div>
+      <div>TBD</div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-label">Website</div>
+      <div>
+        <a href="https://www.perimetry.org/"
+           target="_blank" rel="noopener">
+          perimetry.org
         </a>
       </div>
     </div>
@@ -2188,79 +2739,6 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 </div>
 
 
-<div class="card md-6" id="ircdl"
-     data-tags="conference digital-libraries information-science italy">
-  <div class="title">
-    <b>IRCDL 2027 — Conference on Information &amp; Research Science Connecting to Digital and Library Science</b>
-  </div>
-
-  <div class="meta">
-    <div class="meta-row">
-      <div class="meta-label">Frequency</div>
-      <div>Annual</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>TBD 2027</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Submission Deadlines</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://ircdl2026.unimore.it/" target="_blank" rel="noopener">
-          ircdl2026.unimore.it
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="card md-6" data-tags="conference computer-vision wacv">
-  <div class="title"><b>Winter Conference on Applications of Computer Vision (WACV 2026)</b></div>
-
-  <div class="meta">
-    <div class="meta-row">
-      <div class="meta-label">Frequency</div>
-      <div>Annual</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>TBD 2027</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>JW Marriott Starr Pass, Tucson, Arizona, USA</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Submission Deadlines</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://wacv.thecvf.com/" target="_blank" rel="noopener">
-          wacv.thecvf.com
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class="card md-6" id="gruppo-del-colore"
      data-tags="conference color design architecture italy">
@@ -2306,42 +2784,6 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 
 
 
-<div class="card md-6" data-tags="conference medical-imaging bvm germany">
-  <div class="title"><b>German Conference on Medical Image Computing</b></div>
-
-  <div class="meta">
-    <div class="meta-row">
-      <div class="meta-label">Frequency</div>
-      <div>Annual</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>2027 TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>Lübeck, Germany</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Submission Deadlines</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://www.bvm-conf.org/" target="_blank" rel="noopener">
-          bvm-conf.org
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
 <div class="card md-6" id="nidit-2026-ieee-vr" 
      data-tags="conference workshop ieee-vr xr vr">
 
@@ -2382,45 +2824,11 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 </div>
 
 
-<div class="card md-6" id="e3s-2026"
-     data-tags="conference sensory-science e3s europe">  <div class="title"><b>European Sensory Science Society (E3S)</b></div>
-
-  <div class="meta">
-    <div class="meta-row">
-      <div class="meta-label">Frequency</div>
-      <div>Annual</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>TBD 2027</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Submission Deadlines</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://e3sensory.eu/events/" target="_blank" rel="noopener">
-          e3sensory.eu/events
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 <div class="card md-6" data-tags="conference vision scotland svg europe">
   <div class="title">
-    <b>Scottish Vision Group Meeting (SVG 2026)</b>
+    <b>Scottish Vision Group Meeting (SVG 2027)</b>
   </div>
 
   <div class="meta">
@@ -2447,9 +2855,9 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
     <div class="meta-row">
       <div class="meta-label">Website</div>
       <div>
-        <a href="https://www.scottishvisiongroup.org/svg2026.html"
+            <a href="https://www.scottishvisiongroup.org/"
            target="_blank" rel="noopener">
-          scottishvisiongroup.org/svg2026.html
+          scottishvisiongroup.org
         </a>
       </div>
     </div>
@@ -2480,43 +2888,6 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
   </div>
 </div>
 
-
-<div class="card md-6" id="arvo"
-     data-tags="conference vision ophthalmology arvo">
-  <div class="title"><b>Association for Research in Vision and Ophthalmology (ARVO)</b></div>
-
-  <div class="meta">
-    <div class="meta-row">
-      <div class="meta-label">Frequency</div>
-      <div>Annual</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>TBD 2027</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Submission Deadlines</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://www.arvo.org/annual-meeting/"
-           target="_blank" rel="noopener">
-          arvo.org/annual-meeting
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 <div class="card md-6" data-tags="conference cognitive-science neuroscience philosophy italy">
@@ -2598,41 +2969,6 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 </div>
 
 
-<div class="card md-6" id="vss" data-tags="conference popular vss vision-science">
-  <div class="title"><b>VSS — Vision Sciences Society Annual Meeting</b></div>
-
-  <div class="meta">
-    <div class="meta-row">
-      <div class="meta-label">Frequency</div>
-      <div>Annual</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>2027 TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Submission Deadlines</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://www.visionsciences.org/" target="_blank" rel="noopener">
-          visionsciences.org
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-
 
 <!-- Conference: Applied Vision Science (AVS) 2026 -->
 <div class="card md-6" id="avs" data-tags="conference avs applied-vision vss satellite">
@@ -2707,85 +3043,6 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
         </a>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="card md-6" data-tags="conference psychology atiner greece">
-  <div class="title"><b>21st Annual International Conference on Psychology (ATINER)</b></div>
-
-  <div class="meta">
-    <div class="meta-row">
-      <div class="meta-label">Frequency</div>
-      <div>Annual</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>TBD 2027</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Submission Deadlines</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://www.atiner.gr/psychology"
-           target="_blank" rel="noopener">
-          atiner.gr/psychology
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- APS Annual Convention 2027 -->
-<div class="card md-6" id="aps"
-     data-tags="conference popular aps psychology cognitive-neuroscience 2026">
-
-  <div class="title">
-    <b>APS - Annual</b>
-  </div>
-
-  <div class="meta">
-
-    <div class="meta-row">
-      <div class="meta-label">Frequency</div>
-      <div>Annual</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>TBD 2027</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Submission Deadlines</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://www.psychologicalscience.org/conventions/2026-aps-annual-convention">
-          psychologicalscience.org
-        </a>
-      </div>
-    </div>
-
   </div>
 </div>
 
@@ -2876,127 +3133,6 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
 
 
 
-<div class="card md-6" id="imrf-2026">
-
-  <div class="title">
-    <b>International Multisensory Research Forum (IMRF)</b>
-  </div>
-
-  <div class="meta">
-
-    <div class="meta-row">
-      <div class="meta-label">Frequency</div>
-      <div>Annual</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>TBD 2027</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Submission Deadlines</div>
-      <div>
-        TBD
-      </div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://imrf2026.sciencesconf.org/"
-           target="_blank" rel="noopener">
-          imrf2026.sciencesconf.org
-        </a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-
-<!-- Conference: Asia Pacific Conference on Vision (APCV) -->
-<div class="card md-6" id="apcv"
-     data-tags="conference vision apcv asia-pacific">
-  <div class="title"><b>Asia Pacific Conference on Vision (APCV)</b></div>
-
-  <div class="meta">
-
-    <div class="meta-row">
-      <div class="meta-label">Frequency</div>
-      <div>Annual</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>TBD 2027</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Submission Deadlines</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://sites.google.com/view/apcv-portal"
-           target="_blank" rel="noopener">
-          sites.google.com/view/apcv-portal
-        </a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-
-<div class="card md-6" id="apa"
-     data-tags="conference psychology apa">
-  <div class="title"><b>American Psychological Association (APA) 2026</b></div>
-
-  <div class="meta">
-    <div class="meta-row">
-      <div class="meta-label">Frequency</div>
-      <div>Annual</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>TBD 2027</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Submission Deadlines</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://convention.apa.org/attend/future-conventions"
-           target="_blank" rel="noopener">
-          convention.apa.org
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class="card md-6" data-tags="conference multimedia ai mipr">
 
@@ -3038,93 +3174,6 @@ input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
   </div>
 </div>
     
-<div class="card md-6" id="vsac"
-     data-tags="conference popular vsac visual-science-art 2026">
-
-  <div class="title">
-    <b>VSAC 2027 – Visual Science of Art Conference</b>
-  </div>
-
-  <div class="meta">
-
-    <div class="meta-row">
-      <div class="meta-label">Frequency</div>
-      <div>Annual</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>TBD 2027</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Submission Deadlines</div>
-      <div>
-        TBD
-      </div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://2026.vsac.eu/"
-           target="_blank" rel="noopener">
-          2026.vsac.eu
-        </a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<div class="card md-6" id="ecvp"
-     data-tags="conference popular ecvp vision europe">
-
-  <div class="title">
-    <b>European Conference on Visual Perception</b>
-  </div>
-
-  <div class="meta">
-
-    <div class="meta-row">
-      <div class="meta-label">Frequency</div>
-      <div>Annual</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>TBD 2027</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Submission Deadlines</div>
-      <div>
-        TBD
-      </div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://ecvp2026.uk/"
-           target="_blank" rel="noopener">
-          ecvp2026.uk
-        </a>
-      </div>
-    </div>
-
-  </div>
-</div>
 
 
 <div class="card md-6" id="sap"
@@ -3172,48 +3221,6 @@ TBD
 </div>
 
 
-<div class="card md-6" data-tags="conference ai healthcare medical-imaging uk">
-
-  <div class="title">
-    <b>AIiH 2026 — International Conference on Artificial Intelligence in Healthcare</b>
-  </div>
-
-  <div class="meta">
-
-    <div class="meta-row">
-      <div class="meta-label">Frequency</div>
-      <div>Annual</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>TBD 2027</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Submission Deadlines</div>
-      <div>
-        TBD
-      </div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://aiih.cc"
-           target="_blank" rel="noopener">
-          aiih.cc
-        </a>
-      </div>
-    </div>
-
-  </div>
-</div>
 
 
 <div class="card md-6" id="bavrd">
@@ -3436,46 +3443,6 @@ TBD
 
 
 
-<div class="card md-6" data-tags="conference vision ophthalmology ips">
-
-  <div class="title">
-    <b>XXVIth Imaging and Perimetry Society (IPS) International Visual Field & Imaging Symposium</b>
-  </div>
-
-  <div class="meta">
-
-    <div class="meta-row">
-      <div class="meta-label">Frequency</div>
-      <div>Biennial</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Dates</div>
-      <div>TBD 2028</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Location</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Submission Deadlines</div>
-      <div>TBD</div>
-    </div>
-
-    <div class="meta-row">
-      <div class="meta-label">Website</div>
-      <div>
-        <a href="https://www.ips-bern2026.org/" target="_blank" rel="noopener">
-          ips-bern2026.org
-        </a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 
 <div class="card md-6" id="spatial-cognition-2026"
      data-tags="conference spatial-cognition psychology neuroscience uk">
@@ -3572,9 +3539,9 @@ TBD
       <div>TBD 2028</div>
     </div>
 
-    <div class="meta-row">
+   <div class="meta-row">
       <div class="meta-label">Location</div>
-      <div>TBD</div>
+      <div>Turku, Finland</div>
     </div>
 
     <div class="meta-row">
@@ -3725,9 +3692,9 @@ TBD
       <div>TBD 2028</div>
     </div>
 
-    <div class="meta-row">
+       <div class="meta-row">
       <div class="meta-label">Location</div>
-      <div>TBD</div>
+      <div>Sønderborg, Denmark</div>
     </div>
 
     <div class="meta-row">
@@ -4016,13 +3983,7 @@ TBD
 <details class="conference-subcategory" open>
   <summary> Webinars / Talks</summary>
 
-  <div class="cards">
-
-<!-- insert cards here -->
-
-
-  </div>
-</details>
+  </details>
 
 
 
@@ -8524,16 +8485,15 @@ A leading figure in French vision science and Research Director at the CNRS, she
     <a href="https://www.ski.org/">Smith-Kettlewell Eye Research Institute</a>
   </p>
     
-<footer class="site-footer" role="contentinfo">
+<footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-left">
       <small>
-        © <span id="cal-year"></span> CVNet &nbsp;•&nbsp; This page is maintained by
-       David Peterzell and Michaela Tedesco <span id="cal-updated"></span>
+        © 2026 CVNet &nbsp;•&nbsp; This page is maintained by
+       David Peterzell and Michaela Tedesco 
       </small>
     </div>
 
-    <!-- Right: add the resource-style quick actions -->
     <nav class="footer-nav" aria-label="Footer">
       <a href="#top" aria-label="Back to top">Back to top ↑</a>
 <a href="https://info.cvnet.org/" aria-label="Back to CVNet">CVNet</a>
@@ -8553,39 +8513,6 @@ A leading figure in French vision science and Research Director at the CNRS, she
 
 
 <script>
-  function walk(node, regex) {
-    // Skip excluded containers entirely (header/nav or any [data-no-highlight] region)
-    if (node.nodeType === 1) {
-      if (node.closest && node.closest('.header-fixed,[data-no-highlight]')) return;
-    }
-
-    if (node.nodeType === 3) {
-      const match = node.nodeValue.match(regex);
-      if (match) {
-        const span = document.createElement('span');
-        const html = node.nodeValue.replace(regex, '<mark class="cvnet-highlight">$1</mark>');
-        span.innerHTML = html;
-        node.parentNode.replaceChild(span, node);
-      }
-    } else if (
-      node.nodeType === 1 &&
-      node.childNodes &&
-      !['SCRIPT', 'STYLE', 'MARK'].includes(node.tagName)
-    ) {
-      for (let i = 0; i < node.childNodes.length; i++) {
-        walk(node.childNodes[i], regex);
-      }
-    }
-  }
-
-  function removeHighlights() {
-    document.querySelectorAll('mark.cvnet-highlight').forEach(mark => {
-      const parent = mark.parentNode;
-      parent.replaceChild(document.createTextNode(mark.textContent), mark);
-      parent.normalize();
-    });
-  }
-
   function setHeaderOffset() {
     const fixed = document.querySelector('.header-fixed');
     if (!fixed) return;
@@ -8603,43 +8530,10 @@ function debounce(fn, ms) {
     t = setTimeout(() => fn.apply(this, args), ms);
   };
 }
-
-
-
-  document.addEventListener('DOMContentLoaded', function () {
-    const input = document.getElementById('search-input');
-
-    setHeaderOffset();
-
-    let searchTimer = null;
-    let lastQuery = '';
-    function highlightFilter(value) {
-      removeHighlights();
-      if (!value || value.length < 2 || value === lastQuery) {
-        if (!value) lastQuery = '';
-        return;
-      }
-      lastQuery = value;
-      const regex = new RegExp('(' + value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
-      // Only search within main content areas, never in the fixed header
-      document.querySelectorAll('.page').forEach(root => {
-        walk(root, regex);
-      });
-    }
-
-    input.addEventListener('input', () => {
-      clearTimeout(searchTimer);
-      searchTimer = setTimeout(() => {
-        const q = input.value.trim();
-        if (!q) { lastQuery = ''; removeHighlights(); return; }
-        highlightFilter(q);
-      }, 180);
-    });
-  });
-
-  window.addEventListener('resize', debounce(setHeaderOffset, 100));
-  // Also recalc after full assets load to avoid initial anchor "peek"
-  window.addEventListener('load', setHeaderOffset);
+setHeaderOffset();
+window.addEventListener('resize', debounce(setHeaderOffset, 100));
+// Also recalc after full assets load to avoid initial anchor "peek"
+window.addEventListener('load', setHeaderOffset);
 
 const utilityBar = document.querySelector(".utility-bar");
 const searchWrap = document.querySelector(".search-wrap");
@@ -8647,7 +8541,6 @@ const searchButton = document.getElementById("search-toggle");
 const searchInput = document.getElementById("search-input");
 
 function clearSearch() {
-    removeHighlights();
 
     document.querySelectorAll('.is-filtered-out').forEach(card => {
         card.classList.remove('is-filtered-out');
@@ -8682,30 +8575,20 @@ searchButton.addEventListener("click", function () {
 
 });
 
-searchInput.addEventListener("input", function () {
 
-    if (this.value.trim() === "") {
-        clearSearch();
-    }
-
-});
-
-searchInput.addEventListener("search", function () {
-
-    clearSearch();
-
-});
 </script>
 
 
 <script>
 (() => {
-  const month = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,sept:8,oct:9,nov:10,dec:11};
+const month = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
   const re = /\b(January|February|March|April|May|June|July|August|September|Sept\.?|October|November|December|Jan\.?|Feb\.?|Mar\.?|Apr\.?|Jun\.?|Jul\.?|Aug\.?|Oct\.?|Nov\.?|Dec\.?)\s+(\d{1,2}),\s*(\d{4})\b/g;
   const today = new Date(); today.setHours(0,0,0,0);
 
-  document.querySelectorAll('ul.notes-list li').forEach(li => {
-    const t = li.textContent;
+  document.querySelectorAll('.meta-row').forEach(row => {
+  const label = row.querySelector('.meta-label')?.textContent.toLowerCase() || '';
+  if (!label.includes('deadline')) return;
+const t = row.textContent;
     let m, future = false;
     re.lastIndex = 0;
     while ((m = re.exec(t))) {
@@ -8716,146 +8599,255 @@ searchInput.addEventListener("search", function () {
       if (d >= today) { future = true; break; }
     }
     if (future) {
-      li.classList.add('deadline-open');
-      if (!li.querySelector('.visually-hidden')) {
+row.classList.add('deadline-open');
+      if (!row.querySelector('.visually-hidden')) {
         const sr = document.createElement('span');
         sr.className = 'visually-hidden';
         sr.textContent = ' (deadline open)';
-        li.appendChild(sr);
+        row.appendChild(sr);
       }
     }
   });
 })();
 </script>
+
 <script>
 (function () {
   const $input = document.getElementById('search-input');
   if (!$input) return;
 
   const $status = document.getElementById('search-status');
-  const cards = Array.from(document.querySelectorAll('.cards .card'))
-    .filter(el => !el.classList.contains('intro')); // keep the intro card untouched
 
-  // Precompute searchable text for speed
-  const haystacks = new Map();
+  const cards = Array.from(document.querySelectorAll('.cards .card'))
+    .filter(el => !el.classList.contains('intro'));
+
   const norm = s => (s || '').normalize('NFKD').toLowerCase();
   const clean = s => s.replace(/\s+/g, ' ').trim();
 
+  /*
+   * Search only text that is actually visible in the card.
+   * Hidden data-tags and IDs are not included.
+   */
   function cardText(card) {
-    const title = card.querySelector('.title')?.textContent || '';
-    const meta = card.querySelector('.meta')?.textContent || '';
-    const tags = card.getAttribute('data-tags') || '';
-    const id   = card.id || '';
-    return norm([title, meta, tags.replace(/[-_]/g, ' '), id].join(' '));
-  }
-  function ensureHaystack(card) {
-    if (!haystacks.has(card)) haystacks.set(card, cardText(card));
-    return haystacks.get(card);
+    return norm(card.textContent || '');
   }
 
-  // Highlight utility (title only, for readability)
+  /*
+   * Remove only the search highlights we previously added.
+   * This preserves the card's original HTML, including <b>, links, etc.
+   */
   function unhighlight(card) {
-    const t = card.querySelector('.title');
-    if (!t) return;
-    // remove any previous <mark>
-    t.innerHTML = t.textContent;
-  }
-  function highlight(card, tokens) {
-    const t = card.querySelector('.title');
-    if (!t) return;
-    let text = t.textContent;
-    for (const tok of tokens) {
-      if (!tok) continue;
-      const esc = tok.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      text = text.replace(new RegExp(`(${esc})`, 'ig'), '<mark class="search-hit">$1</mark>');
-    }
-    t.innerHTML = text;
+    card.querySelectorAll('mark.search-hit').forEach(mark => {
+      const parent = mark.parentNode;
+
+      parent.replaceChild(
+        document.createTextNode(mark.textContent),
+        mark
+      );
+
+      parent.normalize();
+    });
   }
 
-  let debounceTimer = null;
+  /*
+   * Highlight matching visible text anywhere inside the card.
+   */
+  function highlight(card, tokens) {
+    const textNodes = [];
+
+    const walker = document.createTreeWalker(
+      card,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode(node) {
+          const parent = node.parentElement;
+
+          if (!parent) {
+            return NodeFilter.FILTER_REJECT;
+          }
+
+          if (
+            parent.closest('script, style, mark.search-hit')
+          ) {
+            return NodeFilter.FILTER_REJECT;
+          }
+
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      }
+    );
+
+    while (walker.nextNode()) {
+      textNodes.push(walker.currentNode);
+    }
+
+    textNodes.forEach(node => {
+      const originalText = node.nodeValue;
+
+      if (!originalText.trim()) return;
+
+      const matchingTokens = tokens.filter(token =>
+        norm(originalText).includes(token)
+      );
+
+      if (!matchingTokens.length) return;
+
+      const escapedTokens = matchingTokens
+        .map(token =>
+          token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+        )
+        .sort((a, b) => b.length - a.length);
+
+      const regex = new RegExp(
+        `(${escapedTokens.join('|')})`,
+        'gi'
+      );
+
+      const parts = originalText.split(regex);
+
+      if (parts.length === 1) return;
+
+      const fragment = document.createDocumentFragment();
+
+      parts.forEach(part => {
+        const isMatch = matchingTokens.some(
+          token => norm(part) === token
+        );
+
+        if (isMatch) {
+          const mark = document.createElement('mark');
+          mark.className = 'search-hit';
+          mark.textContent = part;
+          fragment.appendChild(mark);
+        } else {
+          fragment.appendChild(
+            document.createTextNode(part)
+          );
+        }
+      });
+
+      node.replaceWith(fragment);
+    });
+  }
+
   function onSearch() {
     const q = clean($input.value);
-    const tokens = q.split(' ').filter(Boolean).map(norm);
+    const tokens = q
+      .split(' ')
+      .filter(Boolean)
+      .map(norm);
 
     let visibleCount = 0;
+
     for (const card of cards) {
+      /*
+       * Always remove the previous highlighting before
+       * evaluating the new search.
+       */
       unhighlight(card);
+
       if (tokens.length === 0) {
         card.classList.remove('is-filtered-out');
         continue;
       }
-      const hay = ensureHaystack(card);
-      const matchAll = tokens.every(tok => hay.includes(tok));
-      card.classList.toggle('is-filtered-out', !matchAll);
+
+      const haystack = cardText(card);
+
+      const matchAll = tokens.every(token =>
+        haystack.includes(token)
+      );
+
+      card.classList.toggle(
+        'is-filtered-out',
+        !matchAll
+      );
+
       if (matchAll) {
         highlight(card, tokens);
         visibleCount++;
       }
     }
+
     if ($status) {
       $status.textContent = tokens.length
         ? `${visibleCount} result${visibleCount === 1 ? '' : 's'}`
-        : `Showing all`;
+        : 'Showing all';
     }
   }
+
+  let debounceTimer = null;
 
   function debounced() {
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(onSearch, 120);
   }
 
-  // Clear on Escape
-  $input.addEventListener('keydown', (e) => {
+  /*
+   * Escape clears the search.
+   * Enter is intentionally left alone so it does not
+   * remove highlighting.
+   */
+  $input.addEventListener('keydown', e => {
     if (e.key === 'Escape' && $input.value) {
       $input.value = '';
-      debounced();
+      onSearch();
       $input.blur();
     }
   });
 
   $input.addEventListener('input', debounced);
 
-  // If the page loads with a query param ?q=..., prefill and search
+  /*
+   * Allow links such as:
+   * page.html?q=vision
+   */
   const params = new URLSearchParams(location.search);
   const preset = params.get('q');
+
   if (preset) {
     $input.value = preset;
     onSearch();
   }
 })();
-document.addEventListener("DOMContentLoaded", function () {
 
-    const button = document.getElementById("menu-toggle");
-    const menu = document.getElementById("main-menu");
 
-    if (!button || !menu) return;
+/* =======================================================
+   Browse menu
+======================================================= */
 
-    button.addEventListener("click", function (e) {
-        e.stopPropagation();
+document.addEventListener('DOMContentLoaded', function () {
 
-        menu.classList.toggle("is-open");
+  const button = document.getElementById('menu-toggle');
+  const menu = document.getElementById('main-menu');
 
-        button.setAttribute(
-            "aria-expanded",
-            menu.classList.contains("is-open")
-        );
-    });
+  if (!button || !menu) return;
 
-    menu.addEventListener("click", function (e) {
-        e.stopPropagation();
-    });
+  button.addEventListener('click', function (e) {
+    e.stopPropagation();
 
-    document.addEventListener("click", function () {
-        menu.classList.remove("is-open");
-        button.setAttribute("aria-expanded", "false");
-    });
+    menu.classList.toggle('is-open');
 
-    document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape") {
-            menu.classList.remove("is-open");
-            button.setAttribute("aria-expanded", "false");
-        }
-    });
+    button.setAttribute(
+      'aria-expanded',
+      menu.classList.contains('is-open')
+    );
+  });
+
+  menu.addEventListener('click', function (e) {
+    e.stopPropagation();
+  });
+
+  document.addEventListener('click', function () {
+    menu.classList.remove('is-open');
+    button.setAttribute('aria-expanded', 'false');
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      menu.classList.remove('is-open');
+      button.setAttribute('aria-expanded', 'false');
+    }
+  });
 
 });
 </script>
